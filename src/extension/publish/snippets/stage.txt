@@ -1,0 +1,6 @@
+lib.${id} = MovieClip.extend(function(){
+    MovieClip.call(this, ${options});
+    ${contents}
+});
+
+lib.${id}.assets = ${assets};

@@ -1,0 +1,6 @@
+var scene = new PIXI.animate.Scene(${width}, ${height}, {
+    view: document.getElementById("stage"),
+    backgroundColor: 0x${background},
+    antialias: true
+});
+scene.load(${nameSpace}.${stageName});

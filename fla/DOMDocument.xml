@@ -1,0 +1,40 @@
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" currentTimeline="1" xflVersion="2.8" creatorInfo="Adobe Animate CC" platform="Macintosh" versionInfo="Saved by Animate Macintosh 16.0 build 112" majorVersion="16" buildNumber="112" nextSceneIdentifier="2" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" filetypeGUID="D30F8A0D-8234-44E1-9E30-EE48B415BE9D" filetypeName="PixiAnimate">
+     <timelines>
+          <DOMTimeline name="Scene 1">
+               <layers>
+                    <DOMLayer name="Layer 1" color="#4F80FF" current="true" isSelected="true">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <elements>
+                                        <DOMShape>
+                                             <fills>
+                                                  <FillStyle index="1">
+                                                       <SolidColor color="#00CC00"/>
+                                                  </FillStyle>
+                                             </fills>
+                                             <strokes>
+                                                  <StrokeStyle index="1">
+                                                       <SolidStroke scaleMode="normal">
+                                                            <fill>
+                                                                 <SolidColor/>
+                                                            </fill>
+                                                       </SolidStroke>
+                                                  </StrokeStyle>
+                                             </strokes>
+                                             <edges>
+                                                  <Edge fillStyle1="1" strokeStyle="1" edges="!4800 2801|4800 2121!4800 2121|6400 2121!6400 2121|6400 3721!6400 3721|5560 3721"/>
+                                                  <Edge fillStyle0="1" fillStyle1="1" strokeStyle="1" edges="!5560 3721|4800 3721!4800 3721|4800 2801"/>
+                                                  <Edge fillStyle1="1" strokeStyle="1" edges="!3620 2801|4800 2801!2200 4041|1140 4041!1140 4041|1140 1161!1140 1161|3620 1161!3620 1161|3620 2801!5560 3721|5560 5581!5560 5581|2200 5581!2200 5581|2200 4041"/>
+                                                  <Edge fillStyle0="1" fillStyle1="1" strokeStyle="1" edges="!2200 4041|2200 2801!2200 2801|3620 2801"/>
+                                             </edges>
+                                        </DOMShape>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+               </layers>
+          </DOMTimeline>
+     </timelines>
+     <PrinterSettings platform="macintosh"/>
+     <publishHistory/>
+</DOMDocument>

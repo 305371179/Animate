@@ -1,0 +1,61 @@
+{
+  "name": "pixi-animate-extension",
+  "private": true,
+  "version": "1.3.4",
+  "scripts": {
+    "debug": "node src/extension/publish/index.js",
+    "mkdir": "sh build.sh",
+    "fla": "open /Users/gsch/编程/AnimateCC/pixi-animate-extension/fla/pixi1.fla",
+    "open": "open '/Library/Application Support/Adobe/CEP/extensions/com.jibo.PixiAnimate'",
+    "copy": "cp -r 'com.jibo.PixiAnimate/.' '/Library/Application Support/Adobe/CEP/extensions/com.jibo.PixiAnimate'",
+    "extract": "rm -rf com.jibo.PixiAnimate && mkdir com.jibo.PixiAnimate && tar -xzfPixiAnimate.zxp -C com.jibo.PixiAnimate",
+    "install": "npm run extract && npm run copy",
+    "watch": "node watch"
+  },
+  "repository": {
+    "url": "https://github.com/jiborobot/pixi-animate-extension",
+    "type": "git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "atlaspack": "^1.0.0",
+    "electron-json-storage": "^2.0.0",
+    "js-beautify": "^1.6.2",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "pixi-animate": "^1.3.0",
+    "pixi.js": "^4.3.3",
+    "semver": "^5.1.0",
+    "uglify-js": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "browserify": "^13.1.0",
+    "chokidar": "^2.0.4",
+    "colors": "^1.1.2",
+    "cp-cli": "^1.1.2",
+    "del": "^2.2.2",
+    "electron-json-storage": "^2.1.1",
+    "eslint": "^3.4.0",
+    "eslint-config-defaults": "^9.0.0",
+    "eslint-plugin-react": "^6.2.0",
+    "fs-extra": "^7.0.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-if": "^2.0.2",
+    "gulp-install": "^0.6.0",
+    "gulp-msbuild": "^0.4.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sequence": "^0.4.6",
+    "gulp-shell": "^0.5.2",
+    "gulp-uglify-harmony": "jiborobot/gulp-uglify-harmony#master",
+    "gulp-util": "^3.0.7",
+    "json-format": "^1.0.1",
+    "jsontoxml": "^1.0.1",
+    "load-gulp-tasks": "^0.1.0",
+    "node-notifier": "^5.3.0",
+    "unzip": "^0.1.11",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
