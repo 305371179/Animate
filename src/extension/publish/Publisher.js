@@ -9,6 +9,7 @@ const Renderer = require('./Renderer');
 const DataUtils = require('./utils/DataUtils');
 const beautify = require('js-beautify').js_beautify;
 // const SpritesheetBuilder = require('./SpritesheetBuilder');
+const {exportFiles} = require('./renderHtml')
 
 /**
  * The application to publish the JSON data to JS output buffer
@@ -215,7 +216,11 @@ p.publish = function () {
   // Save the output file
   let outputFile = path.join(process.cwd(), meta.outputFile);
   fs.writeFileSync(outputFile, buffer);
-  let indexJs = path.join(process.cwd(), 'index.js');
+  setTimeout(()=>{
+    exportFiles(outputFile)
+  })
+
+  /*let indexJs = path.join(process.cwd(), 'index.js');
   let html = path.join(process.cwd(), 'index.html');
   if(!fs.existsSync(indexJs))
   renderTemplate(indexJs,'index', {
@@ -233,7 +238,7 @@ p.publish = function () {
     libsPath: meta.libsPath,
     outputFile: meta.outputFile,
     indexFile: 'index.js',
-  },this.renderer)
+  },this.renderer)*/
   return buffer;
 };
 

@@ -7,6 +7,7 @@ const jsonFormat = require('json-format')
 const minimist = require('minimist');
 const path = require('path');
 const semver = require('semver');
+// const {exportFiles} = require('./renderHtml')
 var argv = ''
 if(debug){
   // const argv = {"_":[],"debug":true,"compress":false,"perf":false,"src":"/Users/gsch/Downloads/fun/guangzhou/data.json"}
@@ -43,6 +44,7 @@ if(debug){
       );
       console.log(`\nExecuted in ${executionTime} seconds\n`);
     }
+    // exportFiles()
   });
 }else{
    argv = minimist(process.argv.slice(2), {
@@ -113,6 +115,7 @@ if(debug){
         );
         console.log(`\nExecuted in ${executionTime} seconds\n`);
       }
+      exportFiles()
       quit();
     });
   }

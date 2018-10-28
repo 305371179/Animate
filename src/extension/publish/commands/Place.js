@@ -18,9 +18,10 @@ const Place = function(data, frame)
 {
     Command.call(this, data, frame);
 
+
     // Convert to matrix
     this.transform = new Matrix(this.transform);
-
+  // console.log(data,frame,444,this.transform)
     // Check for bounds and convert to rectangle
     if (this.bounds)
     {

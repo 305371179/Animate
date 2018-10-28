@@ -4,7 +4,7 @@ let watcher = chokidar.watch(['extension','src','project']);
 watcher.on('ready', function () {
   // console.log(`start watch ${PACKAGES_PATH}`)
   const change = ()=>{
-    const excute = child_process.exec('gulp default', null, function (err) {
+    const excute = child_process.exec(/*'gulp default'*/'npm run debug', null, function (err) {
 
     })
     excute.stdout.on('data',(data)=>{

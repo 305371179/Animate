@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pixi {
+  width: 550px;
+  height: 400px;
+  background: #ffffff;
+  position: absolute;
+}
+
+.instance1 {
+  left: 109px;
+  top: 154px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  position: absolute;
+}

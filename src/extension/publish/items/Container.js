@@ -2,6 +2,7 @@
 
 const util = require('util');
 const LibraryItem = require('./LibraryItem');
+const {renderHtml} = require('../renderHtml');
 const ContainerInstance = require('../instances/ContainerInstance');
 const SoundInstance = require('../instances/SoundInstance');
 
@@ -312,7 +313,7 @@ p.renderChildren = function(renderer)
             let instance = this.instancesMap[depthSorted[i]];
             // console.log(instance)
             if (!instance.renderable) continue;
-
+            renderHtml(this,instance,renderer)
             buffer += this.renderInstance(renderer, instance);
             
         }

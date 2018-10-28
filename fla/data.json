@@ -1,57 +1,12 @@
 {
-  "Shapes": [
-    {
-      "assetId": 4,
-      "paths": [
-        {
-          "color": "#000000",
-          "alpha": 1,
-          "d": [
-            "m",
-            384,
-            92.05,
-            "l",
-            404,
-            92.05,
-            "l",
-            404,
-            273.05,
-            "l",
-            384,
-            273.05,
-            "l",
-            384,
-            92.05
-          ],
-          "thickness": 1,
-          "linecap": "round",
-          "linejoin": "round",
-          "stroke": true
-        }
-      ]
-    }
-  ],
+  "Shapes": [],
   "Bitmaps": [
     {
       "assetId": 1,
-      "height": 181,
-      "width": 20,
-      "src": "images/Bitmap 1.png",
-      "name": "Bitmap 1"
-    },
-    {
-      "assetId": 2,
-      "height": 78,
-      "width": 78,
-      "src": "images/Bitmap 11.png",
-      "name": "Bitmap 11"
-    },
-    {
-      "assetId": 3,
-      "height": 47,
-      "width": 88,
-      "src": "images/Bitmap 12.png",
-      "name": "Bitmap 12"
+      "height": 154,
+      "width": 154,
+      "src": "images/Bitmap 3.png",
+      "name": "Bitmap 3"
     }
   ],
   "Sounds": [],
@@ -60,7 +15,7 @@
     {
       "type": "stage",
       "name": "pixi",
-      "totalFrames": 14,
+      "totalFrames": 1,
       "frames": [
         {
           "frame": 0,
@@ -71,76 +26,13 @@
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 384,
-                "ty": 92
+                "a": 0.707077,
+                "b": 0.707077,
+                "c": -0.707077,
+                "d": 0.707077,
+                "tx": 108.900002,
+                "ty": 153.5
               }
-            },
-            {
-              "type": "Place",
-              "assetId": 2,
-              "instanceId": 2,
-              "placeAfter": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 200,
-                "ty": 262
-              }
-            },
-            {
-              "type": "Place",
-              "assetId": 3,
-              "instanceId": 3,
-              "placeAfter": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 105,
-                "ty": 99
-              }
-            },
-            {
-              "type": "Place",
-              "assetId": 4,
-              "instanceId": 4,
-              "placeAfter": 3,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 0
-              }
-            }
-          ]
-        },
-        {
-          "frame": 13,
-          "commands": [
-            {
-              "type": "Remove",
-              "instanceId": 1
-            },
-            {
-              "type": "Remove",
-              "instanceId": 2
-            },
-            {
-              "type": "Remove",
-              "instanceId": 3
-            },
-            {
-              "type": "Remove",
-              "instanceId": 4
             }
           ]
         }

@@ -85,7 +85,10 @@ p.toTween = function()
 
 function round(val)
 {
-    return DataUtils.toPrecision(val, 3);
+
+    return DataUtils.toPrecision(val, 5)
+    // console.log(DataUtils.toPrecision(val, 10))
+    // return DataUtils.toPrecision(DataUtils.toPrecision(val, 10), 3);
 }
 
 module.exports = Matrix;
