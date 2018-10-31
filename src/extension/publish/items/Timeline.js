@@ -102,6 +102,7 @@ p.getContents = function(renderer)
         // frameScript
         this.postBuffer = `this${this.postBuffer};`;
     }
+    // console.log(buffer + this.postBuffer)
     // console.log(this.postBuffer)
     return buffer + this.postBuffer;
 };
@@ -147,7 +148,6 @@ p.renderInstance = function(renderer, instance)
     let duration = instance.getDuration(totalFrames);           
     let frames = instance.getFrames(renderer.compress);
     const func = compress ? 'at' : 'addTimedChild';
-
     // If the child doesn't change
     if (!frames && instance.startFrame === 0 && duration == totalFrames)
     {

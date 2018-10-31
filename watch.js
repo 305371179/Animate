@@ -1,6 +1,6 @@
 const chokidar = require('chokidar');
 const child_process = require('child_process');
-let watcher = chokidar.watch(['extension','src','project']);
+let watcher = chokidar.watch(['extension','src','project','fla/data.json']);
 watcher.on('ready', function () {
   // console.log(`start watch ${PACKAGES_PATH}`)
   const change = ()=>{
@@ -16,4 +16,6 @@ watcher.on('ready', function () {
     .on('addDir', change)
     .on('unlinkDir', change)
     .on('unlink', change)
+
 });
+

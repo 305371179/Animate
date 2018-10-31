@@ -1,6 +1,8 @@
 * {
   margin: 0;
   padding: 0;
+  transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
 }
 
 html,
@@ -10,7 +12,12 @@ body {
   overflow: hidden;
 }
 
-.pixi {
+.hidden {
+  visibility: hidden;
+}
+
+.Symbol_1 {
+  will-change: all;
   width: 550px;
   height: 400px;
   background: #ffffff;
@@ -18,11 +25,29 @@ body {
 }
 
 .instance1 {
-  left: 109px;
-  top: 154px;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  transform-origin: 0 0;
-  -webkit-transform-origin: 0 0;
+  width: 119px;
+  height: 49px;
+  position: absolute;
+}
+
+.instance1.f1 {
+  transform: scale(0.84033, 2.04082);
+  -webkit-transform: scale(0.84033, 2.04082);
+  position: absolute;
+}
+
+.instance1 {
+  width: 119px;
+  height: 49px;
+  position: absolute;
+}
+
+.instance1.f1 {
+  transform: scale(0.84033, 2.04082);
+  -webkit-transform: scale(0.84033, 2.04082);
+  position: absolute;
+}
+
+  {
   position: absolute;
 }

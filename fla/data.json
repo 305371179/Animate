@@ -3,18 +3,19 @@
   "Bitmaps": [
     {
       "assetId": 1,
-      "height": 154,
-      "width": 154,
-      "src": "images/Bitmap 3.png",
-      "name": "Bitmap 3"
+      "height": 49,
+      "width": 119,
+      "src": "images/Bitmap 1.png",
+      "name": "Bitmap 1"
     }
   ],
   "Sounds": [],
   "Texts": [],
   "Timelines": [
     {
-      "type": "stage",
-      "name": "pixi",
+      "assetId": 2,
+      "type": "movieclip",
+      "name": "Symbol_1",
       "totalFrames": 1,
       "frames": [
         {
@@ -26,13 +27,87 @@
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
-                "a": 0.707077,
-                "b": 0.707077,
-                "c": -0.707077,
-                "d": 0.707077,
-                "tx": 108.900002,
-                "ty": 153.5
+                "a": 0.840332,
+                "b": 0,
+                "c": 0,
+                "d": 2.040817,
+                "tx": 0,
+                "ty": 0
               }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "name": "pixi",
+      "totalFrames": 2,
+      "frames": [
+        {
+          "frame": 0,
+          "commands": [
+            {
+              "type": "Place",
+              "assetId": 1,
+              "instanceId": 1,
+              "placeAfter": 0,
+              "transform": {
+                "a": 0.840332,
+                "b": 0,
+                "c": 0,
+                "d": 2.040817,
+                "tx": 0,
+                "ty": 0
+              }
+            }
+          ]
+        },
+        {
+          "frame": 1,
+          "commands": [
+            {
+              "type": "Remove",
+              "instanceId": 1
+            },
+            {
+              "type": "Place",
+              "assetId": 2,
+              "instanceId": 2,
+              "placeAfter": 0,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 124,
+                "ty": 0
+              },
+              "loop": true
+            },
+            {
+              "type": "ColorTransform",
+              "instanceId": 2,
+              "colorMatrix": {
+                "r": 1,
+                "rA": 0,
+                "g": 1,
+                "gA": 0,
+                "b": 1,
+                "bA": 0,
+                "a": 1,
+                "aA": 0
+              }
+            },
+            {
+              "type": "Visibility",
+              "instanceId": 2,
+              "visibility": true
+            },
+            {
+              "type": "BlendMode",
+              "instanceId": 2,
+              "blendMode": "Normal"
             }
           ]
         }

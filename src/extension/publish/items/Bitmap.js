@@ -19,6 +19,7 @@ const BitmapInstance = require('../instances/BitmapInstance');
 const Bitmap = function(library, data)
 {
     LibraryItem.call(this, library, data);
+    this.type = 'bitmap'
 };
 
 // Extends the prototype

@@ -158,9 +158,9 @@ p.getContents = function(renderer)
     let preBuffer = this.renderChildrenMasks(renderer);
     // console.log(preBuffer)
     let buffer = this.renderChildren(renderer);
-    // console.log(buffer)
     let postBuffer = this.renderAddChildren(renderer);
     // console.log(preBuffer)
+  // console.log(preBuffer + buffer + postBuffer)
     return preBuffer + buffer + postBuffer;
 };
 
@@ -230,7 +230,7 @@ p.flattenDepthItems = function(items)
  * @return {string} Buffer of add children calls
  * 关键的核心在此
  */
-p.renderChildren = function(renderer)
+p.renderChildren = function(renderer,callback)
 {
     // console.log(this.children)
     const len = this.children.length;
@@ -306,17 +306,22 @@ p.renderChildren = function(renderer)
         // console.log(depthSorted)
         // Reverse the items to add in reverse order
         depthSorted.reverse();
-        
+        let children = []
         // Render to the stage
         for(let i = 0; i < depthSorted.length; i++)
         {
             let instance = this.instancesMap[depthSorted[i]];
             // console.log(instance)
             if (!instance.renderable) continue;
+            children.push(instance)
             renderHtml(this,instance,renderer)
             buffer += this.renderInstance(renderer, instance);
             
         }
+        if(callback){
+            callback(children)
+        }
+        // console.log(buffer,6666)
     }
     return buffer;
 };

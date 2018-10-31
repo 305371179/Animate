@@ -151,14 +151,19 @@ p.getHeader = function()
  * @private
  * @return {string} timelines buffer
  */
+const {getStageTimeline,getTimeline} = require('./template_html/HtmlPublish')
 p.getTimelines = function()
 {
     let buffer = "";
     const renderer = this;
+    // console.log(this.library.timelines)
+    getStageTimeline(this.library.timelines,renderer)
     this.library.timelines.forEach(function(timeline)
     {
-      // console.log(timeline)
+      //   if(timeline.type === 'stage')
+      // console.log(timeline.frames[1].commands,55555)
       buffer += timeline.render(renderer);
+      getTimeline(timeline)
     });
     return buffer;
 };

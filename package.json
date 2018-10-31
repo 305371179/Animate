@@ -59,6 +59,7 @@
     "load-gulp-tasks": "^0.1.0",
     "node-notifier": "^5.3.0",
     "pretty": "^2.0.0",
+    "stat": "^0.0.5",
     "unzip": "^0.1.11",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"

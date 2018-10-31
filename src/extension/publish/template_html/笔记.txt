@@ -1,0 +1,7 @@
+Library:负责解释所有的类，作用就是归类
+				很有用的地方是有_mapById，_mapByName,createInstance(生成对应的实例)
+Render: getTimelines方法开始解释，timeline的内容有 stage 	movieclip等
+			  解释顺序是stage最后
+先开始非stage的解释先
+
+
