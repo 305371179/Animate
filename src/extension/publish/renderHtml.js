@@ -207,22 +207,9 @@ const setTransform = (matrix,cssObj) =>{
   let skewY = matrix.ky
   let scaleX = matrix.sx
   let scaleY = matrix.sy
-
-
-
-
-
-
-  // console.log(matrix)
-  // console.log(rotate)
   let value = ''
   let cx=1
   let cy=1
-  // if(x === 0 && y === 0){
-  //
-  // }else{
-  //   value += ` translate3d(${x}px,${y}px,0)`
-  // }
   if(skewX+skewY===0){
     if(rotate!==0)
     value += setRotate(rotate)
@@ -230,30 +217,19 @@ const setTransform = (matrix,cssObj) =>{
     if(skewX!=0&&skewY == 0){
       value += ` skew(${r2d(skewX)}deg)`
       cy = Math.cos(skewX)
-      // cssObj.attrs.top = cy*cssObj.attrs.top
     }else if(skewY!=0&&skewX == 0){
       value += ` skewY(${r2d(skewY)}deg)`
       cx = Math.cos(skewY)
-      // cssObj.attrs.left = cx*cssObj.attrs.left
     }else{
       value += ` skew(${r2d(skewX)}deg,${r2d(skewY)}deg)`
       cx = Math.cos(skewY)
       cy = Math.cos(skewX)
-      // cssObj.attrs.left = cx*cssObj.attrs.left
-      // cssObj.attrs.top = cy*cssObj.attrs.top
     }
   }
   //这个是为了转换flash/canvas的skew变化，使其使用于css3的变化
   //css3的skew转换后几何宽高不变，flash/canvas是skew变化后，边长不变
-
   scaleX*=cx
   scaleY*=cy
-  // scaleX = round(scaleX)
-  // // console.log(Math.ceil(scaleX)-scaleX<0.0001)
-  // scaleY = round(scaleY)
-  // console.log(scaleX,scaleY)
-
-
   if(scaleX ===1 && scaleY ===1){
 
   }else if(scaleX!==1&&scaleY ===1){
@@ -263,10 +239,7 @@ const setTransform = (matrix,cssObj) =>{
   }else {
     value += ` scale(${scaleX},${scaleY})`
   }
-
-  // console.log(cx,cy,skewX,skewY,rotate,value)
   setPrifix(cssObj,'transform',value)
-  // setPrifix(cssObj,'transform-origin','0 0')
 }
 const setPrifix = (cssObj,attr,value)=>{
   cssObj.attrs[attr] = value

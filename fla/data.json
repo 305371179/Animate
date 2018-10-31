@@ -102,7 +102,7 @@
             {
               "type": "Visibility",
               "instanceId": 2,
-              "visibility": true
+              "visibility": false
             },
             {
               "type": "BlendMode",

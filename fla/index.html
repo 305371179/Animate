@@ -4,102 +4,22 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Symbol_1</title>
+  <title></title>
   <meta name="generator" content="">
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-  <div class="Symbol_1" id="Symbol_1">
-    <img class="instance1 hidden" id="instance1" src="images/Bitmap 1.png" />
-    <img class="instance1 hidden" id="instance1" src="images/Bitmap 1.png" />
-    <undefined></undefined>
+  <div class="stage" data-name="pixi" id="stage" totalFrames="2">
+    <img class="bitmap1" data-name="Bitmap 1" src="images/Bitmap 1.png" id="id1" data-frames="1" />
+    <div class="movieclip2" data-name="Symbol_1" totalFrames="1" id="id2" data-frames="2">
+      <img class="bitmap1" data-name="Bitmap 1" src="images/Bitmap 1.png" id="id" data-frames="1" />
+    </div>
   </div>
-  <script type="text/javascript" src="libs/stat.js"></script>
+  <!--<script type="text/javascript" src="libs/stat.js"></script>-->
+  <script type="text/javascript" src="index.js"></script>
   <script>
-    var stats = new Stats();
-    stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild(stats.dom);
-    var data = [{
-      "target": "instance1",
-      "frames": "1",
-      "totalFrames": 1
-    }, {
-      "target": "instance1",
-      "frames": "1,-2",
-      "totalFrames": 1
-    }]
-
-    var stage = stage || {}
-    stage.children = []
-    var DisplayObj = function(item) {
-      this.target = document.getElementById(item.target)
-      this.classList = this.target.classList
-      this.frames = item.frames.split(',')
-      this._frames = {}
-      for (var i = 0; i < this.frames.length; i++) {
-        var frame = parseInt(this.frames[i])
-        this._frames[Math.abs(frame)] = frame
-      }
-      this.totalFrames = item.totalFrames
-      // this.lastFrame = this.frames[this.frames.length-1]
-      this.currentFrame = 1
-      this.lastClass = ''
-    }
-    DisplayObj.prototype.render = function() {
-      var frame = this._frames[this.currentFrame]
-      if (this.currentFrame === frame) {
-        this.lastClass && this.classList.remove(this.lastClass)
-        this.lastClass = 'f' + this.currentFrame
-        this.classList.remove('hidden')
-        this.classList.add(this.lastClass)
-      } else if (frame < 0) {
-        this.lastClass && this.classList.remove(this.lastClass)
-        this.classList.add('hidden')
-      }
-      /*for (var i = 0; i < this.frames.length; i++) {
-          let currentFrame = this.frames[i]
-          if(currentFrame<0){
-            //遇到空帧
-            this.classList.add('hidden')
-            break
-          }
-          if (this.currentFrame == currentFrame) {
-              this.lastClass&& this.classList.remove(this.lastClass)
-            this.lastClass = 'f' + this.currentFrame
-            this.classList.remove('hidden')
-            this.classList.add(this.lastClass)
-            isFind =true
-            break
-          }
-      }*/
-      // if(!isFind){
-      //   this.classList.add('hidden')
-      // }
-      this.currentFrame++
-      if (this.currentFrame > this.totalFrames) {
-        this.currentFrame = 1
-      }
-    }
-    for (var i = 0; i < data.length; i++) {
-      stage.children.push(new DisplayObj(data[i]))
-    }
-    var render = function() {
-      var length = stage.children.length
-      for (var i = 0; i < length; i++) {
-        stage.children[i].render()
-      }
-    }
-    setInterval(function() {
-      stats.begin();
-
-      // monitored code goes here
-      render()
-      stats.end();
-
-    }, 1000 / 24, true)
-    render()
   </script>
 </body>
 

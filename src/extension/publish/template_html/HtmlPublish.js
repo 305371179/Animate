@@ -2,6 +2,8 @@ const {html2json, json2html} = require('html2json')
 const utils = require('./utils')
 //定义全局的template
 global.tamplate = {html:{},js:{},css:{}}
+//用来保存css
+global.cssMap = []
 //用来保存类
 global.idsMap = {}
 //用来生成唯一的id

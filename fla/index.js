@@ -1,6 +1,10 @@
-var scene = new PIXI.animate.Scene(550, 400, {
-  view: document.getElementById("stage"),
-  backgroundColor: 0xffffff,
-  antialias: true
-});
-scene.load(lib.pixi);
+(function(win) {
+  var stage = function() {
+
+  }
+  var p = stage.prototype
+  p.render = function() {
+
+  }
+  win.stage = stage
+})(window)

@@ -16,38 +16,37 @@ body {
   visibility: hidden;
 }
 
-.Symbol_1 {
-  will-change: all;
-  width: 550px;
-  height: 400px;
-  background: #ffffff;
-  position: absolute;
+.stop {
+  diaplay: none;
 }
 
-.instance1 {
+.bitmap1 {
+  position: absolute;
   width: 119px;
   height: 49px;
+}
+
+.movieclip2 {
   position: absolute;
 }
 
-.instance1.f1 {
+#id {
+  position: absolute;
   transform: scale(0.84033, 2.04082);
   -webkit-transform: scale(0.84033, 2.04082);
+}
+
+#stage {
   position: absolute;
 }
 
-.instance1 {
-  width: 119px;
-  height: 49px;
+#id1 {
   position: absolute;
+  transform: rotate(0deg) scale(0.84033, 2.04082);
+  -webkit-transform: rotate(0deg) scale(0.84033, 2.04082);
 }
 
-.instance1.f1 {
-  transform: scale(0.84033, 2.04082);
-  -webkit-transform: scale(0.84033, 2.04082);
-  position: absolute;
-}
-
-  {
-  position: absolute;
+#id2.f2 {
+  left: 124px;
+  visibility: hidden;
 }
