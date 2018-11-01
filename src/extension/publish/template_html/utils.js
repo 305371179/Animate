@@ -202,10 +202,13 @@ const isSingleFrame = (instance) => {
   return isSingle
 }
 const parseCss = (instance, node) => {
+  console.log(instance)
   // if (instance.type === 'bitmap') {
   //   console.log(instance.frames)
   // }
   let id = node.attr['id']
+  node.attr['startFrame'] = instance.startFrame + 1
+  node.attr['endFrame'] = instance.endFrame ==-1? -1:instance.endFrame +1
   let frames = []
   for (let key in instance.frames) {
     let frame = instance.frames[key]
@@ -234,6 +237,7 @@ const parseCss = (instance, node) => {
       node.attr['frames'] = frames.toString()
     }
   }
+
   // global.cssMap[id] = cssNode
   // console.log(instance,555555)
   // instance.frames.forEach(frame=>{

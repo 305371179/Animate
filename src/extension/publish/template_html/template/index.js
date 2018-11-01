@@ -21,6 +21,16 @@
   p.getCurrentFrameClass = function(currentFrame){
     return 'f' + currentFrame
   }
+  p._getStartAndEndFrame = function(){
+    this.startFrame = parseInt(this.dom.getAttribute('startFrame'))
+    if(!this.startFrame){
+      throw new Error(this.dom.toString()+'属性startFrame不存在')
+    }
+    this.endFrame = parseInt(this.dom.getAttribute('endFrame'))
+    if(!this.endFrame){
+      throw new Error(this.dom.toString()+'属性endFrame不存在')
+    }
+  }
   p._getFrames = function(){
     this.frames = this.dom.getAttribute('frames')
     if(!this.frames){
@@ -37,9 +47,9 @@
       this.totalFrames = parseInt(this.totalFrames)
     }
   }
-  // p.render = function () {
-  //   // Should be overwrite
-  // }
+  p.render = function () {
+    // Should be overwrite
+  }
   p._isKeyFrame = function(currentFrame){
     for (var i = 0; i < this.frames.length; i++) {
       if(Math.abs(this.frames[i]) === currentFrame){
@@ -48,8 +58,33 @@
     }
     return false
   }
-  // totalFrames,currentFrame 分别来自于父亲的属性，stage是来自于本身
+  p._changFrame = function(currentFrame){
+    this.lastClass&& this.classList.remove(this.lastClass)
+    this.lastClass = this.getCurrentFrameClass(currentFrame)
+    this.classList.remove('hidden')
+    if(this.frames.length&&this.frames[0] === 1){
 
+    }else{
+      this.classList.add(this.lastClass)
+    }
+  }
+  p._deleteFrame = function(){
+    this.lastClass&& this.classList.remove(this.lastClass)
+    this.classList.add('hidden')
+  }
+  p._renderSelf = function(totalFrames,currentFrame){
+    if(currentFrame<this.startFrame||currentFrame >= this.endFrame&&this.endFrame!==-1){
+      this._deleteFrame()
+      return
+    }
+    var frame = this._isKeyFrame(currentFrame)
+    if(frame){
+      this._changFrame(currentFrame)
+    }else if(frame <0 && this.endFrame!==-1) {
+      //空白帧
+      this._deleteFrame()
+    }
+  }
   win.Common = Common
 })(window);
 (function (win) {
@@ -61,33 +96,32 @@
   var p = DisplayElement.prototype
   p.init = function () {
     this._getFrames()
+    this._getStartAndEndFrame()
   }
   p.render = function(totalFrames,currentFrame){
+    this._renderSelf(totalFrames,currentFrame)
     // console.log(totalFrames)
-    var frame = this._isKeyFrame(currentFrame)
-    // this._renderSelf(totalFrames)
-    // console.log(totalFrames,currentFrame,this.frames)
-    if(frame){
-      // console.log(currentFrame)
-      this.lastClass&& this.classList.remove(this.lastClass)
-      this.lastClass = this.getCurrentFrameClass()
-      this.classList.remove('hidden')
-      if(this.frames.length&&this.frames[0] === 1){
-
-      }else{
-        this.classList.add(this.lastClass)
-      }
-    }else /*if(frame <0)*/ {
-      //空白帧
-      this.lastClass&& this.classList.remove(this.lastClass)
-      this.classList.add('hidden')
-    }
+    // if(currentFrame<this.startFrame){
+    //
+    //   return
+    // }
+    // var frame = this._isKeyFrame(currentFrame)
+    // // this._renderSelf(totalFrames)
+    // // console.log(totalFrames,currentFrame,this.frames)
+    // if(frame){
+    //   // console.log(currentFrame)
+    //   this._changFrame()
+    // }else if(frame <0) {
+    //   //空白帧
+    //   this._deleteFrame()
+    // }
     // if(){
     //
     // }else{
     //
     // }
   }
+
   win.DisplayElement = DisplayElement
 })(window);
 (function (win) {
@@ -124,9 +158,9 @@
     // debugger
     this._renderSelf(totalFrames,currentFrame)
     this._renderChild()
-    if(!totalFrames){
-      totalFrames = this.totalFrames
-    }
+    // if(!totalFrames){
+    //   totalFrames = this.totalFrames
+    // }
     // if(this.type === 'movieclip')
     //   console.log(this.currentFrame,this.type)
     //问题的关键在于此，
@@ -137,7 +171,7 @@
   }
   //如果是stage，本身是没有变化的，只变化孩子
   //如果是其他movieclip，所有的变化都是来自于父亲的totalFrames,currentFrame
-  p._renderSelf = function(totalFrames,currentFrame){
+  /*p._renderSelf = function(totalFrames,currentFrame){
     // console.log(totalFrames,this.currentFrame)
     // debugger
     if(totalFrames!==undefined){
@@ -149,21 +183,21 @@
         this.lastClass = this.getCurrentFrameClass(currentFrame)
         this.classList.remove('hidden')
         this.classList.add(this.lastClass)
-      }else /*if(frame <0)*/ {
+      }else /!*if(frame <0)*!/ {
         //空白帧
         this.lastClass&& this.classList.remove(this.lastClass)
         this.classList.add('hidden')
       }
     }
-  }
+  }*/
   p._renderChild = function(){
     for(var i=0;i<this.children.length;i++){
       var child = this.children[i]
       // console.log(this.totalFrames,this.currentFrame,child.type)
       // this._renderChild(child,this.totalFrames)
-      if(this.type == 'movieclip'){
-        console.log('movieclip',this.totalFrames,this.currentFrame)
-      }
+      // if(this.type == 'movieclip'){
+      //   console.log('movieclip',this.totalFrames,this.currentFrame)
+      // }
       child.render(this.totalFrames,this.currentFrame)
     }
   }

@@ -22,31 +22,25 @@ body {
 
 .bitmap1 {
   position: absolute;
-  width: 119px;
-  height: 49px;
+  width: 101px;
+  height: 101px;
 }
 
-.movieclip3 {
+.bitmap2 {
   position: absolute;
-}
-
-#id {
-  position: absolute;
-  transform: scale(0.84033, 2.04082);
-  -webkit-transform: scale(0.84033, 2.04082);
+  width: 124px;
+  height: 101px;
 }
 
 #stage {
   position: absolute;
 }
 
-#id1 {
+#id {
   position: absolute;
-  top: 31px;
-  transform: scaleY(0.99997);
-  -webkit-transform: scaleY(0.99997);
 }
 
-#id2.f2 {
-  left: 124px;
+#id1.f2 {
+  left: 121px;
+  top: 96px;
 }

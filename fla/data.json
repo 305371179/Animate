@@ -3,46 +3,26 @@
   "Bitmaps": [
     {
       "assetId": 1,
-      "height": 49,
-      "width": 119,
-      "src": "images/Bitmap 1.png",
-      "name": "Bitmap 1"
+      "height": 101,
+      "width": 101,
+      "src": "images/Bitmap 2.png",
+      "name": "Bitmap 2"
+    },
+    {
+      "assetId": 2,
+      "height": 101,
+      "width": 124,
+      "src": "images/Bitmap 3.png",
+      "name": "Bitmap 3"
     }
   ],
   "Sounds": [],
   "Texts": [],
   "Timelines": [
     {
-      "assetId": 3,
-      "type": "graphic",
-      "name": "Graphic1",
-      "totalFrames": 1,
-      "frames": [
-        {
-          "frame": 0,
-          "commands": [
-            {
-              "type": "Place",
-              "assetId": 1,
-              "instanceId": 1,
-              "placeAfter": 0,
-              "transform": {
-                "a": 0.840332,
-                "b": 0,
-                "c": 0,
-                "d": 2.040817,
-                "tx": 0,
-                "ty": 0
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "type": "stage",
       "name": "pixi",
-      "totalFrames": 2,
+      "totalFrames": 3,
       "frames": [
         {
           "frame": 0,
@@ -56,9 +36,9 @@
                 "a": 1,
                 "b": 0,
                 "c": 0,
-                "d": 0.999969,
+                "d": 1,
                 "tx": 0,
-                "ty": 31
+                "ty": 0
               }
             }
           ]
@@ -72,7 +52,7 @@
             },
             {
               "type": "Place",
-              "assetId": 3,
+              "assetId": 2,
               "instanceId": 2,
               "placeAfter": 0,
               "transform": {
@@ -80,23 +60,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 124,
-                "ty": 0
-              },
-              "loop": false
-            },
-            {
-              "type": "ColorTransform",
-              "instanceId": 2,
-              "colorMatrix": {
-                "r": 1,
-                "rA": 0,
-                "g": 1,
-                "gA": 0,
-                "b": 1,
-                "bA": 0,
-                "a": 1,
-                "aA": 0
+                "tx": 121,
+                "ty": 96
               }
             }
           ]
