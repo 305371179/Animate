@@ -18,7 +18,6 @@
     this.currentFrame = 1
   }
   var p = Common.prototype
-  //这个currentFrame是要用父亲的，孩子的状态是父亲来控制的
   p.getCurrentFrameClass = function(currentFrame){
     return 'f' + currentFrame
   }
@@ -41,25 +40,6 @@
   // p.render = function () {
   //   // Should be overwrite
   // }
-  //如果是stage，本身是没有变化的，只变化孩子
-  //如果是其他movieclip，所有的变化都是来自于父亲的totalFrames,currentFrame
-  p._renderSelf = function(totalFrames,currentFrame){
-    if(totalFrames!==undefined){
-      var frame = this._isKeyFrame(currentFrame)
-      // console.log(frame,currentFrame)
-      // console.log(currentFrame === frame)
-      if(frame){
-        this.lastClass&& this.classList.remove(this.lastClass)
-        this.lastClass = this.getCurrentFrameClass(currentFrame)
-        this.classList.remove('hidden')
-        this.classList.add(this.lastClass)
-      }else /*if(frame <0)*/ {
-        //空白帧
-        this.lastClass&& this.classList.remove(this.lastClass)
-        this.classList.add('hidden')
-      }
-    }
-  }
   p._isKeyFrame = function(currentFrame){
     for (var i = 0; i < this.frames.length; i++) {
       if(Math.abs(this.frames[i]) === currentFrame){
@@ -84,7 +64,29 @@
   }
   p.render = function(totalFrames,currentFrame){
     // console.log(totalFrames)
-    this._renderSelf(totalFrames,currentFrame)
+    var frame = this._isKeyFrame(currentFrame)
+    // this._renderSelf(totalFrames)
+    // console.log(totalFrames,currentFrame,this.frames)
+    if(frame){
+      // console.log(currentFrame)
+      this.lastClass&& this.classList.remove(this.lastClass)
+      this.lastClass = this.getCurrentFrameClass()
+      this.classList.remove('hidden')
+      if(this.frames.length&&this.frames[0] === 1){
+
+      }else{
+        this.classList.add(this.lastClass)
+      }
+    }else /*if(frame <0)*/ {
+      //空白帧
+      this.lastClass&& this.classList.remove(this.lastClass)
+      this.classList.add('hidden')
+    }
+    // if(){
+    //
+    // }else{
+    //
+    // }
   }
   win.DisplayElement = DisplayElement
 })(window);
@@ -133,15 +135,35 @@
       this.currentFrame = 1
     }
   }
-
+  //如果是stage，本身是没有变化的，只变化孩子
+  //如果是其他movieclip，所有的变化都是来自于父亲的totalFrames,currentFrame
+  p._renderSelf = function(totalFrames,currentFrame){
+    // console.log(totalFrames,this.currentFrame)
+    // debugger
+    if(totalFrames!==undefined){
+      var frame = this._isKeyFrame(currentFrame)
+      // console.log(frame,currentFrame)
+      // console.log(currentFrame === frame)
+      if(frame){
+        this.lastClass&& this.classList.remove(this.lastClass)
+        this.lastClass = this.getCurrentFrameClass(currentFrame)
+        this.classList.remove('hidden')
+        this.classList.add(this.lastClass)
+      }else /*if(frame <0)*/ {
+        //空白帧
+        this.lastClass&& this.classList.remove(this.lastClass)
+        this.classList.add('hidden')
+      }
+    }
+  }
   p._renderChild = function(){
     for(var i=0;i<this.children.length;i++){
       var child = this.children[i]
       // console.log(this.totalFrames,this.currentFrame,child.type)
       // this._renderChild(child,this.totalFrames)
-      // if(this.type == 'movieclip'){
-      //   console.log('movieclip',this.totalFrames,this.currentFrame)
-      // }
+      if(this.type == 'movieclip'){
+        console.log('movieclip',this.totalFrames,this.currentFrame)
+      }
       child.render(this.totalFrames,this.currentFrame)
     }
   }
@@ -154,12 +176,18 @@
   }
   var p = Stage.prototype
   p.stop = function(){
+    if(this.stage.currentFrame == 2)
     clearInterval(this.renderId)
   }
   p.render = function () {
+    // return
     this.renderId = setInterval(function () {
+      // if(this.stage.currentFrame == 2){
+      //   this.stop()
+      //   return
+      // }
       this.stage.render()
-    }.bind(this),1000/24)
+    }.bind(this),3000/2)
     this.stage.render()
     return this
   }

@@ -22,15 +22,15 @@
       .setTransform(124);
     this.addTimedChild(instance1, 0, 1, {
         "0": {
-          sx: 0.84033,
-          sy: 2.04082
+          y: 31,
+          sy: 0.99997
         }
       })
       .addTimedChild(instance2, 1, 1)
       .addTimedChild(instance1, 0, 1, {
         "0": {
-          sx: 0.84033,
-          sy: 2.04082
+          y: 31,
+          sy: 0.99997
         }
       })
       .addTimedChild(instance2, 1, 1);

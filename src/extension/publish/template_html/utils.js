@@ -121,19 +121,20 @@ const parseFrame = (frame, cssNode) => {
 }
 const setTransform = (frame, cssNode) => {
   // console.log(frame)
-  let rotate = frame.r
-  let skewX = frame.kx
-  let skewY = frame.ky
-  let scaleX = frame.sx
-  let scaleY = frame.sy
-  let visibility = frame.v
-  let alpha = frame.a
+  let rotate = frame.r ==null?0: frame.r
+  let skewX = frame.kx  ==null?0: frame.kx
+  let skewY = frame.ky  ==null?0: frame.ky
+  let scaleX = frame.sx  ==null?1: frame.sx
+  let scaleY = frame.sy ==null?1: frame.sy
+  let visibility = frame.v ==null?true: frame.v
+  let alpha = frame.a ==null?1: frame.a
   if (visibility === 0) {
     cssNode.attr.visibility = 'hidden'
   }
   if (alpha != null && alpha != 1) {
     cssNode.attr.opacity = alpha
   }
+  // console.log(scaleX,scaleY)
   let value = ''
   let cx = 1
   let cy = 1
@@ -180,7 +181,13 @@ const round = (v) => {
   return v
 }
 const r2d = r => round(DataUtils.toPrecision(r * 180 / Math.PI, 3))
-const setRotate = r => `rotate(${r2d(r)}deg)`
+const setRotate = r => {
+  let deg = r2d(r)
+  if(deg === 0){
+    return ''
+  }
+  return `rotate(${deg}deg)`
+}
 const setPrifix = (cssNode, attr, value) => {
   if (!value) return
   cssNode.attr[attr] = value

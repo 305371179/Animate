@@ -3,8 +3,6 @@
   padding: 0;
   transform-origin: 0 0;
   -webkit-transform-origin: 0 0;
-  < !-- visibility: hidden;
-  -->
 }
 
 html,
@@ -44,8 +42,9 @@ body {
 
 #id1 {
   position: absolute;
-  transform: rotate(0deg) scale(0.84033, 2.04082);
-  -webkit-transform: rotate(0deg) scale(0.84033, 2.04082);
+  top: 31px;
+  transform: scaleY(0.99997);
+  -webkit-transform: scaleY(0.99997);
 }
 
 #id2.f2 {
