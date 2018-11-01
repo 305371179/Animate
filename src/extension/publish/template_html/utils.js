@@ -4,7 +4,9 @@ const {exportHtml, exportCss, exportJs} = require('./export');
 module.exports = {
   parseClass(idMap, id) {
     let clz = idMap[id]
-    // console.log(clz.type)
+    if(clz.type === 'graphic'){
+      clz.type= 'movieclip'
+    }
     let node = createNode(clz, id)
     global.idsMap[id] = node
     let cssId = '.' + clz.type + id
@@ -24,6 +26,7 @@ module.exports = {
           height: clz.height,
         }
         break
+      case 'graphic':
       case 'movieclip':
         parseFrames(node, clz)
         break

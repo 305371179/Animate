@@ -8,6 +8,9 @@ module.exports = function (gulp, options, plugins) {
 const notify = () => {
   notifier.notify({
     title: '打包提示',
-    message: '打包完成'
+    message: '打包完成',
+    sound: true,
+    timeout: 1, // Takes precedence over wait if both are defined.
+    closeLabel: 'close'
   })
 }

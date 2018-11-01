@@ -13,9 +13,9 @@
   "Texts": [],
   "Timelines": [
     {
-      "assetId": 2,
-      "type": "movieclip",
-      "name": "Symbol_1",
+      "assetId": 3,
+      "type": "graphic",
+      "name": "Graphic1",
       "totalFrames": 1,
       "frames": [
         {
@@ -72,7 +72,7 @@
             },
             {
               "type": "Place",
-              "assetId": 2,
+              "assetId": 3,
               "instanceId": 2,
               "placeAfter": 0,
               "transform": {
@@ -83,7 +83,7 @@
                 "tx": 124,
                 "ty": 0
               },
-              "loop": true
+              "loop": false
             },
             {
               "type": "ColorTransform",
@@ -98,16 +98,6 @@
                 "a": 1,
                 "aA": 0
               }
-            },
-            {
-              "type": "Visibility",
-              "instanceId": 2,
-              "visibility": false
-            },
-            {
-              "type": "BlendMode",
-              "instanceId": 2,
-              "blendMode": "Normal"
             }
           ]
         }

@@ -3,7 +3,8 @@
   padding: 0;
   transform-origin: 0 0;
   -webkit-transform-origin: 0 0;
-  visibility: hidden;
+  < !-- visibility: hidden;
+  -->
 }
 
 html,
@@ -27,7 +28,7 @@ body {
   height: 49px;
 }
 
-.movieclip2 {
+.movieclip3 {
   position: absolute;
 }
 
@@ -49,5 +50,4 @@ body {
 
 #id2.f2 {
   left: 124px;
-  visibility: hidden;
 }

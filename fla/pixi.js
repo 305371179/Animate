@@ -5,7 +5,7 @@
   var Sprite = PIXI.Sprite;
   var fromFrame = PIXI.Texture.fromFrame;
 
-  lib.Symbol_1 = Container.extend(function () {
+  lib.Graphic1 = Container.extend(function () {
     Container.call(this);
     var instance1 = new Sprite(fromFrame("Bitmap 1"))
       .setTransform(0, 0, 0.84033, 2.04082);
@@ -18,7 +18,7 @@
       framerate: 24
     });
     var instance1 = new Sprite(fromFrame("Bitmap 1"));
-    var instance2 = new lib.Symbol_1()
+    var instance2 = new lib.Graphic1()
       .setTransform(124);
     this.addTimedChild(instance1, 0, 1, {
         "0": {
