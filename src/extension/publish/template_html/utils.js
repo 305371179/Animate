@@ -28,7 +28,7 @@ module.exports = {
         parseFrames(node, clz)
         break
       case 'stage':
-        node.attr.id = clz.type
+        node.attr.id = clz.name
         cssNode.node = '#' + clz.type
         parseFrames(node, clz)
         break
@@ -77,7 +77,7 @@ const createNode = (clz, id) => {
     tag: 'div',
     attr: {
       class: clz.type + id,
-      'data-name': clz.name
+      'name': clz.name
       // id: scope.name,
     },
     child: []
@@ -215,8 +215,15 @@ const parseCss = (instance, node) => {
     global.cssMap.push(cssNode)
     parseFrame(frame, cssNode)
   }
-  if(frames.length)
-  node.attr['data-frames'] = frames.toString()
+  if(frames.length){
+    // console.log(instance)/**/
+    // console.log(frames)
+    if(frames.length === 1 && frames[0] === 1){
+
+    }else{
+      node.attr['frames'] = frames.toString()
+    }
+  }
   // global.cssMap[id] = cssNode
   // console.log(instance,555555)
   // instance.frames.forEach(frame=>{

@@ -39,7 +39,7 @@ module.exports = {
     const jsText =js_beautify(text,{
       indent_size: 2
     })
-    console.log(jsText)
+    // console.log(jsText)
     writeFile('index.js',jsText)
   },
   exportCss(cssMap){
