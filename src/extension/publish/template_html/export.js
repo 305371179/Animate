@@ -13,7 +13,7 @@ Handlebars.registerHelper('eachAttr', function(eachAttr,options) {
   return str
 });
 const pxK = [
-  'width','height','left', 'top'
+  'width','height','left', 'top', 'font-size','line-height', 'padding-left','padding-right','letter-spacing'
 ]
 const convertStr = function (k,v) {
   /*let index = pxK.findIndex((item,index)=> {
@@ -22,7 +22,7 @@ const convertStr = function (k,v) {
   if(k === 'background') return '#' + v
   for(let item of pxK){
     if (item === k) {
-      return v + 'px'
+      return Math.round(v) + 'px'
     }
   }
   return v
@@ -44,9 +44,10 @@ module.exports = {
   },
   exportCss(cssMap){
     let text =cssTemplate({items:cssMap})
-    const cssText =css(text,{
+    let cssText =css(text,{
       indent_size: 2
     })
+    cssText = cssText.replace(/&quot;\n\s*/g,'"')
     // console.log(cssText)
     writeFile('index.css',cssText)
   },
@@ -56,7 +57,7 @@ module.exports = {
     })
 
     let htmlText = html(text,{
-      inline: [],
+      inline: ['br'],
       indent_size: 2
     })
     writeFile('index.html',htmlText)

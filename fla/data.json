@@ -3,26 +3,92 @@
   "Bitmaps": [
     {
       "assetId": 1,
-      "height": 101,
-      "width": 101,
-      "src": "images/Bitmap 2.png",
-      "name": "Bitmap 2"
-    },
-    {
-      "assetId": 2,
-      "height": 101,
-      "width": 124,
+      "height": 61,
+      "width": 61,
       "src": "images/Bitmap 3.png",
       "name": "Bitmap 3"
     }
   ],
   "Sounds": [],
-  "Texts": [],
+  "Texts": [
+    {
+      "assetId": 2,
+      "aaMode": {
+        "mode": "advanced"
+      },
+      "txt": "12345678901234567\\n2",
+      "behaviour": {
+        "type": "Dynamic",
+        "name": "aaa",
+        "isBorderDrawn": false,
+        "lineMode": "multiNoWrap",
+        "isRenderAsHTML": false,
+        "isScrollable": false,
+        "isSelectable": true
+      },
+      "paras": [
+        {
+          "startIndex": 0,
+          "length": 18,
+          "indent": 0,
+          "leftMargin": 20,
+          "rightMargin": 20,
+          "linespacing": 2,
+          "alignment": "right",
+          "textRun": [
+            {
+              "startIndex": 0,
+              "length": 18,
+              "style": {
+                "fontName": "Times Roman",
+                "fontSize": 30,
+                "fontColor": "#00cc00",
+                "fontStyle": "RegularStyle",
+                "letterSpacing": 0,
+                "isRotated": false,
+                "isAutoKern": false,
+                "baseLineShiftStyle": "normal",
+                "link": "",
+                "linkTarget": ""
+              }
+            }
+          ]
+        },
+        {
+          "startIndex": 18,
+          "length": 1,
+          "indent": 0,
+          "leftMargin": 20,
+          "rightMargin": 20,
+          "linespacing": 2,
+          "alignment": "right",
+          "textRun": [
+            {
+              "startIndex": 18,
+              "length": 1,
+              "style": {
+                "fontName": "Times Roman",
+                "fontSize": 30,
+                "fontColor": "#00cc00",
+                "fontStyle": "RegularStyle",
+                "letterSpacing": 0,
+                "isRotated": false,
+                "isAutoKern": false,
+                "baseLineShiftStyle": "normal",
+                "link": "",
+                "linkTarget": ""
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "Timelines": [
     {
       "type": "stage",
       "name": "pixi",
-      "totalFrames": 3,
+      "totalFrames": 1,
       "frames": [
         {
           "frame": 0,
@@ -38,30 +104,27 @@
                 "c": 0,
                 "d": 1,
                 "tx": 0,
-                "ty": 0
+                "ty": 46
               }
-            }
-          ]
-        },
-        {
-          "frame": 1,
-          "commands": [
-            {
-              "type": "Remove",
-              "instanceId": 1
             },
             {
               "type": "Place",
               "assetId": 2,
               "instanceId": 2,
-              "placeAfter": 0,
+              "placeAfter": 1,
               "transform": {
                 "a": 1,
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 121,
-                "ty": 96
+                "tx": 352,
+                "ty": 2
+              },
+              "bounds": {
+                "x": -2,
+                "y": -2,
+                "width": 200,
+                "height": 98
               }
             }
           ]

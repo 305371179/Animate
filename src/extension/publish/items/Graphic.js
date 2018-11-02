@@ -16,6 +16,7 @@ const Graphic = function(library, data)
 {
     // Add the data to this object
     Timeline.call(this, library, data);
+  this.type = 'graphic'
 };
 
 // Reference to the prototype

@@ -16,7 +16,6 @@ const Timeline = function(library, data)
 {
     // Add the data to this object
     Container.call(this, library, data);
-
     /**
      * Buffer to end with like addChild and addTimedChild
      * @property {String} postBuffer

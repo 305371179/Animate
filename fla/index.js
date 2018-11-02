@@ -16,26 +16,43 @@
     this.classList = this.dom.classList
     this.type = parseType((this.classList))
     this.currentFrame = 1
+    this._getStartAndEndFrame()
   }
   var p = Common.prototype
   p.getCurrentFrameClass = function(currentFrame) {
     return 'f' + currentFrame
   }
   p._getStartAndEndFrame = function() {
-    this.startFrame = parseInt(this.dom.getAttribute('startFrame'))
-    if (!this.startFrame) {
-      throw new Error(this.dom.toString() + '属性startFrame不存在')
+    var range = this.dom.getAttribute('range')
+    if (range) {
+      range = range.split(',')
+      this.startFrame = parseInt(range[0])
+      this.endFrame = parseInt(range[1])
     }
-    this.endFrame = parseInt(this.dom.getAttribute('endFrame'))
-    if (!this.endFrame) {
-      throw new Error(this.dom.toString() + '属性endFrame不存在')
-    }
+    // this.startFrame = parseInt(this.dom.getAttribute('startFrame'))
+    // // if(!this.startFrame){
+    // //   throw new Error(this.dom.toString()+'属性startFrame不存在')
+    // // }
+    // this.endFrame = parseInt(this.dom.getAttribute('endFrame'))
+    // if(!this.endFrame){
+    //   throw new Error(this.dom.toString()+'属性endFrame不存在')
+    // }
   }
   p._getFrames = function() {
     this.frames = this.dom.getAttribute('frames')
     if (!this.frames) {
       this.frames = [1]
     } else {
+      var fs = this.frames.split(',')
+      for (var i = 0; i < fs.length; i++) {
+        if (fs[i].indexOf('~') !== -1) {
+          var r = fs[i].split('~')
+          fs[i] = [parseInt(r[0]), parseInt(r[1])]
+        } else {
+          fs[i] = parseInt(fs[i])
+        }
+      }
+      // console.log(fs)
       this.frames = JSON.parse('[' + this.frames + ']')
     }
   }
@@ -52,8 +69,14 @@
   }
   p._isKeyFrame = function(currentFrame) {
     for (var i = 0; i < this.frames.length; i++) {
-      if (Math.abs(this.frames[i]) === currentFrame) {
-        return this.frames[i]
+      let frame = this.frames[i]
+      if (typeof frame == 'Array') {
+        if (currentFrame >= frame[0] && currentFrame <= frame[1]) {
+          return frame
+        }
+      }
+      if (frame === currentFrame) {
+        return frame
       }
     }
     return false
@@ -62,9 +85,12 @@
     this.lastClass && this.classList.remove(this.lastClass)
     this.lastClass = this.getCurrentFrameClass(currentFrame)
     this.classList.remove('hidden')
-    if (this.frames.length && this.frames[0] === 1) {
+    if (this.frames.length === 1 && this.frames[0] === 1) {
 
     } else {
+      // if(this.id === 'id2'){
+      //   console.log(currentFrame)
+      // }
       this.classList.add(this.lastClass)
     }
   }
@@ -73,12 +99,19 @@
     this.classList.add('hidden')
   }
   p._renderSelf = function(totalFrames, currentFrame) {
+    // if(this.id === 'id2'){
+    //   console.log(currentFrame,this.startFrame,this.endFrame,currentFrame<this.startFrame||(currentFrame >= this.endFrame&&this.endFrame!==-1))
+    // }
     if (currentFrame < this.startFrame || currentFrame >= this.endFrame && this.endFrame !== -1) {
       this._deleteFrame()
       return
     }
     var frame = this._isKeyFrame(currentFrame)
+
     if (frame) {
+      // if(this.id === 'id2'){
+      //   console.log(frame,currentFrame)
+      // }
       this._changFrame(currentFrame)
     } else if (frame < 0 && this.endFrame !== -1) {
       //空白帧
@@ -96,7 +129,7 @@
   var p = DisplayElement.prototype
   p.init = function() {
     this._getFrames()
-    this._getStartAndEndFrame()
+    // this._getStartAndEndFrame()
   }
   p.render = function(totalFrames, currentFrame) {
     this._renderSelf(totalFrames, currentFrame)
@@ -221,7 +254,7 @@
       //   return
       // }
       this.stage.render()
-    }.bind(this), 3000 / 2)
+    }.bind(this), 1000 / 24)
     this.stage.render()
     return this
   }

@@ -31,6 +31,7 @@ draw
   *
   * */
     LibraryItem.call(this, library, data);
+  this.type = 'shape'
     // for(let key in this){
     //     console.log(key)
     // }

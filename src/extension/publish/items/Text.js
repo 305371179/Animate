@@ -15,6 +15,7 @@ const Text = function(library, data)
 {
     // Add the data to this object
     LibraryItem.call(this, library, data);
+    this.type = 'text'
 };
 
 // Reference to the prototype

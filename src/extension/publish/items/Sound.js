@@ -19,6 +19,7 @@ const SoundInstance = require('../instances/SoundInstance');
 const Sound = function(library, data)
 {
     LibraryItem.call(this, library, data);
+  this.type = 'sound'
 };
 
 // Extends the prototype
