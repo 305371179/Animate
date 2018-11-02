@@ -16,33 +16,34 @@
       "aaMode": {
         "mode": "advanced"
       },
-      "txt": "12345678901234567\\n2",
+      "txt": "1\\n23   4\\n567",
       "behaviour": {
-        "type": "Dynamic",
+        "type": "Input",
         "name": "aaa",
         "isBorderDrawn": false,
-        "lineMode": "multiNoWrap",
+        "lineMode": "single",
         "isRenderAsHTML": false,
         "isScrollable": false,
+        "isPassword": false,
         "isSelectable": true
       },
       "paras": [
         {
           "startIndex": 0,
-          "length": 18,
+          "length": 2,
           "indent": 0,
           "leftMargin": 20,
           "rightMargin": 20,
-          "linespacing": 2,
-          "alignment": "center",
+          "linespacing": 0,
+          "alignment": "right",
           "textRun": [
             {
               "startIndex": 0,
-              "length": 18,
+              "length": 2,
               "style": {
                 "fontName": "Times Roman",
-                "fontSize": 30,
-                "fontColor": "#00cc00",
+                "fontSize": 20,
+                "fontColor": "#00c04f",
                 "fontStyle": "RegularStyle",
                 "letterSpacing": 0,
                 "isRotated": false,
@@ -55,21 +56,48 @@
           ]
         },
         {
-          "startIndex": 18,
-          "length": 1,
+          "startIndex": 2,
+          "length": 7,
           "indent": 0,
           "leftMargin": 20,
           "rightMargin": 20,
-          "linespacing": 2,
-          "alignment": "center",
+          "linespacing": 0,
+          "alignment": "right",
           "textRun": [
             {
-              "startIndex": 18,
-              "length": 1,
+              "startIndex": 2,
+              "length": 7,
               "style": {
                 "fontName": "Times Roman",
-                "fontSize": 30,
-                "fontColor": "#00cc00",
+                "fontSize": 20,
+                "fontColor": "#00c04f",
+                "fontStyle": "RegularStyle",
+                "letterSpacing": 0,
+                "isRotated": false,
+                "isAutoKern": false,
+                "baseLineShiftStyle": "normal",
+                "link": "",
+                "linkTarget": ""
+              }
+            }
+          ]
+        },
+        {
+          "startIndex": 9,
+          "length": 3,
+          "indent": 0,
+          "leftMargin": 20,
+          "rightMargin": 20,
+          "linespacing": 0,
+          "alignment": "right",
+          "textRun": [
+            {
+              "startIndex": 9,
+              "length": 3,
+              "style": {
+                "fontName": "Times Roman",
+                "fontSize": 20,
+                "fontColor": "#00c04f",
                 "fontStyle": "RegularStyle",
                 "letterSpacing": 0,
                 "isRotated": false,
@@ -117,14 +145,14 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 352,
+                "tx": 2,
                 "ty": 2
               },
               "bounds": {
                 "x": -2,
                 "y": -2,
-                "width": 200,
-                "height": 98
+                "width": 197,
+                "height": 64
               }
             }
           ]

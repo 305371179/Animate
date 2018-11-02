@@ -10,14 +10,14 @@
       duration: 1,
       framerate: 24
     });
-    var instance2 = new Text("12345678901234567\n2")
+    var instance2 = new Text("1\n23   4\n567")
       .setStyle({
         fontFamily: "Times Roman",
-        fontSize: 30,
-        fill: "#0c0"
+        fontSize: 20,
+        fill: "#00c04f"
       })
-      .setAlign("center")
-      .setTransform(548, -2);
+      .setAlign("right")
+      .setTransform(392, -2);
     this[instance2.name = "aaa"] = instance2;
     var instance1 = new Sprite(fromFrame("Bitmap 3"))
       .setTransform(0, 46);

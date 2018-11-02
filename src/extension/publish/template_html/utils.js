@@ -1,20 +1,20 @@
 const DataUtils = require('../utils/DataUtils');
 const {exportHtml, exportCss, exportJs} = require('./export');
-var textAlignMap ={}
+var textAlignMap = {}
 module.exports = {
   parseClass(idMap, id) {
     let clz = idMap[id]
     // console.log(clz.type)
-    if(clz.type === 'graphic'){
-      clz.type= 'movieclip'
+    if (clz.type === 'graphic') {
+      clz.type = 'movieclip'
     }
     let node = createNode(clz, id)
     global.idsMap[id] = node
     let cssId = '.' + clz.type + id
     //text另外处理
     // if(clz.type !== 'text'){
-      let cssNode = createCssNode(cssId)
-      global.cssMap.push(cssNode)
+    let cssNode = createCssNode(cssId)
+    global.cssMap.push(cssNode)
     // }
     switch (clz.type) {
       case 'bitmap':
@@ -35,7 +35,7 @@ module.exports = {
         //text有特别的处理，比较复杂
         //这里要加一层父亲的div，用来包裹文本
         node.tag = 'p'
-        parseText(node,clz,cssId,cssNode,id)
+        parseText(node, clz, cssId, cssNode, id)
         /*node.tag = 'p'
         node.child = [
           ...node.child,
@@ -79,95 +79,236 @@ module.exports = {
     return node
   }
 }
-const parseText = (node,clz,cssId,cssNode,id) => {
+const parseText = (node, clz, cssId, cssNode, id) => {
   // console.log(clz)
   var name = clz.behaviour.name
-  node.attr.name = name?name:createId(clz.behaviour.type)
+  node.attr.name = name ? name : createId(clz.behaviour.type)
   //先处理Dynamic
   switch (clz.behaviour.type) {
     case 'Static':
-      parseStaticText(node,clz,cssId,cssNode,id)
+      parseStaticText(node, clz, cssId, cssNode, id)
       break
     case 'Dynamic':
-      parseDynamicText(node,clz,cssId,cssNode,id)
+      parseDynamicText(node, clz, cssId, cssNode, id)
+      break
+    case 'Input':
+      parseInputText(node, clz, cssId, cssNode, id)
       break
   }
 }
-const parseStaticText = (node,clz,cssId,cssNode,id) => {
-  var behaviour = clz.behaviour
-  var pid = createId('id')
-  var textNode = createNode({type:'p',name:'p'+pid},pid)
-  textNode.attr['id'] = pid
-  node.child.push(textNode)
-  node = textNode
-  textNode.tag = 'p'
-  var nodeText = {
-    node: 'text',
-  }
-  cssNode.node = '#'+pid
-  // cssNode.attr['width']=200
-  cssNode.attr['box-sizing']='border-box'
-  cssNode.attr['display']='inline-block'
-  cssNode.attr['overflow']='hidden'
-  node.child.push(nodeText)
-  var text = clz.txt
-  //单行是直接忽略换行的
-  if(behaviour.lineMode==='single'){
-    text = text.replace(/\\n/g,'')
-    nowWrap(cssNode)
-  }else if(behaviour.lineMode==='multi'){
-    text = text.replace(/\\n/g,"<br/>")
-    breakWrod(cssNode)
-  }else if(behaviour.lineMode==='multiNoWrap'){
-    //多行，但是每一行是禁止换行的
-    text = text.replace(/\\n/g,"<br/>")
-    nowWrap(cssNode)
-  }
-  nodeText.text = text.replace(/\s/g,"&nbsp;")
-  //设置样式，动态的文本只有一种样式
-  var para = clz.paras[0]
-  var textRun = para['textRun'][0]
-  // var style = textRun.style
-  textStyle(clz,node,cssNode,para,textRun,id)
-
-}
-const parseDynamicText = (node,clz,cssId,cssNode,id) => {
+const parseStaticText = (node, clz, cssId, cssNode, id) => {
   var behaviour = clz.behaviour
   var nodeText = {
     node: 'text',
   }
-  cssNode.attr['box-sizing']='border-box'
-  cssNode.attr['display']='inline-block'
-  cssNode.attr['overflow']='hidden'
+  cssNode.attr['box-sizing'] = 'border-box'
+  cssNode.attr['display'] = 'inline-block'
+  cssNode.attr['overflow'] = 'hidden'
+  breakWrod(cssNode)
+  node.child.push(nodeText)
+  // var text = clz.txt
+  // nodeText.text = te、xt.replace(/\\n/g,"<br/>").replace(/\s/g,"&nbsp;")
+  parseStaticTextRun(clz, node, cssNode, id)
+}
+const enterKeys = [
+  '-', '_', '#', '@', '^', '~', '`', '*', '!', '①'
+]
+const getEnterKey = (txt) => {
+  for (let i = 0; i < enterKeys.length; i++) {
+    if (txt.indexOf(enterKeys[i]) === -1) {
+      return enterKeys[i]
+    }
+  }
+  return null
+}
+const parseStaticTextRun = (clz, node, cssNode, id) => {
+  let txt = clz.txt
+  node.tag = 'div'
+  //设置样式，静态文本有多种样式
+  var paras = clz.paras
+  // console.log(clz)
+  // console.log('======================', txt.replace(/\\n/g, "_").length)
+  const key = getEnterKey(txt)
+  txt = txt.replace(/\\n/g, key)
+  let result = []
+  let css = []
+  for (let i = 0; i < paras.length; i++) {
+    let para = paras[i]
+    let textRuns = para.textRun
+    for (var j = 0; j < textRuns.length; j++) {
+      let textRun = textRuns[j]
+      let str = txt.substring(textRun.startIndex, textRun.startIndex + textRun.length)
+      let textNodeId = createId('txt' + id)
+      let textNode = {
+        node: 'element',
+        tag: 'p',
+        attr: {
+          class: 'txt',
+          id: textNodeId
+        },
+        child: [{
+          node: 'text',
+          text: str.replace(key, '')
+        }]
+      }
+
+      let txtCssNode = createCssNode('#' + textNodeId)
+      delete txtCssNode.attr.position
+      global.cssMap.push(txtCssNode)
+
+      textStyle(clz, textNode, txtCssNode, para, textRun, textNodeId)
+      result.push(textNode)
+      css.push(txtCssNode)
+      if (str.indexOf(key) === -1) {
+        textNode.tag = 'span'
+      }
+      if(str.indexOf(key) !== -1 || j === textRuns.length - 1){
+        let parentNode = createParentNode(result,id,css)
+        if (parentNode&&result.length>1) {
+          node.child.push(parentNode)
+        } else {
+          node.child.push(textNode)
+        }
+        result = []
+        css = []
+      }
+      // if (j === textRuns.length - 1 && result.length) {
+      //   let parentNode = createParentNode(result,id,txtCssNode)
+      //   result = []
+      //   node.child.push(parentNode)
+      // }
+      // var paddingLeft = txtCssNode.attr['padding-left']
+      // var paddingRight = txtCssNode.attr['padding-right']
+      // delete txtCssNode.attr['padding-left']
+      // delete txtCssNode.attr['padding-right']
+      // console.log()
+      // setTimeout(()=>{
+      // console.log(str/*,textRun.startIndex,textRun.startIndex+textRun.length*/)
+    }
+    // },100)
+    // console.log(node)
+    // var textRun = para['textRun']
+  }
+  // console.log('======================')
+  // var style = textRun.style
+  // textStyle(clz,node,cssNode,para,textRun,id)
+}
+const createParentNode = (result,id,css) => {
+  let parentNode = ''
+  if (result.length>1) {
+    let parentNodeId = createId('txt'+id)
+    parentNode = {
+      node: 'element',
+      tag: 'div',
+      attr: {
+        class: parentNodeId,
+        id: parentNodeId
+      },
+      child: []
+    }
+    let cssNode = createCssNode('#'+parentNodeId)
+    delete cssNode.attr['position']
+    global.cssMap.push(cssNode)
+    for (let k = 0; k < result.length; k++) {
+      // console.log(result[k].attr['padding-left'],777777)
+      cssNode.attr['padding-left'] = css[k].attr['padding-left']
+      cssNode.attr['padding-right'] = css[k].attr['padding-right']
+      //去除内联元素的间距
+      cssNode.attr['font-size'] =0
+      cssNode.attr['-webkit-text-size-adjust'] = 'none'
+      // css[k].attr['background']='000000'
+      let textAlign = css[k].attr['text-align']
+      if(textAlign){
+        cssNode.attr['text-align'] = css[k].attr['text-align']
+        delete css[k].attr['text-align']
+      }
+      delete css[k].attr['padding-left']
+      delete css[k].attr['padding-right']
+      parentNode.child.push(result[k])
+    }
+  }
+  return parentNode
+}
+const parseDynamicText = (node, clz, cssId, cssNode, id) => {
+  var behaviour = clz.behaviour
+  var nodeText = {
+    node: 'text',
+  }
+  cssNode.attr['box-sizing'] = 'border-box'
+  cssNode.attr['display'] = 'inline-block'
+  cssNode.attr['overflow'] = 'hidden'
   node.child.push(nodeText)
   var text = clz.txt
   //单行是直接忽略换行的
-  if(behaviour.lineMode==='single'){
-    text = text.replace(/\\n/g,'')
+  if (behaviour.lineMode === 'single') {
+    text = text.replace(/\\n/g, '')
     nowWrap(cssNode)
-  }else if(behaviour.lineMode==='multi'){
-    text = text.replace(/\\n/g,"<br/>")
+  } else if (behaviour.lineMode === 'multi') {
+    text = text.replace(/\\n/g, "<br/>")
     breakWrod(cssNode)
-  }else if(behaviour.lineMode==='multiNoWrap'){
+  } else if (behaviour.lineMode === 'multiNoWrap') {
     //多行，但是每一行是禁止换行的
-    text = text.replace(/\\n/g,"<br/>")
+    text = text.replace(/\\n/g, "<br/>")
     nowWrap(cssNode)
   }
-  nodeText.text = text.replace(/\s/g,"&nbsp;")
+  nodeText.text = text.replace(/\s/g, "&nbsp;")
   //设置样式，动态的文本只有一种样式
   var para = clz.paras[0]
   var textRun = para['textRun'][0]
   // var style = textRun.style
-  textStyle(clz,node,cssNode,para,textRun,id)
+  textStyle(clz, node, cssNode, para, textRun, id)
 
 }
-var fontStyleMap ={
-  RegularStyle:'normal',
+const parseInputText = (node, clz, cssId, cssNode, id) => {
+  var behaviour = clz.behaviour
+  var nodeText = {
+    node: 'text',
+  }
+  cssNode.attr['box-sizing'] = 'border-box'
+  cssNode.attr['display'] = 'inline-block'
+  cssNode.attr['overflow'] = 'hidden'
+  cssNode.attr['outline'] = 'none'
+  cssNode.attr['border'] = 'none'
+  cssNode.attr['type'] = 'text'
+  node.child.push(nodeText)
+  var text = clz.txt
+  let isInput = behaviour.lineMode === 'input'
+  if(isInput){
+    node.attr.type = 'password'
+  }
+  //单行是直接忽略换行的
+  if (behaviour.lineMode === 'single'|| isInput) {
+    text = text.replace(/\\n/g, '')
+    node.attr.value = text
+    // nowWrap(cssNode)
+    node.tag = 'input'
+  } else if (behaviour.lineMode === 'multi') {
+    node.tag = 'textarea'
+    text = text.replace(/\\n/g, "&#10;")
+    // breakWrod(cssNode)
+  } else if (behaviour.lineMode === 'multiNoWrap') {
+    //多行，但是每一行是禁止换行的
+    // text = text.replace(/\\n/g, "<br/>")
+    text = text.replace(/\\n/g, "")
+    // nowWrap(cssNode)
+    node.tag = 'textarea'
+  }
+
+  nodeText.text = text.replace(/\s/g, "&nbsp;")
+  //设置样式，动态的文本只有一种样式
+  var para = clz.paras[0]
+  var textRun = para['textRun'][0]
+  // var style = textRun.style
+  textStyle(clz, node, cssNode, para, textRun, id)
+
+}
+var fontStyleMap = {
+  RegularStyle: 'normal',
   BoldItalicStyle: 'italic',
   ItalicStyle: 'italic',
   BoldStyle: 'normal',
 }
-const textStyle = (clz,node,cssNode,para,textRun,id)=>{
+const textStyle = (clz, node, cssNode, para, textRun, id) => {
   var style = textRun.style
   // console.log(style,4444)
   var leftMargin = para['leftMargin']
@@ -182,7 +323,7 @@ const textStyle = (clz,node,cssNode,para,textRun,id)=>{
   var baseLineShiftStyle = style['baseLineShiftStyle']
   var link = style['link']
   var linkTarget = style['linkTarget']
-  if(alignment !== 'left'){
+  if (alignment !== 'left') {
     cssNode.attr['text-align'] = alignment
     // node.alignment = {'text-align':alignment}
     textAlignMap[id] = cssNode
@@ -192,34 +333,34 @@ const textStyle = (clz,node,cssNode,para,textRun,id)=>{
   }
   //暂时存储这些属性
   // node.tmp = {attr:['text-align':alignment]}
-  if(leftMargin !==0){
+  if (leftMargin !== 0) {
     cssNode.attr['padding-left'] = leftMargin
   }
   //动态文本的rightMargin是不生效的
-  if(rightMargin !==0 /*&& clz.behaviour.type!=='Dynamic'*/){
+  if (rightMargin !== 0 /*&& clz.behaviour.type!=='Dynamic'*/) {
     cssNode.attr['padding-right'] = rightMargin
   }
-  fontSize = Math.ceil(fontSize*0.8)
+  fontSize = Math.ceil(fontSize * 0.8)
   cssNode.attr['font-size'] = fontSize
-  if(letterSpacing!==0)
-  cssNode.attr['letter-spacing'] = letterSpacing
-  cssNode.attr['line-height'] = Math.floor(linespacing*16/12*fontSize/2-2)
+  if (letterSpacing !== 0)
+    cssNode.attr['letter-spacing'] = letterSpacing
+  cssNode.attr['line-height'] = Math.floor(linespacing * 16 / 12 * fontSize / 2 - 2)
   cssNode.attr['color'] = fontColor
-  fontName = fontName.replace(' Bold Italic','').replace(' Bold','').replace(' Italic','')
-  cssNode.attr['font-family'] = '"'+fontName+'"'
+  fontName = fontName.replace(' Bold Italic', '').replace(' Bold', '').replace(' Italic', '')
+  cssNode.attr['font-family'] = '"' + fontName + '"'
   var fs = fontStyleMap[fontStyle]
   cssNode.attr['font-style'] = fs
-  if(fontStyle.indexOf('Bold')!==-1){
+  if (fontStyle.indexOf('Bold') !== -1) {
     cssNode.attr['font-weight'] = 'bold'
   }
 }
-const breakWrod = cssNode=>{
-  cssNode.attr['word-wrap']='break-word'
-  cssNode.attr['word-break']='break-all'
+const breakWrod = cssNode => {
+  cssNode.attr['word-wrap'] = 'break-word'
+  cssNode.attr['word-break'] = 'break-all'
 }
-const nowWrap = cssNode=>{
-  cssNode.attr['white-space']='nowrap'
-  cssNode.attr['overflow']='hidden'
+const nowWrap = cssNode => {
+  cssNode.attr['white-space'] = 'nowrap'
+  cssNode.attr['overflow'] = 'hidden'
 }
 const parseHtml = (stage) => {
   // console.log(JSON.stringify(stage))
@@ -278,59 +419,60 @@ const createCssNode = (id) => {
       // display: 'none'
     }
   }
-  if(id.indexOf('.f')==-1){
-   cssNode.attr.position = 'absolute'
+  if (id.indexOf('.f') == -1) {
+    cssNode.attr.position = 'absolute'
   }
   return cssNode
 }
 const frameKeys = [
   'a', 't', 'c', 'x', 'y', 'sx', 'sy', 'kx', 'ky', 'r', 'v', 'bounds'
 ]
-const isEmptyFrame = (frame)=> {
-  for(let i=0;i<frameKeys.length;i++ ){
+const isEmptyFrame = (frame) => {
+  for (let i = 0; i < frameKeys.length; i++) {
     let k = frameKeys[i]
-    if(frame[k]!==null){
+    if (frame[k] !== null) {
       return false
     }
   }
   return true
 }
-const parseFrame = (frame, cssNode,instance) => {
-  let x = Math.round(frame.x)
-  let y = Math.round(frame.y)
+const parseFrame = (frame, cssNode, instance) => {
+  let x = Math.floor(frame.x)
+  let y = Math.floor(frame.y)
   if (x) cssNode.attr.left = x
   if (y) cssNode.attr.top = y
   let bounds = frame.bounds
-  if(bounds){
+  if (bounds) {
+    console.log(bounds)
     cssNode.attr.width = bounds.width
     cssNode.attr.height = bounds.height
     // cssNode.attr.left += bounds.x
     // cssNode.attr.top += bounds.y
     // cssNode.attr.overflow = 'hidden'
     let cn = textAlignMap[instance.libraryItem.assetId]
-    console.log(cn,textAlignMap)
-    if(cn&&instance.libraryItem.type === 'text'){
+    // console.log(cn, textAlignMap)
+    if (cn && instance.libraryItem.type === 'text') {
       let textAlign = cn.attr['text-align']
-      if(textAlign==='center'||textAlign==='justify'){
-        cssNode.attr.left -=bounds.width/2
-      }else if(textAlign==='right'){
-        cssNode.attr.left -=bounds.width
+      if (textAlign === 'center' || textAlign === 'justify') {
+        cssNode.attr.left -= bounds.width / 2
+      } else if (textAlign === 'right') {
+        cssNode.attr.left -= bounds.width
       }
     }
   }
 
-  console.log(frame,cssNode.attr,4444)
+  console.log(frame, cssNode.attr, 4444)
 
-  setTransform(frame, cssNode,instance)
+  setTransform(frame, cssNode, instance)
 }
 const setTransform = (frame, cssNode) => {
-  let rotate = frame.r ==null?0: frame.r
-  let skewX = frame.kx  ==null?0: frame.kx
-  let skewY = frame.ky  ==null?0: frame.ky
-  let scaleX = frame.sx  ==null?1: frame.sx
-  let scaleY = frame.sy ==null?1: frame.sy
-  let visibility = frame.v ==null?true: frame.v
-  let alpha = frame.a ==null?1: frame.a
+  let rotate = frame.r == null ? 0 : frame.r
+  let skewX = frame.kx == null ? 0 : frame.kx
+  let skewY = frame.ky == null ? 0 : frame.ky
+  let scaleX = frame.sx == null ? 1 : frame.sx
+  let scaleY = frame.sy == null ? 1 : frame.sy
+  let visibility = frame.v == null ? true : frame.v
+  let alpha = frame.a == null ? 1 : frame.a
 
   if (visibility === 0) {
     cssNode.attr.visibility = 'hidden'
@@ -387,7 +529,7 @@ const round = (v) => {
 const r2d = r => round(DataUtils.toPrecision(r * 180 / Math.PI, 3))
 const setRotate = r => {
   let deg = r2d(r)
-  if(deg === 0){
+  if (deg === 0) {
     return ''
   }
   return `rotate(${deg}deg)`
@@ -411,7 +553,7 @@ const parseCss = (instance, node, assetId) => {
   //   console.log(instance.frames)
   // }
   let id = node.attr['id']
-  node.attr['range'] = (instance.startFrame + 1)+','+ (instance.endFrame ==-1? -1:instance.endFrame +1)
+  node.attr['range'] = (instance.startFrame + 1) + ',' + (instance.endFrame == -1 ? -1 : instance.endFrame + 1)
   // node.attr['startFrame'] = instance.startFrame + 1
   // node.attr['endFrame'] = instance.endFrame ==-1? -1:instance.endFrame +1
   let frames = []
@@ -419,13 +561,13 @@ const parseCss = (instance, node, assetId) => {
     let frame = instance.frames[key]
     // console.log(frame)
     let indexFrame = ''
-    if(!isSingleFrame(instance)){
+    if (!isSingleFrame(instance)) {
       indexFrame = `.f${parseInt(key) + 1}`
     }
-    if(isEmptyFrame(frame)){
-      frames.push(-(parseInt(key)+1))
-    }else{
-      frames.push(parseInt(key)+1)
+    if (isEmptyFrame(frame)) {
+      frames.push(-(parseInt(key) + 1))
+    } else {
+      frames.push(parseInt(key) + 1)
     }
     let cssNode = createCssNode(`#${id}${indexFrame}`)
     // const {alignment,leftMargin,rightMargin} = textAlignMap[assetId] || {}
@@ -446,42 +588,42 @@ const parseCss = (instance, node, assetId) => {
     // console.log(cssNode)
     global.cssMap.push(cssNode)
     // console.log(instance.libraryItem.type)
-    parseFrame(frame, cssNode,instance)
+    parseFrame(frame, cssNode, instance)
   }
-  if(frames.length){
+  if (frames.length) {
     // console.log(instance)/**/
     // console.log(frames)
-    if(frames.length === 1 && frames[0] === 1){
+    if (frames.length === 1 && frames[0] === 1) {
 
-    }else{
+    } else {
       // frames = [1]
       var f = []
       for (var i = 0; i < frames.length; i++) {
-        if(!f.length){
+        if (!f.length) {
           f.push([frames[i]])
           continue
         }
-          if(frames[i] === frames[i-1]+1){
-            if(f[f.length-1].length<2){
-              f[f.length-1].push(frames[i])
-            }else{
-              f[f.length-1][1] = frames[i]
-            }
-          }else{
-            f.push([frames[i]])
+        if (frames[i] === frames[i - 1] + 1) {
+          if (f[f.length - 1].length < 2) {
+            f[f.length - 1].push(frames[i])
+          } else {
+            f[f.length - 1][1] = frames[i]
           }
+        } else {
+          f.push([frames[i]])
+        }
       }
       var fstr = ''
-      for(var i=0;i<f.length;i++){
+      for (var i = 0; i < f.length; i++) {
         var item = f[i]
-        if(item.length===1){
-            fstr += item[0] + ','
-        }else{
+        if (item.length === 1) {
+          fstr += item[0] + ','
+        } else {
           fstr += item[0] + '~'
           fstr += item[1] + ','
         }
       }
-      fstr = fstr.substring(0,fstr.length-1)
+      fstr = fstr.substring(0, fstr.length - 1)
       // setTimeout(function () {
       //   console.log(fstr)
       // })
@@ -513,7 +655,7 @@ const parseFrames = (node, clz) => {
       // let node = global.idsMap[claz.assetId + '']
       // console.log(instance)
       node.attr['id'] = createId('id')
-      parseCss(instance,node,claz.assetId)
+      parseCss(instance, node, claz.assetId)
       // console.log(createId('id'))
       // console.log(node.attr['id'])
       // console.log(node,5555)

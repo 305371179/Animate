@@ -1,5 +1,6 @@
 (function(win) {
   var parseType = function(classList) {
+    // console.log(classList,3333)
     return classList[0].replace(/\d*/g, '')
   }
   var Common = function(dom) {
@@ -14,6 +15,7 @@
     this.id = this.dom.getAttribute('id')
     this.name = this.dom.getAttribute('name')
     this.classList = this.dom.classList
+    // console.log(dom,this.dom)
     this.type = parseType((this.classList))
     this.currentFrame = 1
     this._getStartAndEndFrame()
