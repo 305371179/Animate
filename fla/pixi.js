@@ -16,8 +16,8 @@
         fontSize: 30,
         fill: "#0c0"
       })
-      .setAlign("right")
-      .setTransform(748, -2);
+      .setAlign("center")
+      .setTransform(548, -2);
     this[instance2.name = "aaa"] = instance2;
     var instance1 = new Sprite(fromFrame("Bitmap 3"))
       .setTransform(0, 46);

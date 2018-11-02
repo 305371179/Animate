@@ -68,6 +68,7 @@ module.exports = {
         break
       case 'stage':
         node.attr.id = clz.name
+        node.attr.overflow = 'hidden'
         cssNode.node = '#' + clz.type
         parseFrames(node, clz)
         break
@@ -94,13 +95,6 @@ const parseText = (node,clz,cssId,cssNode,id) => {
 }
 const parseStaticText = (node,clz,cssId,cssNode,id) => {
   var behaviour = clz.behaviour
-  // node.child = [
-  //   ...node.child,
-  //   {
-  //     node:'text',
-  //     text:clz.txt.replace(/\\n/g,"<br/>").replace(/\s/g,"&nbsp;")
-  //   }
-  // ]
   var pid = createId('id')
   var textNode = createNode({type:'p',name:'p'+pid},pid)
   textNode.attr['id'] = pid
@@ -139,26 +133,9 @@ const parseStaticText = (node,clz,cssId,cssNode,id) => {
 }
 const parseDynamicText = (node,clz,cssId,cssNode,id) => {
   var behaviour = clz.behaviour
-  // node.child = [
-  //   ...node.child,
-  //   {
-  //     node:'text',
-  //     text:clz.txt.replace(/\\n/g,"<br/>").replace(/\s/g,"&nbsp;")
-  //   }
-  // ]
-  // console.log(clz)
-  // var pid = createId('id')
-  // var textNode = createNode({type:'p',name:'p'+pid},pid)
-  // textNode.attr['id'] = pid
-  // node.child.push(textNode)
-  // node = textNode
-  // textNode.tag = 'p'
   var nodeText = {
     node: 'text',
   }
-  // cssNode.node = '#'+pid
-  // cssNode.attr['width']=200
-  // cssNode.attr['box-sizing']='border-box'
   cssNode.attr['box-sizing']='border-box'
   cssNode.attr['display']='inline-block'
   cssNode.attr['overflow']='hidden'
@@ -219,7 +196,7 @@ const textStyle = (clz,node,cssNode,para,textRun,id)=>{
     cssNode.attr['padding-left'] = leftMargin
   }
   //动态文本的rightMargin是不生效的
-  if(rightMargin !==0 && clz.behaviour.type!=='Dynamic'){
+  if(rightMargin !==0 /*&& clz.behaviour.type!=='Dynamic'*/){
     cssNode.attr['padding-right'] = rightMargin
   }
   fontSize = Math.ceil(fontSize*0.8)

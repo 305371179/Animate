@@ -34,7 +34,7 @@
           "leftMargin": 20,
           "rightMargin": 20,
           "linespacing": 2,
-          "alignment": "right",
+          "alignment": "center",
           "textRun": [
             {
               "startIndex": 0,
@@ -61,7 +61,7 @@
           "leftMargin": 20,
           "rightMargin": 20,
           "linespacing": 2,
-          "alignment": "right",
+          "alignment": "center",
           "textRun": [
             {
               "startIndex": 18,
