@@ -9,7 +9,7 @@ const notify = () => {
   notifier.notify({
     title: '打包提示',
     message: '打包完成',
-    sound: true,
+    // sound: true,
     timeout: 1, // Takes precedence over wait if both are defined.
     closeLabel: 'close'
   })

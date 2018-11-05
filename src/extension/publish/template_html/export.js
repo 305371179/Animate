@@ -19,9 +19,11 @@ const convertStr = function (k,v) {
   /*let index = pxK.findIndex((item,index)=> {
 
   })*/
-  if(k === 'background') return '#' + v
+  if(k === 'background' && v[0] !== '#') {
+    return '#' + v
+  }
   for(let item of pxK){
-    if (item === k) {
+    if (item === k && (v+'').indexOf('%')===-1) {
       return Math.round(v) + 'px'
     }
   }

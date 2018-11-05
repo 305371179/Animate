@@ -1,122 +1,57 @@
 {
-  "Shapes": [],
-  "Bitmaps": [
+  "Shapes": [
     {
       "assetId": 1,
-      "height": 61,
-      "width": 61,
-      "src": "images/Bitmap 3.png",
-      "name": "Bitmap 3"
-    }
-  ],
-  "Sounds": [],
-  "Texts": [
-    {
-      "assetId": 2,
-      "aaMode": {
-        "mode": "advanced"
-      },
-      "txt": "1\\n23   4\\n567",
-      "behaviour": {
-        "type": "Input",
-        "name": "aaa",
-        "isBorderDrawn": false,
-        "lineMode": "single",
-        "isRenderAsHTML": false,
-        "isScrollable": false,
-        "isPassword": false,
-        "isSelectable": true
-      },
-      "paras": [
+      "paths": [
         {
-          "startIndex": 0,
-          "length": 2,
-          "indent": 0,
-          "leftMargin": 20,
-          "rightMargin": 20,
-          "linespacing": 0,
-          "alignment": "right",
-          "textRun": [
-            {
-              "startIndex": 0,
-              "length": 2,
-              "style": {
-                "fontName": "Times Roman",
-                "fontSize": 20,
-                "fontColor": "#00c04f",
-                "fontStyle": "RegularStyle",
-                "letterSpacing": 0,
-                "isRotated": false,
-                "isAutoKern": false,
-                "baseLineShiftStyle": "normal",
-                "link": "",
-                "linkTarget": ""
-              }
-            }
-          ]
-        },
-        {
-          "startIndex": 2,
-          "length": 7,
-          "indent": 0,
-          "leftMargin": 20,
-          "rightMargin": 20,
-          "linespacing": 0,
-          "alignment": "right",
-          "textRun": [
-            {
-              "startIndex": 2,
-              "length": 7,
-              "style": {
-                "fontName": "Times Roman",
-                "fontSize": 20,
-                "fontColor": "#00c04f",
-                "fontStyle": "RegularStyle",
-                "letterSpacing": 0,
-                "isRotated": false,
-                "isAutoKern": false,
-                "baseLineShiftStyle": "normal",
-                "link": "",
-                "linkTarget": ""
-              }
-            }
-          ]
-        },
-        {
-          "startIndex": 9,
-          "length": 3,
-          "indent": 0,
-          "leftMargin": 20,
-          "rightMargin": 20,
-          "linespacing": 0,
-          "alignment": "right",
-          "textRun": [
-            {
-              "startIndex": 9,
-              "length": 3,
-              "style": {
-                "fontName": "Times Roman",
-                "fontSize": 20,
-                "fontColor": "#00c04f",
-                "fontStyle": "RegularStyle",
-                "letterSpacing": 0,
-                "isRotated": false,
-                "isAutoKern": false,
-                "baseLineShiftStyle": "normal",
-                "link": "",
-                "linkTarget": ""
-              }
-            }
-          ]
+          "color": "#33cc00",
+          "alpha": 1,
+          "d": [
+            "m",
+            2.05,
+            0.05,
+            "q",
+            23.15,
+            21.15,
+            44.4,
+            28.2,
+            "q",
+            56.2,
+            32.1,
+            71.7,
+            31.8,
+            "q",
+            77.1,
+            31.7,
+            78.55,
+            32.2,
+            "q",
+            80.8,
+            32.9,
+            80.4,
+            35.75,
+            "q",
+            79.8,
+            39.95,
+            67.05,
+            65.05
+          ],
+          "thickness": 1,
+          "linecap": "round",
+          "linejoin": "round",
+          "stroke": true
         }
       ]
     }
   ],
+  "Bitmaps": [],
+  "Sounds": [],
+  "Texts": [],
   "Timelines": [
     {
       "type": "stage",
       "name": "pixi",
-      "totalFrames": 1,
+      "totalFrames": 2,
       "frames": [
         {
           "frame": 0,
@@ -132,27 +67,7 @@
                 "c": 0,
                 "d": 1,
                 "tx": 0,
-                "ty": 46
-              }
-            },
-            {
-              "type": "Place",
-              "assetId": 2,
-              "instanceId": 2,
-              "placeAfter": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 2,
-                "ty": 2
-              },
-              "bounds": {
-                "x": -2,
-                "y": -2,
-                "width": 197,
-                "height": 64
+                "ty": 0
               }
             }
           ]

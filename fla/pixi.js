@@ -1,31 +1,22 @@
 (function (PIXI, lib) {
 
   var MovieClip = PIXI.animate.MovieClip;
-  var Sprite = PIXI.Sprite;
-  var fromFrame = PIXI.Texture.fromFrame;
-  var Text = PIXI.Text;
+  var Graphics = PIXI.Graphics;
+  var shapes = PIXI.animate.ShapesCache;
 
   lib.pixi = MovieClip.extend(function () {
     MovieClip.call(this, {
-      duration: 1,
+      duration: 2,
       framerate: 24
     });
-    var instance2 = new Text("1\n23   4\n567")
-      .setStyle({
-        fontFamily: "Times Roman",
-        fontSize: 20,
-        fill: "#00c04f"
-      })
-      .setAlign("right")
-      .setTransform(392, -2);
-    this[instance2.name = "aaa"] = instance2;
-    var instance1 = new Sprite(fromFrame("Bitmap 3"))
-      .setTransform(0, 46);
-    this.addChild(instance2, instance1, instance2, instance1);
+    var instance1 = new Graphics()
+      .drawCommands(shapes.pixi[0]);
+    this.addTimedChild(instance1)
+      .addTimedChild(instance1);
   });
 
   lib.pixi.assets = {
-    "Bitmap 3": "images/Bitmap 3.png"
+    "pixi": "images/pixi.shapes.json"
   };
 })(PIXI, lib = lib || {});
 var lib;

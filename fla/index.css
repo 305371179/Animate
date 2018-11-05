@@ -20,42 +20,16 @@ body {
   diaplay: none;
 }
 
-.bitmap1 {
+.shape1 {
   position: absolute;
-  width: 61px;
-  height: 61px;
 }
 
-.text2 {
+#pixi {
   position: absolute;
-  box-sizing: border-box;
-  display: inline-block;
-  overflow: hidden;
-  outline: none;
-  border: none;
-  type: text;
-  text-align: right;
-  padding-left: 20px;
-  padding-right: 20px;
-  font-size: 16px;
-  line-height: -2px;
-  color: #00c04f;
-  font-family: "Times Roman";
-  font-style: normal;
-}
-
-#stage {
-  position: absolute;
+  width: 550px;
+  height: 400px;
 }
 
 #id {
   position: absolute;
-  left: 0px;
-  width: 197px;
-  height: 64px;
-}
-
-#id1 {
-  position: absolute;
-  top: 46px;
 }

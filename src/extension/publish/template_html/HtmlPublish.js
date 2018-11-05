@@ -10,9 +10,10 @@ global.idsMap = {}
 global.uuidMap = {}
 global.renderer =''
 // 舞台的timeline
-var stage;
+global.stage;
 // 全局的library
-var library;
+global.library;
+global.meta;
 module.exports = {
   createId(name){
     let count = global.uuidMap[name]
@@ -26,10 +27,11 @@ module.exports = {
   //在Render里面调用
   getStageTimeline(timelines,renderer){
     global.renderer = renderer
-    stage = timelines[timelines.length-1]
-    library = stage.library
-    for(let id in library._mapById){
-      utils.parseClass(library._mapById,id)
+    global.stage = timelines[timelines.length-1]
+    global.library = global.stage.library
+    global.meta = global.library.meta
+    for(let id in global.library._mapById){
+      utils.parseClass(global.library._mapById,id)
     }
     // 获取所有的html标签类
     // console.log(stage.library._mapById)

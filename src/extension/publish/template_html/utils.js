@@ -31,36 +31,26 @@ module.exports = {
         }
 
         break
-      case 'text':
-        //text有特别的处理，比较复杂
-        //这里要加一层父亲的div，用来包裹文本
-        node.tag = 'p'
-        parseText(node, clz, cssId, cssNode, id)
-        /*node.tag = 'p'
-        node.child = [
-          ...node.child,
-          {
-            node:'text',
-            text:clz.txt.replace(/\\n/g,"<br/>").replace(/\s/g,"&nbsp;")
-          }
-        ]
-        console.log(clz.txt.replace(/\\n/g,"<br/>"))
-        // node.text = clz.txt
-        console.log(node)
+      case 'shape':
+        node.tag = 'svg'
         node.attr = {
+          xmlns:"http://www.w3.org/2000/svg",
+          version:"1.1",
+          width: '100%',
+          height:'100%',
+          style:'pointer-events:none',
           ...node.attr,
-          // id: createId('id'),
-          src: clz.src
+          name:createId('shape')
         }
-        let paras = clz.paras[0]
+        // console.log(clz)
         cssNode.attr = {
           ...cssNode.attr,
-          'line-height': paras.linespacing*100+'%',
-          'white-space': 'pre-line',
-          // width: clz.width,
-          // height: clz.height,
         }
-        console.log(clz)*/
+        parseShape(node,clz,cssId,cssNode,id)
+        break
+      case 'text':
+        node.tag = 'p'
+        parseText(node, clz, cssId, cssNode, id)
         break
       case 'graphic':
       case 'movieclip':
@@ -69,7 +59,10 @@ module.exports = {
       case 'stage':
         node.attr.id = clz.name
         node.attr.overflow = 'hidden'
-        cssNode.node = '#' + clz.type
+        cssNode.node = '#' + clz.name
+        cssNode.attr.width = global.meta.width
+        cssNode.attr.height = global.meta.height
+        console.log(global.library)
         parseFrames(node, clz)
         break
     }
@@ -78,6 +71,60 @@ module.exports = {
     }
     return node
   }
+}
+const pathMap = {
+  'b': 'c',
+  'c': 'z',
+}
+const getSvgPath = command=>{
+  let pathCommand = pathMap[command]
+  return pathCommand?pathCommand:command
+}
+const parseShape = (node, clz, cssId, cssNode, id) => {
+  let gid = createId('g'+id)
+  let g = createNode({type:'',name:gid},gid)
+  g.tag = 'g'
+  node.child.push(g)
+  clz.paths.forEach(p=>{
+    let pid = createId('path'+id)
+    let pathNode = createNode({type:'',name:pid},pid)
+    pathNode.tag = 'path'
+    // node.child.push(pathNode)
+    g.child.push(pathNode)
+    g.attr['pointer-events'] = 'visiblePainted'
+    g.attr.onclick = 'console.log(111)'
+    if(p.color){
+      if(!p.stroke){
+        pathNode.attr.fill = p.color
+        // g.attr.fill = p.color
+      }else{
+        pathNode.attr.fill = 'none'
+        pathNode.attr.stroke = p.color
+        pathNode.attr['stroke-width'] = p.thickness
+
+      }
+    }
+    pathNode.attr.d = parseD(p.d)
+    // pathNode.attr.d = parseD(p.d)
+
+    // console.log(p)
+  })
+}
+const parseD = d =>{
+  let path = ''
+  d.forEach(item=>{
+    if(isNaN(item)){
+      console.log(item)
+      item=getSvgPath(item)
+      path+=item.toUpperCase()+' '
+    }else{
+      path+= item + ' '
+    }
+  })
+  path=path.substring(0,path.length-1)
+  // console.log(path)
+  // console.log(d)
+  return path
 }
 const parseText = (node, clz, cssId, cssNode, id) => {
   // console.log(clz)
