@@ -168,11 +168,30 @@
   MovieClip.prototype = new Common()
   var p = MovieClip.prototype
   p.init = function () {
+    this._isStop = false
+    this._direction = 1
     this._getFrames()
     this._getTotalFrames()
     this._getChildren()
   }
-  p.gotoAndPlay = function (frame) {
+  //只是本身不变，但是孩子还是会变化的
+  p.gotoAndStop = function (frame) {
+    this.gotoAndPlay(frame)
+    this._isStop = true
+  }
+  p.setPlayDirection = function (direction) {
+    if(!direction){
+      return
+    }
+    if(direction<0){
+      this._direction = -1
+    }else{
+      this._direction = 1
+    }
+  }
+  p.gotoAndPlay = function (frame,isReverse) {
+    this.setPlayDirection(isReverse?-1:1)
+    if(frame===undefined)frame = this.currentFrame
     if(frame>this.totalFrames){
       this.currentFrame = frame
     }else if(frame<1){
@@ -203,7 +222,14 @@
   p.render = function (/*totalFrames,*/currentFrame) {
     // console.log(totalFrames,currentFrame)
     // debugger
-    this._renderSelf(/*totalFrames,*/currentFrame)
+    // console.log(this._isStop)
+    // if(this.type!='stage'){
+    //   console.log(this.currentFrame)
+    // }
+    if(!this._isStop){
+      this._renderSelf(/*totalFrames,*/currentFrame)
+      // return
+    }
     this._renderChild()
     // if(!totalFrames){
     //   totalFrames = this.totalFrames
@@ -211,9 +237,11 @@
     // if(this.type === 'movieclip')
     //   console.log(this.currentFrame,this.type)
     //问题的关键在于此，
-    this.currentFrame++
+    this.currentFrame = this.currentFrame + this._direction
     if(this.currentFrame>this.totalFrames){
       this.currentFrame = 1
+    }else if(this.currentFrame<1){
+      this.currentFrame = this.totalFrames
     }
   }
   //如果是stage，本身是没有变化的，只变化孩子
@@ -287,7 +315,8 @@
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
 var stage = new Stage('#pixi').startUp()
-stage.gotoAndPlay(2)
+stage.children[0].gotoAndPlay(2,-1)
+// stage.gotoAndPlay(2)
 // console.log(stage._stage.currentFrame)
 
 // console.log(stage.frameRate,stage.totalFrames)
