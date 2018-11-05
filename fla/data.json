@@ -3,20 +3,20 @@
   "Bitmaps": [
     {
       "assetId": 1,
-      "height": 53,
-      "width": 53,
-      "src": "images/Bitmap 4.png",
-      "name": "Bitmap 4"
+      "height": 89,
+      "width": 89,
+      "src": "images/Bitmap 5.png",
+      "name": "Bitmap 5"
     }
   ],
   "Sounds": [],
   "Texts": [],
   "Timelines": [
     {
-      "assetId": 2,
-      "type": "movieclip",
-      "name": "Symbol_2",
-      "totalFrames": 2,
+      "assetId": 4,
+      "type": "graphic",
+      "name": "Graphic1",
+      "totalFrames": 15,
       "frames": [
         {
           "frame": 0,
@@ -31,25 +31,35 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 0,
-                "ty": 0
+                "tx": -44.5,
+                "ty": -44.5
               }
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "assetId": 5,
+      "type": "graphic",
+      "name": "Graphic2",
+      "totalFrames": 1,
+      "frames": [
         {
-          "frame": 1,
+          "frame": 0,
           "commands": [
             {
-              "type": "Move",
+              "type": "Place",
+              "assetId": 1,
               "instanceId": 1,
+              "placeAfter": 0,
               "transform": {
                 "a": 1,
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 0,
-                "ty": 97
+                "tx": -44.5,
+                "ty": -44.5
               }
             }
           ]
@@ -59,14 +69,14 @@
     {
       "type": "stage",
       "name": "pixi",
-      "totalFrames": 3,
+      "totalFrames": 16,
       "frames": [
         {
           "frame": 0,
           "commands": [
             {
               "type": "Place",
-              "assetId": 2,
+              "assetId": 4,
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
@@ -74,10 +84,10 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 0,
-                "ty": 0
+                "tx": 44.5,
+                "ty": 44.5
               },
-              "loop": true
+              "loop": false
             },
             {
               "type": "ColorTransform",
@@ -92,16 +102,6 @@
                 "a": 1,
                 "aA": 0
               }
-            },
-            {
-              "type": "Visibility",
-              "instanceId": 1,
-              "visibility": true
-            },
-            {
-              "type": "BlendMode",
-              "instanceId": 1,
-              "blendMode": "Normal"
             }
           ]
         },
@@ -116,8 +116,267 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 497,
-                "ty": 0
+                "tx": 75.25,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 2,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 105.949997,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 3,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 136.699997,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 4,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 167.449997,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 5,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 198.149994,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 6,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 228.899994,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 7,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 259.649994,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 8,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 290.350006,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 9,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 321.100006,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 10,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 351.850006,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 11,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 382.549988,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 12,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 413.299988,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 13,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 444.049988,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 14,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 474.75,
+                "ty": 44.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 15,
+          "commands": [
+            {
+              "type": "Remove",
+              "instanceId": 1
+            },
+            {
+              "type": "Place",
+              "assetId": 5,
+              "instanceId": 2,
+              "placeAfter": 0,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 505.5,
+                "ty": 44.5
+              },
+              "loop": false
+            },
+            {
+              "type": "ColorTransform",
+              "instanceId": 2,
+              "colorMatrix": {
+                "r": 1,
+                "rA": 0,
+                "g": 1,
+                "gA": 0,
+                "b": 1,
+                "bA": 0,
+                "a": 1,
+                "aA": 0
               }
             }
           ]
@@ -133,7 +392,7 @@
     "compactShapes": false,
     "nameSpace": "lib",
     "loopTimeline": true,
-    "framerate": 3,
+    "framerate": 24,
     "background": "ffffff",
     "width": 550,
     "height": 400,

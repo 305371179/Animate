@@ -8,6 +8,9 @@ function publish() {
       if(!dom)return
   dom.publish();
 }
+function save() {
+  fl.saveDocument(fl.getDocumentDOM())
+}
 
 // Get the document URI
 function getParentPath() {

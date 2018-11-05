@@ -162,6 +162,10 @@
   }
 
   function saveState() {
+    setTimeout(function () {
+      exec('save')
+      // console.log(444444)
+    })
     var data = {};
 
     // Booleans

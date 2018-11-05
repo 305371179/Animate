@@ -1,58 +1,135 @@
 (function (PIXI, lib) {
 
   var MovieClip = PIXI.animate.MovieClip;
+  var Container = PIXI.Container;
   var Sprite = PIXI.Sprite;
   var fromFrame = PIXI.Texture.fromFrame;
 
-  lib.Symbol_2 = MovieClip.extend(function () {
-    MovieClip.call(this, {
-      duration: 2
-    });
-    var instance1 = new Sprite(fromFrame("Bitmap 4"));
-    this.addTimedChild(instance1, 0, 2, {
-        "0": {
-          y: 0
-        },
-        "1": {
-          y: 97
-        }
-      })
-      .addTimedChild(instance1, 0, 2, {
-        "0": {
-          y: 0
-        },
-        "1": {
-          y: 97
-        }
-      });
+  var Graphic1 = MovieClip.extend(function (mode) {
+    MovieClip.call(this, { mode: mode, duration: 15, loop: false });
+    var instance1 = new Sprite(fromFrame("Bitmap 5"))
+      .setTransform(-44.5, -44.5);
+    this.addTimedChild(instance1)
+      .addTimedChild(instance1);
+  });
+
+  lib.Graphic2 = Container.extend(function () {
+    Container.call(this);
+    var instance1 = new Sprite(fromFrame("Bitmap 5"))
+      .setTransform(-44.5, -44.5);
+    this.addChild(instance1, instance1);
   });
 
   lib.pixi = MovieClip.extend(function () {
     MovieClip.call(this, {
-      duration: 3,
-      framerate: 3
+      duration: 16,
+      framerate: 24
     });
-    var instance1 = new lib.Symbol_2();
-    this.addTimedChild(instance1, 0, 3, {
+    var instance1 = new Graphic1(MovieClip.SYNCHED);
+    var instance2 = new lib.Graphic2()
+      .setTransform(505.5, 44.5);
+    this.addTimedChild(instance1, 0, 15, {
         "0": {
-          x: 0
+          x: 44.5,
+          y: 44.5
         },
         "1": {
-          x: 497
+          x: 75.25
+        },
+        "2": {
+          x: 105.95
+        },
+        "3": {
+          x: 136.7
+        },
+        "4": {
+          x: 167.45
+        },
+        "5": {
+          x: 198.14999
+        },
+        "6": {
+          x: 228.89999
+        },
+        "7": {
+          x: 259.64999
+        },
+        "8": {
+          x: 290.35001
+        },
+        "9": {
+          x: 321.10001
+        },
+        "10": {
+          x: 351.85001
+        },
+        "11": {
+          x: 382.54999
+        },
+        "12": {
+          x: 413.29999
+        },
+        "13": {
+          x: 444.04999
+        },
+        "14": {
+          x: 474.75
         }
       })
-      .addTimedChild(instance1, 0, 3, {
+      .addTimedChild(instance2, 15, 1)
+      .addTimedChild(instance1, 0, 15, {
         "0": {
-          x: 0
+          x: 44.5,
+          y: 44.5
         },
         "1": {
-          x: 497
+          x: 75.25
+        },
+        "2": {
+          x: 105.95
+        },
+        "3": {
+          x: 136.7
+        },
+        "4": {
+          x: 167.45
+        },
+        "5": {
+          x: 198.14999
+        },
+        "6": {
+          x: 228.89999
+        },
+        "7": {
+          x: 259.64999
+        },
+        "8": {
+          x: 290.35001
+        },
+        "9": {
+          x: 321.10001
+        },
+        "10": {
+          x: 351.85001
+        },
+        "11": {
+          x: 382.54999
+        },
+        "12": {
+          x: 413.29999
+        },
+        "13": {
+          x: 444.04999
+        },
+        "14": {
+          x: 474.75
         }
-      });
+      })
+      .addTimedChild(instance2, 15, 1);
   });
 
   lib.pixi.assets = {
-    "Bitmap 4": "images/Bitmap 4.png"
+    "Bitmap 5": "images/Bitmap 5.png"
   };
 })(PIXI, lib = lib || {});
 var lib;

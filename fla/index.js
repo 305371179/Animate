@@ -54,8 +54,11 @@
           fs[i] = parseInt(fs[i])
         }
       }
-      // console.log(fs,this.dom)
-      this.frames = JSON.parse('[' + fs + ']')
+      // fs=[1,2]
+      // console.log(JSON.stringify(fs),this.dom)
+      // console.log()
+      // console.log(fs)
+      this.frames = fs //JSON.parse('[' + fs + ']')
     }
   }
   p._getTotalFrames = function() {
@@ -70,9 +73,11 @@
     // Should be overwrite
   }
   p._isKeyFrame = function(currentFrame) {
+    // console.log(this.frames)
     for (var i = 0; i < this.frames.length; i++) {
       let frame = this.frames[i]
-      if (typeof frame == 'Array') {
+      // console.log(typeof frame)
+      if (frame.length) {
         if (currentFrame >= frame[0] && currentFrame <= frame[1]) {
           return frame
         }
@@ -109,7 +114,8 @@
       return
     }
     var frame = this._isKeyFrame(currentFrame)
-
+    // if(currentFrame)
+    // console.log(frame,currentFrame)
     if (frame) {
       // if(this.id === 'id2'){
       //   console.log(frame,currentFrame)
@@ -284,7 +290,7 @@
     // this._stage = new MovieClip(stageId)
     // console.log(this.stage.children)
     this._paused = false
-    this.frameRate = 3
+    this.frameRate = 24
     // this.totalFrames = this._stage.totalFrames
   }
   Stage.prototype = new MovieClip()
@@ -306,7 +312,7 @@
     this._renderId = setInterval(function() {
       if (this._paused) return
       this.render()
-    }.bind(this), 2000 / this.frameRate)
+    }.bind(this), 4000 / this.frameRate)
     this.render()
     return this
   }
@@ -315,7 +321,8 @@
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
 var stage = new Stage('#pixi').startUp()
-stage.children[0].gotoAndPlay(2, -1)
+// var stage = new Stage('#pixi').render()
+// stage.children[1].gotoAndStop(0, -1)
 // stage.gotoAndPlay(2)
 // console.log(stage._stage.currentFrame)
 

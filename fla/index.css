@@ -22,18 +22,28 @@ body {
 
 .bitmap1 {
   position: absolute;
-  width: 53px;
-  height: 53px;
+  width: 89px;
+  height: 89px;
 }
 
-.movieclip2 {
+.movieclip4 {
   position: absolute;
 }
 
-#id.f1 {}
+#id {
+  position: absolute;
+  transform: translate(-45px, -45px);
+  -webkit-transform: translate(-45px, -45px);
+}
 
-#id.f2 {
-  top: 97px;
+.movieclip5 {
+  position: absolute;
+}
+
+#id1 {
+  position: absolute;
+  transform: translate(-45px, -45px);
+  -webkit-transform: translate(-45px, -45px);
 }
 
 #pixi {
@@ -43,8 +53,82 @@ body {
   height: 400px;
 }
 
-#id1.f1 {}
+#id2.f1 {
+  transform: translate(44px, 44px);
+  -webkit-transform: translate(44px, 44px);
+}
 
-#id1.f2 {
-  left: 497px;
+#id2.f2 {
+  transform: translate(75px, 44px);
+  -webkit-transform: translate(75px, 44px);
+}
+
+#id2.f3 {
+  transform: translate(105px, 44px);
+  -webkit-transform: translate(105px, 44px);
+}
+
+#id2.f4 {
+  transform: translate(136px, 44px);
+  -webkit-transform: translate(136px, 44px);
+}
+
+#id2.f5 {
+  transform: translate(167px, 44px);
+  -webkit-transform: translate(167px, 44px);
+}
+
+#id2.f6 {
+  transform: translate(198px, 44px);
+  -webkit-transform: translate(198px, 44px);
+}
+
+#id2.f7 {
+  transform: translate(228px, 44px);
+  -webkit-transform: translate(228px, 44px);
+}
+
+#id2.f8 {
+  transform: translate(259px, 44px);
+  -webkit-transform: translate(259px, 44px);
+}
+
+#id2.f9 {
+  transform: translate(290px, 44px);
+  -webkit-transform: translate(290px, 44px);
+}
+
+#id2.f10 {
+  transform: translate(321px, 44px);
+  -webkit-transform: translate(321px, 44px);
+}
+
+#id2.f11 {
+  transform: translate(351px, 44px);
+  -webkit-transform: translate(351px, 44px);
+}
+
+#id2.f12 {
+  transform: translate(382px, 44px);
+  -webkit-transform: translate(382px, 44px);
+}
+
+#id2.f13 {
+  transform: translate(413px, 44px);
+  -webkit-transform: translate(413px, 44px);
+}
+
+#id2.f14 {
+  transform: translate(444px, 44px);
+  -webkit-transform: translate(444px, 44px);
+}
+
+#id2.f15 {
+  transform: translate(474px, 44px);
+  -webkit-transform: translate(474px, 44px);
+}
+
+#id3.f16 {
+  transform: translate(505px, 44px);
+  -webkit-transform: translate(505px, 44px);
 }

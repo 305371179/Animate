@@ -45,7 +45,12 @@ module.exports = {
         // console.log(clz)
         cssNode.attr = {
           ...cssNode.attr,
+          width: global.meta.width,
+          height: global.meta.height,
         }
+        // cssNode.attr.position = 'fixed'
+        // cssNode.attr.left = '0'
+        // cssNode.attr.top = '0'
         parseShape(node,clz,cssId,cssNode,id)
         break
       case 'text':
@@ -68,7 +73,10 @@ module.exports = {
     }
     if (clz.type === 'stage') {
       parseHtml(global.idsMap['undefined'])
+    }else{
+      // node.attr.class+= ' hidden'
     }
+    // console.log(55555555)
     return node
   }
 }
@@ -507,9 +515,10 @@ const parseFrame = (frame, cssNode, instance,node) => {
 
   // console.log(frame, cssNode.attr, 4444)
 
-  setTransform(frame, cssNode, instance)
+  setTransform(frame, cssNode, instance,node)
 }
-const setTransform = (frame, cssNode,instance) => {
+const setTransform = (frame, cssNode,instance,node) => {
+  console.log(frame)
   let value = ''
   let cx = 1
   let cy = 1
@@ -522,11 +531,14 @@ const setTransform = (frame, cssNode,instance) => {
   let alpha = frame.a == null ? 1 : frame.a
   let x = Math.floor(frame.x)
   let y = Math.floor(frame.y)
+
+  // if (x) cssNode.attr.left = x
+  // if (y) cssNode.attr.top = y
   let isShape = instance.libraryItem.type === 'shape'
-  if(!isShape){
-    if (x) cssNode.attr.left = x
-    if (y) cssNode.attr.top = y
-  }else{
+  // if(!isShape){
+  //   if (x) cssNode.attr.left = x
+  //   if (y) cssNode.attr.top = y
+  // }else{
     if(x){
       if(y){
         value+= `translate(${x}px,${y}px)`
@@ -536,7 +548,7 @@ const setTransform = (frame, cssNode,instance) => {
     }else if(y){
       value+= `translate(0,${y}px)`
     }
-  }
+  // }
   if (visibility === 0) {
     cssNode.attr.visibility = 'hidden'
   }
@@ -608,6 +620,42 @@ const isSingleFrame = (instance) => {
   }
   return isSingle
 }
+const getLastFrameAttr = (frame,lastFrame)=>{
+  if(!lastFrame){
+    return frame
+  }
+  if(frame.bounds == null){
+    frame.r = lastFrame.bounds
+  }
+  if(frame.r == null){
+    frame.r = lastFrame.r
+  }
+  if(frame.kx == null){
+    frame.kx = lastFrame.kx
+  }
+  if(frame.ky == null){
+    frame.ky = lastFrame.ky
+  }
+  if(frame.sx == null){
+    frame.sx = lastFrame.sx
+  }
+  if(frame.sy == null){
+    frame.sy = lastFrame.sy
+  }
+  if(frame.v == null){
+    frame.v = lastFrame.v
+  }
+  if(frame.a == null){
+    frame.a = lastFrame.a
+  }
+  if(frame.x == null){
+    frame.x = lastFrame.x
+  }
+  if(frame.y == null){
+    frame.y = lastFrame.y
+  }
+  return frame
+}
 const parseCss = (instance, node, assetId) => {
   // console.log(instance)
   // if (instance.type === 'bitmap') {
@@ -618,6 +666,7 @@ const parseCss = (instance, node, assetId) => {
   // node.attr['startFrame'] = instance.startFrame + 1
   // node.attr['endFrame'] = instance.endFrame ==-1? -1:instance.endFrame +1
   let frames = []
+  let lastFrame = ''
   for (let key in instance.frames) {
     let frame = instance.frames[key]
     // console.log(frame)
@@ -634,7 +683,7 @@ const parseCss = (instance, node, assetId) => {
     }
     let cssId = `#${id}${indexFrame}`
     if(instance.libraryItem.type === 'shape'){
-      cssId += ' g'
+      cssId += ''
     }
     let cssNode = createCssNode(cssId)
     global.cssMap.push(cssNode)
@@ -644,7 +693,9 @@ const parseCss = (instance, node, assetId) => {
     //   global.cssMap=global.cssMap.splice(global.cssMap.length-1,1)
     // }
     // console.log(instance.libraryItem.type)
+    getLastFrameAttr(frame,lastFrame)
     parseFrame(frame, cssNode, instance,node)
+    lastFrame = frame
     // console.log(cssNode)
   }
   // console.log(frames)
