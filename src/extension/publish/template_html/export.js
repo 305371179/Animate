@@ -37,7 +37,8 @@ var cssTemplate = resolve('./template/css.mustache')
 var jsTemplate = resolve('./template/index.js')
 module.exports = {
   exportJs(){
-    let text =jsTemplate({items:cssMap})
+    console.log(global.meta)
+    let text =jsTemplate({items:cssMap,frameRate:global.meta.framerate})
     const jsText =js_beautify(text,{
       indent_size: 2
     })

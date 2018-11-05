@@ -1,56 +1,21 @@
 {
-  "Shapes": [
+  "Shapes": [],
+  "Bitmaps": [
     {
       "assetId": 1,
-      "paths": [
-        {
-          "color": "#33cc00",
-          "alpha": 1,
-          "d": [
-            "m",
-            2.05,
-            0.05,
-            "q",
-            23.15,
-            21.15,
-            44.4,
-            28.2,
-            "q",
-            56.2,
-            32.1,
-            71.7,
-            31.8,
-            "q",
-            77.1,
-            31.7,
-            78.55,
-            32.2,
-            "q",
-            80.8,
-            32.9,
-            80.4,
-            35.75,
-            "q",
-            79.8,
-            39.95,
-            67.05,
-            65.05
-          ],
-          "thickness": 1,
-          "linecap": "round",
-          "linejoin": "round",
-          "stroke": true
-        }
-      ]
+      "height": 53,
+      "width": 53,
+      "src": "images/Bitmap 4.png",
+      "name": "Bitmap 4"
     }
   ],
-  "Bitmaps": [],
   "Sounds": [],
   "Texts": [],
   "Timelines": [
     {
-      "type": "stage",
-      "name": "pixi",
+      "assetId": 2,
+      "type": "movieclip",
+      "name": "Symbol_2",
       "totalFrames": 2,
       "frames": [
         {
@@ -71,6 +36,91 @@
               }
             }
           ]
+        },
+        {
+          "frame": 1,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 0,
+                "ty": 97
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "name": "pixi",
+      "totalFrames": 3,
+      "frames": [
+        {
+          "frame": 0,
+          "commands": [
+            {
+              "type": "Place",
+              "assetId": 2,
+              "instanceId": 1,
+              "placeAfter": 0,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 0,
+                "ty": 0
+              },
+              "loop": true
+            },
+            {
+              "type": "ColorTransform",
+              "instanceId": 1,
+              "colorMatrix": {
+                "r": 1,
+                "rA": 0,
+                "g": 1,
+                "gA": 0,
+                "b": 1,
+                "bA": 0,
+                "a": 1,
+                "aA": 0
+              }
+            },
+            {
+              "type": "Visibility",
+              "instanceId": 1,
+              "visibility": true
+            },
+            {
+              "type": "BlendMode",
+              "instanceId": 1,
+              "blendMode": "Normal"
+            }
+          ]
+        },
+        {
+          "frame": 1,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 497,
+                "ty": 0
+              }
+            }
+          ]
         }
       ]
     }
@@ -83,7 +133,7 @@
     "compactShapes": false,
     "nameSpace": "lib",
     "loopTimeline": true,
-    "framerate": 24,
+    "framerate": 3,
     "background": "ffffff",
     "width": 550,
     "height": 400,

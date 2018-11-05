@@ -58,11 +58,11 @@ module.exports = {
         break
       case 'stage':
         node.attr.id = clz.name
-        node.attr.overflow = 'hidden'
         cssNode.node = '#' + clz.name
+        cssNode.attr.overflow = 'hidden'
         cssNode.attr.width = global.meta.width
         cssNode.attr.height = global.meta.height
-        console.log(global.library)
+        // console.log(global.library)
         parseFrames(node, clz)
         break
     }
@@ -92,7 +92,7 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
     // node.child.push(pathNode)
     g.child.push(pathNode)
     g.attr['pointer-events'] = 'visiblePainted'
-    g.attr.onclick = 'console.log(111)'
+    // g.attr.onclick = 'console.log(111)'
     if(p.color){
       if(!p.stroke){
         pathNode.attr.fill = p.color
@@ -114,7 +114,7 @@ const parseD = d =>{
   let path = ''
   d.forEach(item=>{
     if(isNaN(item)){
-      console.log(item)
+      // console.log(item)
       item=getSvgPath(item)
       path+=item.toUpperCase()+' '
     }else{
@@ -477,20 +477,17 @@ const frameKeys = [
 const isEmptyFrame = (frame) => {
   for (let i = 0; i < frameKeys.length; i++) {
     let k = frameKeys[i]
-    if (frame[k] !== null) {
+    // console.log(frame[k])
+    if (frame[k]/* !== null*/) {
       return false
     }
   }
   return true
 }
-const parseFrame = (frame, cssNode, instance) => {
-  let x = Math.floor(frame.x)
-  let y = Math.floor(frame.y)
-  if (x) cssNode.attr.left = x
-  if (y) cssNode.attr.top = y
+const parseFrame = (frame, cssNode, instance,node) => {
   let bounds = frame.bounds
   if (bounds) {
-    console.log(bounds)
+    // console.log(bounds)
     cssNode.attr.width = bounds.width
     cssNode.attr.height = bounds.height
     // cssNode.attr.left += bounds.x
@@ -508,11 +505,14 @@ const parseFrame = (frame, cssNode, instance) => {
     }
   }
 
-  console.log(frame, cssNode.attr, 4444)
+  // console.log(frame, cssNode.attr, 4444)
 
   setTransform(frame, cssNode, instance)
 }
-const setTransform = (frame, cssNode) => {
+const setTransform = (frame, cssNode,instance) => {
+  let value = ''
+  let cx = 1
+  let cy = 1
   let rotate = frame.r == null ? 0 : frame.r
   let skewX = frame.kx == null ? 0 : frame.kx
   let skewY = frame.ky == null ? 0 : frame.ky
@@ -520,7 +520,23 @@ const setTransform = (frame, cssNode) => {
   let scaleY = frame.sy == null ? 1 : frame.sy
   let visibility = frame.v == null ? true : frame.v
   let alpha = frame.a == null ? 1 : frame.a
-
+  let x = Math.floor(frame.x)
+  let y = Math.floor(frame.y)
+  let isShape = instance.libraryItem.type === 'shape'
+  if(!isShape){
+    if (x) cssNode.attr.left = x
+    if (y) cssNode.attr.top = y
+  }else{
+    if(x){
+      if(y){
+        value+= `translate(${x}px,${y}px)`
+      }else{
+        value+= `translate(${x}px)`
+      }
+    }else if(y){
+      value+= `translate(0,${y}px)`
+    }
+  }
   if (visibility === 0) {
     cssNode.attr.visibility = 'hidden'
   }
@@ -528,9 +544,7 @@ const setTransform = (frame, cssNode) => {
     cssNode.attr.opacity = alpha
   }
   // console.log(scaleX,scaleY)
-  let value = ''
-  let cx = 1
-  let cy = 1
+
   if (skewX + skewY === 0) {
     if (rotate !== 0)
       value += setRotate(rotate)
@@ -611,32 +625,29 @@ const parseCss = (instance, node, assetId) => {
     if (!isSingleFrame(instance)) {
       indexFrame = `.f${parseInt(key) + 1}`
     }
+    // console.log(frame)
+    // console.log(isEmptyFrame(frame))
     if (isEmptyFrame(frame)) {
-      frames.push(-(parseInt(key) + 1))
+      frames.push((parseInt(key) + 1))
     } else {
       frames.push(parseInt(key) + 1)
     }
-    let cssNode = createCssNode(`#${id}${indexFrame}`)
-    // const {alignment,leftMargin,rightMargin} = textAlignMap[assetId] || {}
-    // console.log(textAlignMap,align,id)
-    //对齐
-    /*if(alignment&&alignment !== 'left'){
-      cssNode.attr['text-align'] = alignment
+    let cssId = `#${id}${indexFrame}`
+    if(instance.libraryItem.type === 'shape'){
+      cssId += ' g'
     }
-    if(leftMargin){
-      cssNode.attr['padding-left'] = leftMargin
-      cssNode.attr['box-sizing'] = 'border-box'
-    }
-    //动态文本的rightMargin是不生效的
-    if(rightMargin){
-      cssNode.attr['padding-right'] = rightMargin
-    }*/
-    // delete cssNode.attr.position
-    // console.log(cssNode)
+    let cssNode = createCssNode(cssId)
     global.cssMap.push(cssNode)
+    // console.log(Object.keys(cssNode.attr))
+    //去掉空帧
+    // if(!Object.keys(cssNode.attr).length){
+    //   global.cssMap=global.cssMap.splice(global.cssMap.length-1,1)
+    // }
     // console.log(instance.libraryItem.type)
-    parseFrame(frame, cssNode, instance)
+    parseFrame(frame, cssNode, instance,node)
+    // console.log(cssNode)
   }
+  // console.log(frames)
   if (frames.length) {
     // console.log(instance)/**/
     // console.log(frames)
@@ -677,6 +688,7 @@ const parseCss = (instance, node, assetId) => {
 
       node.attr['frames'] = fstr
     }
+    // console.log(frames,fstr)
   }
 
   // global.cssMap[id] = cssNode

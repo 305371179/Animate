@@ -54,8 +54,8 @@
           fs[i] = parseInt(fs[i])
         }
       }
-      // console.log(fs)
-      this.frames = JSON.parse('[' + this.frames + ']')
+      // console.log(fs,this.dom)
+      this.frames = JSON.parse('[' + fs + ']')
     }
   }
   p._getTotalFrames = function() {
@@ -100,7 +100,7 @@
     this.lastClass && this.classList.remove(this.lastClass)
     this.classList.add('hidden')
   }
-  p._renderSelf = function(totalFrames, currentFrame) {
+  p._renderSelf = function( /*totalFrames,*/ currentFrame) {
     // if(this.id === 'id2'){
     //   console.log(currentFrame,this.startFrame,this.endFrame,currentFrame<this.startFrame||(currentFrame >= this.endFrame&&this.endFrame!==-1))
     // }
@@ -133,8 +133,8 @@
     this._getFrames()
     // this._getStartAndEndFrame()
   }
-  p.render = function(totalFrames, currentFrame) {
-    this._renderSelf(totalFrames, currentFrame)
+  p.render = function( /*totalFrames,*/ currentFrame) {
+    this._renderSelf( /*totalFrames,*/ currentFrame)
     // console.log(totalFrames)
     // if(currentFrame<this.startFrame){
     //
@@ -171,6 +171,16 @@
     this._getTotalFrames()
     this._getChildren()
   }
+  p.gotoAndPlay = function(frame) {
+    if (frame > this.totalFrames) {
+      this.currentFrame = frame
+    } else if (frame < 1) {
+      this.currentFrame = 1
+    } else {
+      this.currentFrame = frame
+    }
+    this.render()
+  }
   p._getChildren = function() {
     this.children = []
     var childNodes = this.dom.childNodes
@@ -188,10 +198,10 @@
     // console.log(nodeList,this.dom,66666)
   }
   // MovieClip中，只有stage没有totalFrames
-  p.render = function(totalFrames, currentFrame) {
+  p.render = function( /*totalFrames,*/ currentFrame) {
     // console.log(totalFrames,currentFrame)
     // debugger
-    this._renderSelf(totalFrames, currentFrame)
+    this._renderSelf( /*totalFrames,*/ currentFrame)
     this._renderChild()
     // if(!totalFrames){
     //   totalFrames = this.totalFrames
@@ -233,35 +243,53 @@
       // if(this.type == 'movieclip'){
       //   console.log('movieclip',this.totalFrames,this.currentFrame)
       // }
-      child.render(this.totalFrames, this.currentFrame)
+      child.render( /*this.totalFrames,*/ this.currentFrame)
     }
   }
   win.MovieClip = MovieClip
 })(window);
 (function(win) {
   var Stage = function(stageId) {
-    this.stage = new MovieClip(stageId)
-    console.log(this.stage.children)
+    this._stage = new MovieClip(stageId)
+    // console.log(this.stage.children)
+    this._paused = false
+    this.frameRate = 3
+    this.totalFrames = this._stage.totalFrames
   }
   var p = Stage.prototype
+  p.gotoAndPlay = function(frame) {
+    this._stage.gotoAndPlay(frame)
+    // console.log(this._stage.currentFrame)
+  }
+  p.pause = function() {
+    this._paused = true
+  }
+  p.resume = function() {
+    this._paused = false
+  }
   p.stop = function() {
-    if (this.stage.currentFrame == 2)
-      clearInterval(this.renderId)
+    clearInterval(this._renderId)
   }
   p.render = function() {
-    // return
-    this.renderId = setInterval(function() {
-      // if(this.stage.currentFrame == 2){
-      //   this.stop()
-      //   return
-      // }
-      this.stage.render()
-    }.bind(this), 1000 / 24)
-    this.stage.render()
+    this._renderId = setInterval(function() {
+      if (this._paused) return
+      this._stage.render()
+    }.bind(this), 2000 / this.frameRate)
+    this._stage.render()
     return this
   }
   win.Stage = Stage
 })(window);
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
-new Stage('#pixi').render()
+var stage = new Stage('#pixi').render()
+// stage.gotoAndPlay(2)
+// console.log(stage._stage.currentFrame)
+
+// console.log(stage.frameRate,stage.totalFrames)
+// setTimeout(function () {
+//   stage.pause()
+// },3000)
+// setTimeout(function () {
+//   stage.resume()
+// },6000)
