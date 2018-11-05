@@ -161,6 +161,7 @@
 })(window);
 (function(win) {
   var MovieClip = function(dom) {
+    if (!dom) return
     Common.call(this, dom)
     this.init()
   }
@@ -179,7 +180,8 @@
     } else {
       this.currentFrame = frame
     }
-    this.render()
+    this.render(this.currentFrame)
+    // this._renderSelf(this.currentFrame)
   }
   p._getChildren = function() {
     this.children = []
@@ -250,17 +252,19 @@
 })(window);
 (function(win) {
   var Stage = function(stageId) {
-    this._stage = new MovieClip(stageId)
+    MovieClip.call(this, stageId)
+    // this._stage = new MovieClip(stageId)
     // console.log(this.stage.children)
     this._paused = false
     this.frameRate = 3
-    this.totalFrames = this._stage.totalFrames
+    // this.totalFrames = this._stage.totalFrames
   }
+  Stage.prototype = new MovieClip()
   var p = Stage.prototype
-  p.gotoAndPlay = function(frame) {
-    this._stage.gotoAndPlay(frame)
-    // console.log(this._stage.currentFrame)
-  }
+  // p.gotoAndPlay = function (frame) {
+  //   this._stage.gotoAndPlay(frame)
+  //   // console.log(this._stage.currentFrame)
+  // }
   p.pause = function() {
     this._paused = true
   }
@@ -270,20 +274,20 @@
   p.stop = function() {
     clearInterval(this._renderId)
   }
-  p.render = function() {
+  p.startUp = function() {
     this._renderId = setInterval(function() {
       if (this._paused) return
-      this._stage.render()
+      this.render()
     }.bind(this), 2000 / this.frameRate)
-    this._stage.render()
+    this.render()
     return this
   }
   win.Stage = Stage
 })(window);
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
-var stage = new Stage('#pixi').render()
-// stage.gotoAndPlay(2)
+var stage = new Stage('#pixi').startUp()
+stage.gotoAndPlay(2)
 // console.log(stage._stage.currentFrame)
 
 // console.log(stage.frameRate,stage.totalFrames)
