@@ -109,7 +109,8 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
         pathNode.attr.fill = 'none'
         pathNode.attr.stroke = p.color
         pathNode.attr['stroke-width'] = p.thickness
-
+        pathNode.attr['stroke-linejoin']=p.linejoin
+        pathNode.attr['stroke-linecap']=p.linecap
       }
     }
     pathNode.attr.d = parseD(p.d)
@@ -539,15 +540,21 @@ const setTransform = (frame, cssNode,instance,node) => {
   //   if (x) cssNode.attr.left = x
   //   if (y) cssNode.attr.top = y
   // }else{
-    if(x){
-      if(y){
-        value+= `translate(${x}px,${y}px)`
-      }else{
-        value+= `translate(${x}px)`
-      }
-    }else if(y){
-      value+= `translate(0,${y}px)`
-    }
+  if(x||y){
+    let v =  !x? 0:`${x}px`
+    v =  y? `${v},${y}px`:`${v},0`
+
+    value+= `translate3d(${v},0)`
+  }
+    // if(x){
+    //   if(y){
+    //     value+= `translate3d(${x}px,${y}px),0`
+    //   }else{
+    //     value+= `translate(${x}px)`
+    //   }
+    // }else if(y){
+    //   value+= `translate(0,${y}px)`
+    // }
   // }
   if (visibility === 0) {
     cssNode.attr.visibility = 'hidden'
