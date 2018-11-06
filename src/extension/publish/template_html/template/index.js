@@ -89,6 +89,37 @@
     return false
   }
   p._changFrame = function (currentFrame) {
+    var currentClass = this.getCurrentFrameClass(currentFrame)
+    if(this.lastClass&&this.lastClass === currentClass){
+      // console.log(this.lastClass)
+      // this.classList.remove('hidden')
+      return
+    }
+    this.lastClass && this.classList.remove(this.lastClass)
+    this.lastClass = currentClass
+    // this.classList.remove('hidden')
+    if (this.frames.length === 1 && this.frames[0] === 1) {
+      // console.log(44444)
+    } else {
+      // if(this.id === 'id2'){
+      //   console.log(currentFrame)
+      // }
+
+      // for(var i=0;i<this.classList.length;i++){
+      //   // console.log(this.classList[i],this.lastClass)
+      //   if(this.classList[i]===currentClass){
+      //     return
+      //   }
+      // }
+      // this.lastClass && this.classList.remove(this.lastClass)
+      // this.lastClass = currentClass
+      // this.classList.remove('hidden')
+      this.classList.add(this.lastClass)
+      // console.log(this.classList)
+    }
+  }
+/*
+  p._changFrame = function (currentFrame) {
     this.lastClass && this.classList.remove(this.lastClass)
     this.lastClass = this.getCurrentFrameClass(currentFrame)
     this.classList.remove('hidden')
@@ -98,18 +129,30 @@
       // if(this.id === 'id2'){
       //   console.log(currentFrame)
       // }
+      // for(var i=0;i<this.classList.length;i++){
+      //   // console.log(this.classList[i],this.lastClass)
+      //   if(this.classList[i]===this.lastClass){
+      //     return
+      //   }
+      // }
       this.classList.add(this.lastClass)
+      // console.log(this.classList)
     }
   }
+*/
   p._deleteFrame = function () {
+    // console.log(5555,this.type)
+    if(this.lastClass=== 'hidden')return
     this.lastClass && this.classList.remove(this.lastClass)
     this.classList.add('hidden')
+    this.lastClass = 'hidden'
   }
   p._renderSelf = function (/*totalFrames,*/currentFrame) {
     // if(this.id === 'id2'){
     //   console.log(currentFrame,this.startFrame,this.endFrame,currentFrame<this.startFrame||(currentFrame >= this.endFrame&&this.endFrame!==-1))
     // }
     if (currentFrame < this.startFrame || currentFrame >= this.endFrame && this.endFrame !== -1) {
+      // console.log(this.type,this.name)
       this._deleteFrame()
       return
     }
@@ -122,6 +165,7 @@
       // }
       this._changFrame(currentFrame)
     } else if (frame < 0 && this.endFrame !== -1) {
+      // console.log(this.type,this.name)
       //空白帧
       this._deleteFrame()
     }
@@ -200,15 +244,28 @@
     this._getFrames()
     this._getTotalFrames()
     this._getChildren()
+    this._getLabels()
   }
-  p.gotoAndStop = function (frame) {
-    this.gotoAndPlay(frame)
-    this._isStop = true
+  p._getLabels = function () {
+    this._labels = {}
+    var labelsStr = this.dom.getAttribute('labels')
+    if (labelsStr) {
+      var labels = labelsStr.split('|')
+      labels.forEach(label=>{
+        let strs = label.split(':')
+        let frame = parseInt(strs[0])
+        let ls = strs[1].split(',')
+        ls.forEach(l=>{
+          this._labels[l] = frame
+        })
+      })
+    }
+    // console.log(this._labels)
   }
   //只是本身不变，但是孩子还是会变化的
   p.gotoAndStop = function (frame) {
-    this.gotoAndPlay(frame)
     this._isStop = true
+    this.gotoAndPlay(frame)
   }
   p.setPlayDirection = function (direction) {
     if (!direction) {
@@ -221,6 +278,10 @@
     }
   }
   p.gotoAndPlay = function (frame, isReverse) {
+    if(typeof frame === 'string'){
+      frame = this._labels[frame]
+      // console.log(frame,666666)
+    }
     this.setPlayDirection(isReverse ? -1 : 1)
     if (frame === undefined) frame = this.currentFrame
     if (frame > this.totalFrames) {
@@ -230,7 +291,9 @@
     } else {
       this.currentFrame = frame
     }
+    // console.log(this.currentFrame)
     this.render(this.currentFrame)
+    // console.log(this.currentFrame)
     // this._renderSelf(this.currentFrame)
   }
   p._getChildren = function () {
@@ -257,6 +320,7 @@
     // if(this.type!='stage'){
     //   console.log(this.currentFrame)
     // }
+
     if (!this._isStop) {
       this._renderSelf(/*totalFrames,*/currentFrame)
       // return
@@ -268,6 +332,11 @@
     // if(this.type === 'movieclip')
     //   console.log(this.currentFrame,this.type)
     //问题的关键在于此，
+
+    if(this._isStop&&this.type === 'stage'){
+      // console.log(this.currentFrame)
+      return
+    }
     this.currentFrame = this.currentFrame + this._direction
     if (this.currentFrame > this.totalFrames) {
       this.currentFrame = 1
@@ -348,7 +417,8 @@
 var stage = new Stage('#pixi').startUp()
 // var stage = new Stage('#pixi').render()
 // stage.children[1].gotoAndStop(0, -1)
-// stage.gotoAndPlay(2)
+// stage.gotoAndPlay('kkk',-1)
+// stage.gotoAndStop('kkk')
 // console.log(stage._stage.currentFrame)
 
 // console.log(stage.frameRate,stage.totalFrames)
