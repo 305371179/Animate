@@ -137,7 +137,28 @@
   var p = DisplayElement.prototype
   p.init = function () {
     this._getFrames()
-    // this._getStartAndEndFrame()
+    this._setSvgSize()
+  }
+  p._setSvgSize = function () {
+    if(this.type === 'shape'){
+      //设置svg大小，刚好包裹矢量元素
+      let g = this.dom.querySelector('g')
+      let box = g.getBBox()
+      let x = Math.floor(box.x)
+      let y = Math.floor(box.y)
+      let width = Math.ceil(box.width)
+      let height = Math.ceil(box.height)
+      if(x||y){
+        g.setAttribute('transform','translate('+(-x)+' '+(-y)+')')
+        if(x)this.dom.style.left=x+'px'
+        if(y)this.dom.style.top=y+'px'
+      }
+      this.dom.style.width=width+'px'
+      this.dom.style.height=height+'px'
+
+      // this.dom.style.width=Math.ceil(box.x+box.width)+'px'
+      // this.dom.style.height=Math.ceil(box.y+box.height)+'px'
+    }
   }
   p.render = function (/*totalFrames,*/currentFrame) {
     this._renderSelf(/*totalFrames,*/currentFrame)
@@ -179,6 +200,10 @@
     this._getFrames()
     this._getTotalFrames()
     this._getChildren()
+  }
+  p.gotoAndStop = function (frame) {
+    this.gotoAndPlay(frame)
+    this._isStop = true
   }
   //只是本身不变，但是孩子还是会变化的
   p.gotoAndStop = function (frame) {

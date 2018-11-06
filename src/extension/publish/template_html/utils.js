@@ -16,6 +16,15 @@ module.exports = {
     let cssNode = createCssNode(cssId)
     global.cssMap.push(cssNode)
     // }
+    if(clz.type !== 'shape' &&!global.hasAddGCssNode){
+      global.hasAddGCssNode = true
+      global.cssMap.push({
+        node: 'g',
+        attr: {
+          'pointer-events':'visiblePainted'
+        }
+      })
+    }
     switch (clz.type) {
       case 'bitmap':
         node.tag = 'img'
@@ -34,17 +43,18 @@ module.exports = {
       case 'shape':
         node.tag = 'svg'
         node.attr = {
-          xmlns:"http://www.w3.org/2000/svg",
-          version:"1.1",
-          width: '100%',
-          height:'100%',
-          style:'pointer-events:none',
+          // xmlns:"http://www.w3.org/2000/svg",
+          // version:"1.1",
+          // width: '100%',
+          // height:'100%',
+          // style:'pointer-events:none',
           ...node.attr,
           name:createId('shape')
         }
         // console.log(clz)
         cssNode.attr = {
           ...cssNode.attr,
+          'pointer-events': 'none',
           width: global.meta.width,
           height: global.meta.height,
         }
@@ -62,6 +72,7 @@ module.exports = {
         parseFrames(node, clz)
         break
       case 'stage':
+        // console.log(stage)
         node.attr.id = clz.name
         cssNode.node = '#' + clz.name
         cssNode.attr.overflow = 'hidden'
@@ -93,13 +104,14 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
   let g = createNode({type:'',name:gid},gid)
   g.tag = 'g'
   node.child.push(g)
+  // console.log(cssNode)
   clz.paths.forEach(p=>{
     let pid = createId('path'+id)
     let pathNode = createNode({type:'',name:pid},pid)
     pathNode.tag = 'path'
     // node.child.push(pathNode)
     g.child.push(pathNode)
-    g.attr['pointer-events'] = 'visiblePainted'
+    // g.attr['pointer-events'] = 'visiblePainted'
     // g.attr.onclick = 'console.log(111)'
     if(p.color){
       if(!p.stroke){
@@ -519,7 +531,7 @@ const parseFrame = (frame, cssNode, instance,node) => {
   setTransform(frame, cssNode, instance,node)
 }
 const setTransform = (frame, cssNode,instance,node) => {
-  console.log(frame)
+  // console.log(frame)
   let value = ''
   let cx = 1
   let cy = 1
@@ -663,8 +675,8 @@ const getLastFrameAttr = (frame,lastFrame)=>{
   }
   return frame
 }
-const parseCss = (instance, node, assetId) => {
-  // console.log(instance)
+const parseCss = (instance, node, assetId,libraryFrames) => {
+  // console.log(libraryFrames)
   // if (instance.type === 'bitmap') {
   //   console.log(instance.frames)
   // }
@@ -674,8 +686,13 @@ const parseCss = (instance, node, assetId) => {
   // node.attr['endFrame'] = instance.endFrame ==-1? -1:instance.endFrame +1
   let frames = []
   let lastFrame = ''
+  // console.log(instance.frames.labels)
   for (let key in instance.frames) {
     let frame = instance.frames[key]
+    // console.log(frame.labels,555)
+    // if(frame.labels){
+    //   // console.log(frame.labels,3333)
+    // }
     // console.log(frame)
     let indexFrame = ''
     if (!isSingleFrame(instance)) {
@@ -755,12 +772,44 @@ const parseCss = (instance, node, assetId) => {
   //
   // })
 }
-
+const getLabels = (node,clz)=>{
+  if(clz.frames){
+    let ls = ''
+    let ss = ''
+    clz.frames.forEach(frame=>{
+      if(frame.labels){
+        let index = frame.frame + 1
+        ls += index+':'
+        frame.labels.forEach(label=>{
+          ls += label.trim()+','
+        })
+        ls = ls.substring(0,ls.length-1) + '|'
+      }else if(frame.scripts){
+        let index = frame.frame + 1
+        ss += index+':'
+        frame.scripts.forEach(script=>{
+          ss += script.trim()+','
+        })
+        ss = ss.substring(0,ss.length-1) + '|'
+      }
+    })
+    if(ls){
+      ls = ls.substring(0,ls.length-1)
+      node.attr.labels = ls
+    }
+    if(ss){
+      ss = ss.substring(0,ss.length-1)
+      node.attr.scripts = ss
+    }
+  }
+}
 const parseFrames = (node, clz) => {
+  // return
   // console.log(clz)
+  getLabels(node,clz)
   node.attr.totalFrames = clz.totalFrames
-  // if(clz.type === 'stage')
-  // console.log(clz)
+
+  // console.log(clz.frames)
   let child = node.child
   clz.renderChildren(global.renderer, (children) => {
     children.forEach(instance => {
@@ -772,7 +821,9 @@ const parseFrames = (node, clz) => {
       // let node = global.idsMap[claz.assetId + '']
       // console.log(instance)
       node.attr['id'] = createId('id')
-      parseCss(instance, node, claz.assetId)
+      // if(claz.frames)
+      // console.log(claz)
+      parseCss(instance, node, claz.assetId,claz.frames)
       // console.log(createId('id'))
       // console.log(node.attr['id'])
       // console.log(node,5555)

@@ -26,8 +26,13 @@ body {
   height: 89px;
 }
 
+g {
+  pointer-events: visiblePainted;
+}
+
 .shape3 {
   position: absolute;
+  pointer-events: none;
   width: 550px;
   height: 400px;
 }
