@@ -31,6 +31,7 @@ module.exports = {
     global.library = global.stage.library
     global.meta = global.library.meta
     for(let id in global.library._mapById){
+      // console.log(id)
       utils.parseClass(global.library._mapById,id)
     }
     // 获取所有的html标签类

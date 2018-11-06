@@ -38,7 +38,11 @@ var jsTemplate = resolve('./template/index.js')
 module.exports = {
   exportJs(){
     // console.log(global.meta)
-    let text =jsTemplate({items:cssMap,frameRate:global.meta.framerate})
+    let text =jsTemplate({
+      items:cssMap,
+      frameRate:global.meta.framerate,
+      stageId: global.meta.stageName
+    })
     const jsText =js_beautify(text,{
       indent_size: 2
     })

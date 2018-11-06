@@ -1,21 +1,23 @@
 const DataUtils = require('../utils/DataUtils');
 const {exportHtml, exportCss, exportJs} = require('./export');
 var textAlignMap = {}
-module.exports = {
+const utils = module.exports = {
   parseClass(idMap, id) {
+    if(global.idsMap[id])return
     let clz = idMap[id]
     // console.log(clz.type)
     if (clz.type === 'graphic') {
       clz.type = 'movieclip'
     }
+
     let node = createNode(clz, id)
     global.idsMap[id] = node
     let cssId = '.' + clz.type + id
-    //text另外处理
-    // if(clz.type !== 'text'){
     let cssNode = createCssNode(cssId)
     global.cssMap.push(cssNode)
-    // }
+    // let nodes = getNode(clz,id)
+    // let node = nodes[0]
+    // let cssNode = nodes[1]
     if(clz.type !== 'shape' &&!global.hasAddGCssNode){
       global.hasAddGCssNode = true
       global.cssMap.push({
@@ -78,6 +80,7 @@ module.exports = {
         cssNode.attr.overflow = 'hidden'
         cssNode.attr.width = global.meta.width
         cssNode.attr.height = global.meta.height
+        cssNode.attr.background= global.meta.background
         // console.log(global.library)
         parseFrames(node, clz)
         break
@@ -90,6 +93,26 @@ module.exports = {
     // console.log(55555555)
     return node
   }
+}
+const getNode = (clz,id)=>{
+  let node = global.idsMap[id]
+  if(!node){
+    node = createNode(clz, id)
+    global.idsMap[id] = node
+  }
+  let cssNode = ''
+  let cssId = '.' + clz.type + id
+  for (let i = 0; i < global.cssMap.length; i++) {
+    var cn = global.cssMap[i]
+    if(cn.node === cssId){
+      cssNode = cn
+    }
+  }
+  if(!cssNode){
+    cssNode = createCssNode(cssId)
+    global.cssMap.push(cssNode)
+  }
+  return [node,cssNode]
 }
 const pathMap = {
   'b': 'c',
@@ -336,6 +359,7 @@ const parseInputText = (node, clz, cssId, cssNode, id) => {
   cssNode.attr['display'] = 'inline-block'
   cssNode.attr['overflow'] = 'hidden'
   cssNode.attr['outline'] = 'none'
+  cssNode.attr['background'] = '#00000000'
   cssNode.attr['border'] = 'none'
   cssNode.attr['type'] = 'text'
   node.child.push(nodeText)
@@ -508,7 +532,7 @@ const isEmptyFrame = (frame) => {
 const parseFrame = (frame, cssNode, instance,node) => {
   let bounds = frame.bounds
   if (bounds) {
-    // console.log(bounds)
+    console.log(bounds)
     cssNode.attr.width = bounds.width
     cssNode.attr.height = bounds.height
     // cssNode.attr.left += bounds.x
@@ -519,9 +543,9 @@ const parseFrame = (frame, cssNode, instance,node) => {
     if (cn && instance.libraryItem.type === 'text') {
       let textAlign = cn.attr['text-align']
       if (textAlign === 'center' || textAlign === 'justify') {
-        cssNode.attr.left -= bounds.width / 2
+        cssNode.attr.left =- bounds.width / 2
       } else if (textAlign === 'right') {
-        cssNode.attr.left -= bounds.width
+        cssNode.attr.left = -bounds.width
       }
     }
   }
@@ -531,7 +555,7 @@ const parseFrame = (frame, cssNode, instance,node) => {
   setTransform(frame, cssNode, instance,node)
 }
 const setTransform = (frame, cssNode,instance,node) => {
-  // console.log(frame)
+  console.log(frame.bounds)
   let value = ''
   let cx = 1
   let cy = 1
@@ -547,7 +571,7 @@ const setTransform = (frame, cssNode,instance,node) => {
 
   // if (x) cssNode.attr.left = x
   // if (y) cssNode.attr.top = y
-  let isShape = instance.libraryItem.type === 'shape'
+  // let isShape = instance.libraryItem.type === 'shape'
   // if(!isShape){
   //   if (x) cssNode.attr.left = x
   //   if (y) cssNode.attr.top = y
@@ -555,7 +579,6 @@ const setTransform = (frame, cssNode,instance,node) => {
   if(x||y){
     let v =  !x? 0:`${x}px`
     v =  y? `${v},${y}px`:`${v},0`
-
     value+= `translate3d(${v},0)`
   }
     // if(x){
@@ -640,11 +663,15 @@ const isSingleFrame = (instance) => {
   return isSingle
 }
 const getLastFrameAttr = (frame,lastFrame)=>{
+  console.log(frame)
+  // return frame
   if(!lastFrame){
     return frame
   }
+  // console.log('--------------------')
+  // console.log(frame.r,lastFrame.r)
   if(frame.bounds == null){
-    frame.r = lastFrame.bounds
+    frame.bounds = lastFrame.bounds
   }
   if(frame.r == null){
     frame.r = lastFrame.r
@@ -673,6 +700,8 @@ const getLastFrameAttr = (frame,lastFrame)=>{
   if(frame.y == null){
     frame.y = lastFrame.y
   }
+  // console.log(frame.r,lastFrame.r)
+  // console.log('=====================')
   return frame
 }
 const parseCss = (instance, node, assetId,libraryFrames) => {
@@ -778,9 +807,9 @@ const getLabels = (node,clz)=>{
     let ls = ''
     let ss = ''
     clz.frames.forEach(frame=>{
-      console.log(frame)
+      // console.log(frame)
       let index = frame.frame + 1
-      index=1
+      // index=1
       if(frame.labels){
         ls += index+':'
         frame.labels.forEach(label=>{
@@ -791,7 +820,7 @@ const getLabels = (node,clz)=>{
         // let index = frame.frame + 1
         ss += index+':'
         frame.scripts.forEach(script=>{
-          ss += encodeURIComponent(/*script.trim()+*/' "" \nconsole.log(333)')+ ','
+          ss += encodeURIComponent(script.trim())+ ','
         })
         ss = ss.substring(0,ss.length-1) + '|'
       }
@@ -812,7 +841,7 @@ const parseFrames = (node, clz) => {
   // console.log(clz)
   getLabels(node,clz)
   node.attr.totalFrames = clz.totalFrames
-
+  // console.log(clz.name)
   // console.log(clz.frames)
   let child = node.child
   clz.renderChildren(global.renderer, (children) => {
@@ -821,16 +850,21 @@ const parseFrames = (node, clz) => {
       // console.log(instance.frames)
       // let node = {}
       // Object.assign(node,global.idsMap[claz.assetId + ''])
+      // console.log(claz.assetId,global.idsMap)
+      // return
+      //产生这种情况，是因为需要的类还没存到idsMap，所以缺少了
+      /*console.log(claz.type)
+      console.log(global.idsMap,global.cssMap)
+      let nodes = getNode(claz,claz.assetId+ '')
+      let node = JSON.parse(JSON.stringify(nodes[0]))*/
+      utils.parseClass(global.library._mapById,claz.assetId + '')
+      // if(!global.idsMap[claz.assetId + ''])return
+
       let node = JSON.parse(JSON.stringify(global.idsMap[claz.assetId + '']))
-      // let node = global.idsMap[claz.assetId + '']
-      // console.log(instance)
+
+
       node.attr['id'] = createId('id')
-      // if(claz.frames)
-      // console.log(claz)
       parseCss(instance, node, claz.assetId,claz.frames)
-      // console.log(createId('id'))
-      // console.log(node.attr['id'])
-      // console.log(node,5555)
       child.push(node)
     })
   })

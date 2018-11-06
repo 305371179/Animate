@@ -1,66 +1,12 @@
 {
-  "Shapes": [
-    {
-      "assetId": 3,
-      "paths": [
-        {
-          "color": "#00c04f",
-          "alpha": 1,
-          "d": [
-            "m",
-            151.05,
-            161.05,
-            "l",
-            151.05,
-            258.05,
-            "l",
-            283,
-            258.05,
-            "l",
-            283,
-            161.05,
-            "l",
-            151.05,
-            161.05,
-            "c"
-          ],
-          "stroke": false
-        },
-        {
-          "color": "#33cc00",
-          "alpha": 1,
-          "d": [
-            "m",
-            151.05,
-            161.05,
-            "l",
-            283,
-            161.05,
-            "l",
-            283,
-            258.05,
-            "l",
-            151.05,
-            258.05,
-            "l",
-            151.05,
-            161.05
-          ],
-          "thickness": 1,
-          "linecap": "round",
-          "linejoin": "round",
-          "stroke": true
-        }
-      ]
-    }
-  ],
+  "Shapes": [],
   "Bitmaps": [
     {
       "assetId": 1,
-      "height": 89,
-      "width": 89,
-      "src": "images/Bitmap 5.png",
-      "name": "Bitmap 5"
+      "height": 87,
+      "width": 87,
+      "src": "images/Bitmap 1.png",
+      "name": "Bitmap 1"
     }
   ],
   "Sounds": [],
@@ -70,7 +16,7 @@
       "assetId": 5,
       "type": "graphic",
       "name": "Graphic1",
-      "totalFrames": 15,
+      "totalFrames": 13,
       "frames": [
         {
           "frame": 0,
@@ -85,8 +31,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": -44.5,
-                "ty": -44.5
+                "tx": -43.5,
+                "ty": -43.5
               }
             }
           ]
@@ -112,8 +58,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": -44.5,
-                "ty": -44.5
+                "tx": -43.5,
+                "ty": -43.5
               }
             }
           ]
@@ -121,15 +67,13 @@
       ]
     },
     {
-      "type": "stage",
-      "name": "pixi",
-      "totalFrames": 16,
+      "assetId": 4,
+      "type": "movieclip",
+      "name": "Symbol_1",
+      "totalFrames": 14,
       "frames": [
         {
           "frame": 0,
-          "labels": [
-            "bbbb"
-          ],
           "commands": [
             {
               "type": "Place",
@@ -141,8 +85,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 44.5,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 43.5
               },
               "loop": false
             },
@@ -159,33 +103,12 @@
                 "a": 1,
                 "aA": 0
               }
-            },
-            {
-              "type": "Place",
-              "assetId": 3,
-              "instanceId": 2,
-              "placeAfter": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 0
-              }
             }
-          ],
-          "scripts": [
-            "stop()"
           ]
         },
         {
           "frame": 1,
           "commands": [
-            {
-              "type": "Remove",
-              "instanceId": 2
-            },
             {
               "type": "Move",
               "instanceId": 1,
@@ -194,8 +117,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 75.25,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 67.599998
               }
             }
           ]
@@ -211,8 +134,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 105.949997,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 91.650002
               }
             }
           ]
@@ -228,8 +151,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 136.699997,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 115.75
               }
             }
           ]
@@ -245,8 +168,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 167.449997,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 139.800003
               }
             }
           ]
@@ -262,8 +185,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 198.149994,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 163.899994
               }
             }
           ]
@@ -279,8 +202,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 228.899994,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 187.949997
               }
             }
           ]
@@ -296,17 +219,14 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 259.649994,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 212.050003
               }
             }
           ]
         },
         {
           "frame": 8,
-          "labels": [
-            "kkk"
-          ],
           "commands": [
             {
               "type": "Move",
@@ -316,8 +236,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 290.350006,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 236.100006
               }
             }
           ]
@@ -333,8 +253,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 321.100006,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 260.200012
               }
             }
           ]
@@ -350,8 +270,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 351.850006,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 284.25
               }
             }
           ]
@@ -367,8 +287,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 382.549988,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 308.350006
               }
             }
           ]
@@ -384,8 +304,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 413.299988,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 332.399994
               }
             }
           ]
@@ -394,61 +314,27 @@
           "frame": 13,
           "commands": [
             {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 444.049988,
-                "ty": 44.5
-              }
-            }
-          ]
-        },
-        {
-          "frame": 14,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 474.75,
-                "ty": 44.5
-              }
-            }
-          ]
-        },
-        {
-          "frame": 15,
-          "commands": [
-            {
               "type": "Remove",
               "instanceId": 1
             },
             {
               "type": "Place",
               "assetId": 6,
-              "instanceId": 3,
+              "instanceId": 2,
               "placeAfter": 0,
               "transform": {
                 "a": 1,
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 505.5,
-                "ty": 44.5
+                "tx": 43.5,
+                "ty": 356.5
               },
               "loop": false
             },
             {
               "type": "ColorTransform",
-              "instanceId": 3,
+              "instanceId": 2,
               "colorMatrix": {
                 "r": 1,
                 "rA": 0,
@@ -460,23 +346,224 @@
                 "aA": 0
               }
             }
-          ],
-          "scripts": [
-            "stop()"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "name": "a_Custom",
+      "totalFrames": 10,
+      "frames": [
+        {
+          "frame": 0,
+          "commands": [
+            {
+              "type": "Place",
+              "assetId": 4,
+              "instanceId": 1,
+              "placeAfter": 0,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 1,
+                "ty": 1
+              },
+              "loop": true
+            },
+            {
+              "type": "ColorTransform",
+              "instanceId": 1,
+              "colorMatrix": {
+                "r": 1,
+                "rA": 0,
+                "g": 1,
+                "gA": 0,
+                "b": 1,
+                "bA": 0,
+                "a": 1,
+                "aA": 0
+              }
+            },
+            {
+              "type": "Visibility",
+              "instanceId": 1,
+              "visibility": true
+            },
+            {
+              "type": "BlendMode",
+              "instanceId": 1,
+              "blendMode": "Normal"
+            }
+          ]
+        },
+        {
+          "frame": 1,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 52.349998,
+                "ty": 0.9
+              }
+            }
+          ]
+        },
+        {
+          "frame": 2,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 103.650002,
+                "ty": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "frame": 3,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 155,
+                "ty": 0.65
+              }
+            }
+          ]
+        },
+        {
+          "frame": 4,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 206.350006,
+                "ty": 0.55
+              }
+            }
+          ]
+        },
+        {
+          "frame": 5,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 257.649994,
+                "ty": 0.45
+              }
+            }
+          ]
+        },
+        {
+          "frame": 6,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 309,
+                "ty": 0.35
+              }
+            }
+          ]
+        },
+        {
+          "frame": 7,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 360.350006,
+                "ty": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "frame": 8,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 411.649994,
+                "ty": 0.1
+              }
+            }
+          ]
+        },
+        {
+          "frame": 9,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 463,
+                "ty": 0
+              }
+            }
           ]
         }
       ]
     }
   ],
   "_meta": {
-    "outputFile": "pixi.js",
-    "stageName": "pixi",
+    "outputFile": "a_Custom.js",
+    "stageName": "a_Custom",
     "compressJS": false,
     "commonJS": false,
     "compactShapes": false,
     "nameSpace": "lib",
     "loopTimeline": true,
-    "framerate": 24,
+    "framerate": 2,
     "background": "ffffff",
     "width": 550,
     "height": 400,
@@ -485,7 +572,7 @@
     "spritesheets": false,
     "spritesheetSize": 1024,
     "spritesheetScale": 1,
-    "htmlPath": "pixi.html",
+    "htmlPath": "a_Custom.html",
     "soundsPath": "sounds/",
     "version": "1.3.4"
   }
