@@ -245,27 +245,62 @@
     this._getTotalFrames()
     this._getChildren()
     this._getLabels()
+    this._getScripts()
   }
   p._getLabels = function () {
     this._labels = {}
     var labelsStr = this.dom.getAttribute('labels')
     if (labelsStr) {
       var labels = labelsStr.split('|')
-      labels.forEach(label=>{
-        let strs = label.split(':')
-        let frame = parseInt(strs[0])
-        let ls = strs[1].split(',')
-        ls.forEach(l=>{
+      for (var i = 0; i < labels.length; i++) {
+        var label = labels[i]
+        var strs = label.split(':')
+        var frame = parseInt(strs[0])
+        var ls = strs[1].split(',')
+        for (var j = 0; j < ls.length; j++) {
+          var l = ls[j]
           this._labels[l] = frame
-        })
-      })
+        }
+      }
     }
     // console.log(this._labels)
+  }
+  p._getScripts = function () {
+    var scriptsStr = this.dom.getAttribute('scripts')
+    if (scriptsStr) {
+      this._scripts = {}
+      var scripts = scriptsStr.split('|')
+      for(var i=0;i<scripts.length;i++){
+        var script = scripts[i]
+        var strs = script.split(':')
+        var frame = parseInt(strs[0])
+        var ss = strs[1].split(',')
+        this._scripts[frame] = []
+        for (var j = 0; j < ss.length; j++) {
+          var s = ss[j]
+          this._scripts[frame].push(decodeURIComponent(s))
+        }
+      }
+      // console.log(this._scripts)
+    }
+    // console.log(this._labels)
+  }
+  p._runScripts = function () {
+    if(!this._scripts)return
+    var scripts = this._scripts[this.currentFrame]
+    if(scripts){
+      // console.log(currentFrame,this.currentFrame)
+      for (var i = 0; i < scripts.length; i++) {
+        var script = scripts[i]
+        eval(script)
+      }
+    }
   }
   //只是本身不变，但是孩子还是会变化的
   p.gotoAndStop = function (frame) {
     this._isStop = true
     this.gotoAndPlay(frame)
+    this._runScripts()
   }
   p.setPlayDirection = function (direction) {
     if (!direction) {
@@ -321,7 +356,13 @@
     //   console.log(this.currentFrame)
     // }
 
+    // if(this.name === 'Graphic1'){
+    //   console.log(this.currentFrame,this._scripts[this.currentFrame])
+    // }
     if (!this._isStop) {
+      this._runScripts()
+      // if(win.stage)
+      // win.stage.stop()
       this._renderSelf(/*totalFrames,*/currentFrame)
       // return
     }
@@ -405,9 +446,9 @@
   p.startUp = function () {
     this._renderId = setInterval(function () {
       if (this._paused) return
-      this.render()
-    }.bind(this), 4000 / this.frameRate)
-    this.render()
+      this.render(1)
+    }.bind(this), 34000 / this.frameRate)
+    this.render(1)
     return this
   }
   win.Stage = Stage
@@ -423,7 +464,9 @@ var stage = new Stage('#pixi').startUp()
 
 // console.log(stage.frameRate,stage.totalFrames)
 // setTimeout(function () {
-//   stage.pause()
+//   // stage.pause()
+//   stage.gotoAndPlay(1)
+//   console.log(4444)
 // },3000)
 // setTimeout(function () {
 //   stage.resume()

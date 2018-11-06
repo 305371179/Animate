@@ -774,21 +774,24 @@ const parseCss = (instance, node, assetId,libraryFrames) => {
 }
 const getLabels = (node,clz)=>{
   if(clz.frames){
+    // let labelsAndScripts = {}
     let ls = ''
     let ss = ''
     clz.frames.forEach(frame=>{
+      console.log(frame)
+      let index = frame.frame + 1
+      index=1
       if(frame.labels){
-        let index = frame.frame + 1
         ls += index+':'
         frame.labels.forEach(label=>{
           ls += label.trim()+','
         })
         ls = ls.substring(0,ls.length-1) + '|'
       }else if(frame.scripts){
-        let index = frame.frame + 1
+        // let index = frame.frame + 1
         ss += index+':'
         frame.scripts.forEach(script=>{
-          ss += script.trim()+','
+          ss += encodeURIComponent(/*script.trim()+*/' "" \nconsole.log(333)')+ ','
         })
         ss = ss.substring(0,ss.length-1) + '|'
       }
@@ -801,6 +804,7 @@ const getLabels = (node,clz)=>{
       ss = ss.substring(0,ss.length-1)
       node.attr.scripts = ss
     }
+    return
   }
 }
 const parseFrames = (node, clz) => {
