@@ -3,8 +3,8 @@
   "Bitmaps": [
     {
       "assetId": 1,
-      "height": 87,
-      "width": 87,
+      "height": 58,
+      "width": 58,
       "src": "images/Bitmap 1.png",
       "name": "Bitmap 1"
     }
@@ -16,7 +16,7 @@
       "assetId": 5,
       "type": "graphic",
       "name": "Graphic1",
-      "totalFrames": 13,
+      "totalFrames": 10,
       "frames": [
         {
           "frame": 0,
@@ -31,35 +31,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": -43.5,
-                "ty": -43.5
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "assetId": 6,
-      "type": "graphic",
-      "name": "Graphic2",
-      "totalFrames": 1,
-      "frames": [
-        {
-          "frame": 0,
-          "commands": [
-            {
-              "type": "Place",
-              "assetId": 1,
-              "instanceId": 1,
-              "placeAfter": 0,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": -43.5,
-                "ty": -43.5
+                "tx": -29,
+                "ty": -29
               }
             }
           ]
@@ -68,9 +41,9 @@
     },
     {
       "assetId": 4,
-      "type": "movieclip",
-      "name": "Symbol_1",
-      "totalFrames": 14,
+      "type": "graphic",
+      "name": "Graphic2",
+      "totalFrames": 10,
       "frames": [
         {
           "frame": 0,
@@ -85,8 +58,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 43.5
+                "tx": 0,
+                "ty": 0
               },
               "loop": false
             },
@@ -117,8 +90,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 67.599998
+                "tx": 0,
+                "ty": 38.200001
               }
             }
           ]
@@ -134,8 +107,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 91.650002
+                "tx": 0,
+                "ty": 76.449997
               }
             }
           ]
@@ -151,8 +124,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 115.75
+                "tx": 0,
+                "ty": 114.650002
               }
             }
           ]
@@ -168,8 +141,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 139.800003
+                "tx": 0,
+                "ty": 152.899994
               }
             }
           ]
@@ -185,8 +158,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 163.899994
+                "tx": 0,
+                "ty": 191.100006
               }
             }
           ]
@@ -202,8 +175,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 187.949997
+                "tx": 0,
+                "ty": 229.350006
               }
             }
           ]
@@ -219,8 +192,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 212.050003
+                "tx": 0,
+                "ty": 267.549988
               }
             }
           ]
@@ -236,8 +209,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 236.100006
+                "tx": 0,
+                "ty": 305.799988
               }
             }
           ]
@@ -253,97 +226,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 43.5,
-                "ty": 260.200012
-              }
-            }
-          ]
-        },
-        {
-          "frame": 10,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 43.5,
-                "ty": 284.25
-              }
-            }
-          ]
-        },
-        {
-          "frame": 11,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 43.5,
-                "ty": 308.350006
-              }
-            }
-          ]
-        },
-        {
-          "frame": 12,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 43.5,
-                "ty": 332.399994
-              }
-            }
-          ]
-        },
-        {
-          "frame": 13,
-          "commands": [
-            {
-              "type": "Remove",
-              "instanceId": 1
-            },
-            {
-              "type": "Place",
-              "assetId": 6,
-              "instanceId": 2,
-              "placeAfter": 0,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 43.5,
-                "ty": 356.5
-              },
-              "loop": false
-            },
-            {
-              "type": "ColorTransform",
-              "instanceId": 2,
-              "colorMatrix": {
-                "r": 1,
-                "rA": 0,
-                "g": 1,
-                "gA": 0,
-                "b": 1,
-                "bA": 0,
-                "a": 1,
-                "aA": 0
+                "tx": 0,
+                "ty": 344
               }
             }
           ]
@@ -352,7 +236,7 @@
     },
     {
       "type": "stage",
-      "name": "a_Custom",
+      "name": "test",
       "totalFrames": 10,
       "frames": [
         {
@@ -368,10 +252,10 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 1,
-                "ty": 1
+                "tx": 29,
+                "ty": 29
               },
-              "loop": true
+              "loop": false
             },
             {
               "type": "ColorTransform",
@@ -386,16 +270,6 @@
                 "a": 1,
                 "aA": 0
               }
-            },
-            {
-              "type": "Visibility",
-              "instanceId": 1,
-              "visibility": true
-            },
-            {
-              "type": "BlendMode",
-              "instanceId": 1,
-              "blendMode": "Normal"
             }
           ]
         },
@@ -410,8 +284,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 52.349998,
-                "ty": 0.9
+                "tx": 83.650002,
+                "ty": 0.65
               }
             }
           ]
@@ -427,8 +301,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 103.650002,
-                "ty": 0.8
+                "tx": 138.350006,
+                "ty": -27.650002
               }
             }
           ]
@@ -444,8 +318,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 155,
-                "ty": 0.65
+                "tx": 193,
+                "ty": -56
               }
             }
           ]
@@ -461,8 +335,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 206.350006,
-                "ty": 0.55
+                "tx": 247.649994,
+                "ty": -84.349998
               }
             }
           ]
@@ -478,8 +352,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 257.649994,
-                "ty": 0.45
+                "tx": 302.350006,
+                "ty": -112.649994
               }
             }
           ]
@@ -495,8 +369,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 309,
-                "ty": 0.35
+                "tx": 357,
+                "ty": -141
               }
             }
           ]
@@ -512,8 +386,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 360.350006,
-                "ty": 0.2
+                "tx": 411.649994,
+                "ty": -169.350006
               }
             }
           ]
@@ -529,8 +403,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 411.649994,
-                "ty": 0.1
+                "tx": 466.350006,
+                "ty": -197.649994
               }
             }
           ]
@@ -546,8 +420,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 463,
-                "ty": 0
+                "tx": 521,
+                "ty": -226
               }
             }
           ]
@@ -556,14 +430,14 @@
     }
   ],
   "_meta": {
-    "outputFile": "a_Custom.js",
-    "stageName": "a_Custom",
+    "outputFile": "test.js",
+    "stageName": "test",
     "compressJS": false,
     "commonJS": false,
     "compactShapes": false,
     "nameSpace": "lib",
     "loopTimeline": true,
-    "framerate": 2,
+    "framerate": 24,
     "background": "ffffff",
     "width": 550,
     "height": 400,
@@ -572,7 +446,7 @@
     "spritesheets": false,
     "spritesheetSize": 1024,
     "spritesheetScale": 1,
-    "htmlPath": "a_Custom.html",
+    "htmlPath": "test.html",
     "soundsPath": "sounds/",
     "version": "1.3.4"
   }

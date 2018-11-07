@@ -6,7 +6,7 @@
   var Common = function (dom) {
     if (!dom) return
     if (typeof dom === "string") {
-      console.log(dom,5555)
+      // console.log(dom,5555)
       dom = document.querySelector(dom)
       if (!dom) {
         throw new Error('不存在此元素' + dom)
@@ -149,6 +149,8 @@
     this.lastClass = 'hidden'
   }
   p._renderSelf = function (/*totalFrames,*/currentFrame) {
+    // if(this.id == 'id2')
+    // console.log(currentFrame,'||||||||')
     // if(this.id === 'id2'){
     //   console.log(currentFrame,this.startFrame,this.endFrame,currentFrame<this.startFrame||(currentFrame >= this.endFrame&&this.endFrame!==-1))
     // }
@@ -244,9 +246,9 @@
     this._direction = 1
     this._getFrames()
     this._getTotalFrames()
-    this._getChildren()
     this._getLabels()
     this._getScripts()
+    this._getChildren()
   }
   p._getLabels = function () {
     this._labels = {}
@@ -342,33 +344,33 @@
       this._direction = 1
     }
   }
+  // p.gotoAndPlay = function (frame, isReverse) {
+  //   // if(this.type !=='stage'){
+  //   //   // console.log(this.parent.type)
+  //   //   this.parent._gotoAndPlay(frame, isReverse)
+  //   // }else{
+  //   // }
+  //   this._gotoAndPlay(frame, isReverse)
+  //
+  //   // if(typeof frame === 'string'){
+  //   //   frame = this._labels[frame]
+  //   //   // console.log(frame,666666)
+  //   // }
+  //   // this.setPlayDirection(isReverse ? -1 : 1)
+  //   // if (frame === undefined) frame = this.currentFrame
+  //   // if (frame > this.totalFrames) {
+  //   //   this.currentFrame = frame
+  //   // } else if (frame < 1) {
+  //   //   this.currentFrame = 1
+  //   // } else {
+  //   //   this.currentFrame = frame
+  //   // }
+  //   // // console.log(this.currentFrame)
+  //   // this.render(this.currentFrame)
+  //   // console.log(this.currentFrame)
+  //   // this._renderSelf(this.currentFrame)
+  // }
   p.gotoAndPlay = function (frame, isReverse) {
-    // if(this.type !=='stage'){
-    //   // console.log(this.parent.type)
-    //   this.parent._gotoAndPlay(frame, isReverse)
-    // }else{
-    // }
-    this._gotoAndPlay(frame, isReverse)
-
-    // if(typeof frame === 'string'){
-    //   frame = this._labels[frame]
-    //   // console.log(frame,666666)
-    // }
-    // this.setPlayDirection(isReverse ? -1 : 1)
-    // if (frame === undefined) frame = this.currentFrame
-    // if (frame > this.totalFrames) {
-    //   this.currentFrame = frame
-    // } else if (frame < 1) {
-    //   this.currentFrame = 1
-    // } else {
-    //   this.currentFrame = frame
-    // }
-    // // console.log(this.currentFrame)
-    // this.render(this.currentFrame)
-    // console.log(this.currentFrame)
-    // this._renderSelf(this.currentFrame)
-  }
-  p._gotoAndPlay = function (frame, isReverse) {
     if(typeof frame === 'string'){
       frame = this._labels[frame]
       // console.log(frame,666666)
@@ -383,28 +385,42 @@
       this.currentFrame = frame
     }
     // console.log(this.currentFrame)
-    this.render(this.currentFrame)
     // console.log(this.currentFrame)
-    // this._renderSelf(this.currentFrame)
+    // this.render(this.currentFrame)
+    // console.log(this.currentFrame)
+    this._renderSelf(this.currentFrame)
   }
   p._getChildren = function () {
     this.children = []
     var childNodes = this.dom.childNodes
+    // console.log(this.id,this.dom)
     for (var i = 0; i < childNodes.length; i++) {
       var child = childNodes[i]
-      if (!child.localName) continue
+      // console.log(child)
+      if (child.nodeName === '#text') continue
       //movieclip都有totalFrames属性
       // console.log(child.getAttribute('totalFrames')===null)
       var c = ''
+      // console.log(child)
       if (child.getAttribute('totalFrames')) {
+        // console.log(child,66666)
         c = new MovieClip(child)
+        // console.log(c.id,55555)
       } else {
+        // console.log(child,777777)
         c = new DisplayElement(child)
+        // console.log(c.id,88888)
       }
       c.parent = this
+      // console.log(c.id,55666)
       this[c.id] = c
-      // console.log(this.id,c.id)
+      // console.log(this.id,c.id,666666)
       this.children.push(c)
+    }
+    // console.log(this.parent,66666)
+    // this.parent[this.id] = this
+    if(this.id === 'id2'){
+      console.log(this.children[0])
     }
     // console.log(nodeList,this.dom,66666)
   }
@@ -443,7 +459,7 @@
 
     if(this._isStop/*&&this.type === 'stage'*/){
       // console.log(this.currentFrame)
-      return
+      // return
     }
     this.currentFrame = this.currentFrame + this._direction
     if (this.currentFrame > this.totalFrames) {
@@ -523,7 +539,9 @@
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
 var stage = new Stage('#{{stageId}}').startUp()
-// stage['id4']._scripts = ''
+// stage['_id2'].gotoAndStop(10)
+// console.log(stage['_id2'].currentFrame)
+stage['_id2']['_id1'].gotoAndStop(10)
 // console.log(stage['id4']['id3'])
 // console.log(stage['id4']['id3'])
 // var stage = new Stage('#pixi').render()

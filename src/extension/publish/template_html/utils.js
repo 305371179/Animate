@@ -863,7 +863,7 @@ const parseFrames = (node, clz) => {
       let node = JSON.parse(JSON.stringify(global.idsMap[claz.assetId + '']))
 
 
-      node.attr['id'] = createId('id')
+      node.attr['id'] = createId('_id')
       parseCss(instance, node, claz.assetId,claz.frames)
       child.push(node)
     })
