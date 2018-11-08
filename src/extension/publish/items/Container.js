@@ -158,6 +158,7 @@ p.getContents = function(renderer)
     let preBuffer = this.renderChildrenMasks(renderer);
     // console.log(preBuffer)
     let buffer = this.renderChildren(renderer);
+    // console.log(buffer)
     let postBuffer = this.renderAddChildren(renderer);
     // console.log(preBuffer)
   // console.log(preBuffer + buffer + postBuffer)
@@ -314,7 +315,10 @@ p.renderChildren = function(renderer,callback)
             // console.log(instance)
             if (!instance.renderable) continue;
             children.push(instance)
-            renderHtml(this,instance,renderer)
+            // renderHtml(this,instance,renderer)
+            // console.log(this.renderInstance(renderer, instance))
+            // if(instance.libraryItem.type === 'text')
+            // console.log(instance.frames)
             buffer += this.renderInstance(renderer, instance);
             
         }

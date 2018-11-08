@@ -4,4 +4,6 @@ Render: getTimelines方法开始解释，timeline的内容有 stage 	movieclip�
 			  解释顺序是stage最后
 先开始非stage的解释先
 
+Container: 主要的内容都是在此执行的
+
 

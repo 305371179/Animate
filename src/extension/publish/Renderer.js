@@ -157,16 +157,18 @@ p.getTimelines = function()
     let buffer = "";
     const renderer = this;
     // console.log(this.library.timelines)
-
+  getStageTimeline(this.library.timelines,renderer)
     this.library.timelines.forEach(function(timeline)
     {
         // console.log(timeline.frames[0].labels,3333)
       //   if(timeline.type === 'stage')
       // console.log(timeline.frames[1].commands,55555)
       buffer += timeline.render(renderer);
+      // console.log(buffer)
+      // console.log(timeline)
       getTimeline(timeline)
     });
-  getStageTimeline(this.library.timelines,renderer)
+  // getStageTimeline(this.library.timelines,renderer)
     return buffer;
 };
 

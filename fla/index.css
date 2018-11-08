@@ -20,21 +20,39 @@ body {
   diaplay: none;
 }
 
-.bitmap1 {
+.text1 {
   position: absolute;
-  width: 58px;
-  height: 58px;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  outline: none;
+  background: #00000000;
+  border: none;
+  type: text;
+  resize: none;
+  text-align: right;
+  font-size: 20px;
+  line-height: 24px;
+  color: #00c04f;
+  font-family: "Times Roman";
+  font-style: normal;
 }
 
 g {
   pointer-events: visiblePainted;
 }
 
-.movieclip4 {
+.bitmap2 {
   position: absolute;
+  width: 58px;
+  height: 58px;
 }
 
 .movieclip5 {
+  position: absolute;
+}
+
+.movieclip6 {
   position: absolute;
 }
 
@@ -147,4 +165,13 @@ g {
 #_id2.f10 {
   transform: translate3d(521px, -226px, 0);
   -webkit-transform: translate3d(521px, -226px, 0);
+}
+
+#_id3 {
+  position: absolute;
+  width: 205px;
+  height: 75px;
+  left: -205px;
+  transform: translate3d(184px, 325px, 0);
+  -webkit-transform: translate3d(184px, 325px, 0);
 }

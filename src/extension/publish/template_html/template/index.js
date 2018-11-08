@@ -541,8 +541,8 @@
 var stage = new Stage('#{{stageId}}').startUp()
 // stage['_id2'].gotoAndStop(10)
 // console.log(stage['_id2'].currentFrame)
-stage['_id2']['_id1'].gotoAndStop(10)
-// console.log(stage['id4']['id3'])
+// stage['_id2']['_id1'].gotoAndStop(10)
+// console.log(stage['id4']['id3'])、
 // console.log(stage['id4']['id3'])
 // var stage = new Stage('#pixi').render()
 // stage.children[0].children[1].gotoAndStop(10, -1)

@@ -184,6 +184,7 @@ const parseText = (node, clz, cssId, cssNode, id) => {
       break
     case 'Input':
       parseInputText(node, clz, cssId, cssNode, id)
+      // console.log(cssNode)
       break
   }
 }
@@ -377,6 +378,7 @@ const parseInputText = (node, clz, cssId, cssNode, id) => {
   } else if (behaviour.lineMode === 'multi') {
     node.tag = 'textarea'
     text = text.replace(/\\n/g, "&#10;")
+    cssNode.attr.resize = 'none'
     // breakWrod(cssNode)
   } else if (behaviour.lineMode === 'multiNoWrap') {
     //多行，但是每一行是禁止换行的
@@ -384,6 +386,7 @@ const parseInputText = (node, clz, cssId, cssNode, id) => {
     text = text.replace(/\\n/g, "")
     // nowWrap(cssNode)
     node.tag = 'textarea'
+    cssNode.attr.resize = 'none'
   }
 
   nodeText.text = text.replace(/\s/g, "&nbsp;")
@@ -432,7 +435,7 @@ const textStyle = (clz, node, cssNode, para, textRun, id) => {
   if (rightMargin !== 0 /*&& clz.behaviour.type!=='Dynamic'*/) {
     cssNode.attr['padding-right'] = rightMargin
   }
-  fontSize = Math.ceil(fontSize * 0.8)
+  fontSize = Math.ceil(fontSize * 1)
   cssNode.attr['font-size'] = fontSize
   if (letterSpacing !== 0)
     cssNode.attr['letter-spacing'] = letterSpacing
@@ -532,7 +535,7 @@ const isEmptyFrame = (frame) => {
 const parseFrame = (frame, cssNode, instance,node) => {
   let bounds = frame.bounds
   if (bounds) {
-    console.log(bounds)
+    // console.log(bounds)
     cssNode.attr.width = bounds.width
     cssNode.attr.height = bounds.height
     // cssNode.attr.left += bounds.x
@@ -555,7 +558,7 @@ const parseFrame = (frame, cssNode, instance,node) => {
   setTransform(frame, cssNode, instance,node)
 }
 const setTransform = (frame, cssNode,instance,node) => {
-  console.log(frame.bounds)
+  // console.log(frame.bounds)
   let value = ''
   let cx = 1
   let cy = 1
@@ -663,7 +666,7 @@ const isSingleFrame = (instance) => {
   return isSingle
 }
 const getLastFrameAttr = (frame,lastFrame)=>{
-  console.log(frame)
+  // console.log(frame)
   // return frame
   if(!lastFrame){
     return frame
@@ -746,6 +749,13 @@ const parseCss = (instance, node, assetId,libraryFrames) => {
     //   global.cssMap=global.cssMap.splice(global.cssMap.length-1,1)
     // }
     // console.log(instance.libraryItem.type)
+    // if(node.attr.id === '_id3'){
+    //   // console.log(frame)
+    //   // if(instance.libraryItem.type === 'text')
+    //   console.log(instance.initFrame)
+    // }
+    if(instance.libraryItem.type === 'text')
+    console.log(instance.initFrame)
     getLastFrameAttr(frame,lastFrame)
     parseFrame(frame, cssNode, instance,node)
     lastFrame = frame

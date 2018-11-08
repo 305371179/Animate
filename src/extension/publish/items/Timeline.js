@@ -75,6 +75,7 @@ p.render = function(renderer)
     {
         options.labels = labels;
     }
+    // console.log(this.getContents(renderer),55555)
     return renderer.template(renderer.compress ? 'timeline-tiny' : 'timeline', {
         id: this.name,
         options: options,
@@ -83,7 +84,6 @@ p.render = function(renderer)
         contents: this.getContents(renderer)
     });
 };
-
 /**
  * Override, get the contents
  * @method getContents
