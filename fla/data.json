@@ -10,13 +10,12 @@
       },
       "txt": "哈哈哈哈哈哈哈",
       "behaviour": {
-        "type": "Input",
+        "type": "Dynamic",
         "name": "",
         "isBorderDrawn": true,
-        "lineMode": "single",
+        "lineMode": "multi",
         "isRenderAsHTML": false,
         "isScrollable": false,
-        "isPassword": true,
         "isSelectable": true
       },
       "paras": [
@@ -35,7 +34,52 @@
               "style": {
                 "fontName": "Times Roman",
                 "fontSize": 20,
-                "fontColor": "#00c04f",
+                "fontColor": "#00ff99",
+                "fontStyle": "RegularStyle",
+                "letterSpacing": 0,
+                "isRotated": false,
+                "isAutoKern": false,
+                "baseLineShiftStyle": "normal",
+                "link": "",
+                "linkTarget": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "assetId": 1,
+      "aaMode": {
+        "mode": "advanced"
+      },
+      "txt": "哈哈哈哈哈哈哈",
+      "behaviour": {
+        "type": "Dynamic",
+        "name": "",
+        "isBorderDrawn": true,
+        "lineMode": "multi",
+        "isRenderAsHTML": false,
+        "isScrollable": false,
+        "isSelectable": true
+      },
+      "paras": [
+        {
+          "startIndex": 0,
+          "length": 7,
+          "indent": 0,
+          "leftMargin": 0,
+          "rightMargin": 0,
+          "linespacing": 2,
+          "alignment": "right",
+          "textRun": [
+            {
+              "startIndex": 0,
+              "length": 7,
+              "style": {
+                "fontName": "Times Roman",
+                "fontSize": 20,
+                "fontColor": "#00ff99",
                 "fontStyle": "RegularStyle",
                 "letterSpacing": 0,
                 "isRotated": false,
@@ -52,9 +96,10 @@
   ],
   "Timelines": [
     {
-      "type": "stage",
-      "name": "test",
-      "totalFrames": 10,
+      "assetId": 2,
+      "type": "movieclip",
+      "name": "元件_1",
+      "totalFrames": 1,
       "frames": [
         {
           "frame": 0,
@@ -69,8 +114,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 0.999939,
-                "tx": 379,
-                "ty": 38
+                "tx": 2,
+                "ty": 2
               },
               "bounds": {
                 "x": -2,
@@ -78,6 +123,86 @@
                 "width": 173,
                 "height": 32
               }
+            },
+            {
+              "type": "Filter",
+              "instanceId": 1,
+              "filterType": "DropShadowFilter",
+              "enabled": true,
+              "angle": 3.141593,
+              "blurX": 4,
+              "blurY": 4,
+              "distance": 15,
+              "hideObject": false,
+              "innerShadow": false,
+              "knockOut": false,
+              "qualityType": "low",
+              "strength": "100",
+              "shadowColor": "#00ff66"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "name": "test",
+      "totalFrames": 10,
+      "frames": [
+        {
+          "frame": 0,
+          "commands": [
+            {
+              "type": "Place",
+              "assetId": 2,
+              "instanceId": 1,
+              "placeAfter": 0,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 247,
+                "ty": 56
+              },
+              "loop": true
+            },
+            {
+              "type": "Filter",
+              "instanceId": 1,
+              "filterType": "GlowFilter",
+              "enabled": true,
+              "blurX": 4,
+              "blurY": 4,
+              "innerShadow": 0,
+              "knockOut": 0,
+              "qualityType": "high",
+              "strength": "117",
+              "shadowColor": "#ff0000"
+            },
+            {
+              "type": "ColorTransform",
+              "instanceId": 1,
+              "colorMatrix": {
+                "r": 1,
+                "rA": 0,
+                "g": 1,
+                "gA": 0,
+                "b": 1,
+                "bA": 0,
+                "a": 1,
+                "aA": 0
+              }
+            },
+            {
+              "type": "Visibility",
+              "instanceId": 1,
+              "visibility": true
+            },
+            {
+              "type": "BlendMode",
+              "instanceId": 1,
+              "blendMode": "Normal"
             }
           ]
         }

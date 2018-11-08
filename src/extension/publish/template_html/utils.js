@@ -5,6 +5,7 @@ const utils = module.exports = {
   parseClass(idMap, id) {
     if(global.idsMap[id])return
     let clz = idMap[id]
+    // console.log(clz)
     // console.log(clz.type)
     if (clz.type === 'graphic') {
       clz.type = 'movieclip'
@@ -72,6 +73,11 @@ const utils = module.exports = {
       case 'graphic':
       case 'movieclip':
         parseFrames(node, clz)
+        // let bounds = ''
+        // let bounds = clz.frames[0].commands.forEach(item=>{
+        //
+        // })
+        // console.log(4444,clz.frames)
         break
       case 'stage':
         // console.log(stage)
@@ -357,11 +363,7 @@ const parseInputText = (node, clz, cssId, cssNode, id) => {
     node: 'text',
   }
   // console.log(behaviour)
-  if(behaviour.isBorderDrawn){
-    cssNode.attr['border'] = '1px #000 solid'
-  }else{
-    cssNode.attr['border'] = 'none'
-  }
+
   cssNode.attr['box-sizing'] = 'border-box'
   cssNode.attr['display'] = 'inline-block'
   cssNode.attr['overflow'] = 'hidden'
@@ -411,6 +413,11 @@ var fontStyleMap = {
 }
 const textStyle = (clz, node, cssNode, para, textRun, id) => {
   var style = textRun.style
+  if(clz.behaviour.isBorderDrawn){
+    cssNode.attr['border'] = '1px #000 solid'
+  }else{
+    cssNode.attr['border'] = 'none'
+  }
   // console.log(style,4444)
   var leftMargin = para['leftMargin']
   var rightMargin = para['rightMargin']
@@ -541,7 +548,8 @@ const isEmptyFrame = (frame) => {
 const parseFrame = (frame, cssNode, instance,node) => {
   let bounds = frame.bounds
   if (bounds) {
-    // console.log(bounds)
+
+    console.log(bounds)
     cssNode.attr.width = bounds.width
     cssNode.attr.height = bounds.height
     // cssNode.attr.left += bounds.x
@@ -663,6 +671,7 @@ const setPrifix = (cssNode, attr, value) => {
   cssNode.attr[attr] = value
   cssNode.attr['-webkit-' + attr] = value
 }
+
 const isSingleFrame = (instance) => {
   let isSingle = false
   let keys = Object.keys(instance.frames)
@@ -713,7 +722,96 @@ const getLastFrameAttr = (frame,lastFrame)=>{
   // console.log('=====================')
   return frame
 }
-const parseCss = (instance, node, assetId,libraryFrames) => {
+const getFilters=(clz,key,node,cssNode,instance)=>{
+  let frame = clz.frames[key]
+  console.log(frame)
+  let value = ''
+  let boxShadow = ''
+  frame.commands.forEach(c=>{
+    if(c.type === 'Filter'){
+      if(c.instanceId == instance.id){
+        if(!c.enabled)return
+        switch (c.filterType){
+          case 'AdjustColorFilter':
+            if(c.brightness!==1&&c.brightness!==0){
+              value+=`brightness(${c.brightness}) `
+            }
+            if(c.contrast!==1&&c.contrast!==0){
+              value+=`contrast(${c.contrast*100}%) `
+            }
+            if(c.saturation!==1&&c.saturation!==0){
+              value+=`saturate(${c.saturation*100}%) `
+            }
+            if(c.hue!==0&&c.hue!==0){
+              value+=`hue-rotate(${c.hue}deg) `
+            }
+            break
+          case 'BlurFilter':
+            let quality1 = 1
+            if(c.qualityType === 'low'){
+              quality1 = 0.3
+            }else if(c.qualityType === 'medium'){
+              quality1 = 0.35
+            }else{
+              quality1 = 0.45
+            }
+            if(c.blurX){
+              // console.log(c.blurX,quality1)
+              value+=`blur(${c.blurX*quality1}px) `
+            }
+            break;
+          case 'DropShadowFilter':
+            let quality2 = 1
+            if(c.qualityType === 'low'){
+              quality2 = 0.2
+            }else if(c.qualityType === 'medium'){
+              quality2 = 0.6
+            }else{
+              quality2 = 1
+            }
+            if(boxShadow){
+              boxShadow+=','
+            }
+            if(c.innerShadow){
+              boxShadow+='inset '
+            }
+            console.log(Math.cos(0))
+            // let angle = 180/Math.PI*c.angle
+            // console.log(angle)
+            // value+= `drop-shadow(${c.blurX}px ${c.blurY}px ${c.blurX*quality2}px ${c.shadowColor})`
+            boxShadow+= `${c.distance*(Math.round(Math.cos(c.angle)))}px ${c.distance*(Math.round(Math.sin(c.angle)))}px ${c.blurX*quality2}px ${Math.round(c.strength/100)}px ${c.shadowColor} `
+            break;
+          case 'GlowFilter':
+            let quality = 1
+            if(c.qualityType === 'low'){
+              quality = 0.2
+            }else if(c.qualityType === 'medium'){
+              quality = 0.6
+            }else{
+              quality = 1
+            }
+            if(boxShadow){
+              boxShadow+=','
+            }
+            if(c.innerShadow){
+              boxShadow+='inset '
+            }
+            boxShadow+=` 0 0 ${c.blurX*quality}px ${Math.round(c.strength/100)}px ${c.shadowColor} `
+
+            /*boxShadow+=`0 0 ${c.blurY*quality*100}px ${c.strength/100*c.blurY}px ${c.shadowColor},`
+            boxShadow+=`0 0 ${c.blurX}px ${c.strength/100}px ${c.shadowColor},`
+            boxShadow+=`0 0 ${c.blurX}px ${c.strength/100}px ${c.shadowColor},`
+            boxShadow+=`0 0 ${c.blurY}px ${c.strength/100}px ${c.shadowColor} `*/
+
+            break
+        }
+      }
+    }
+  })
+  setPrifix(cssNode,'filter',value)
+  setPrifix(cssNode,'box-shadow',boxShadow)
+}
+const parseCss = (clz,instance, node, assetId,libraryFrames) => {
   // console.log(libraryFrames)
   // if (instance.type === 'bitmap') {
   //   console.log(instance.frames)
@@ -749,6 +847,7 @@ const parseCss = (instance, node, assetId,libraryFrames) => {
     }
     let cssNode = createCssNode(cssId)
     global.cssMap.push(cssNode)
+    getFilters(clz,key,node,cssNode,instance)
     // console.log(Object.keys(cssNode.attr))
     //去掉空帧
     // if(!Object.keys(cssNode.attr).length){
@@ -763,7 +862,7 @@ const parseCss = (instance, node, assetId,libraryFrames) => {
     if(instance.libraryItem.type === 'text'){
       // console.log(instance.initFrame)
       // console.log(frame)
-
+      // console.log(instance)
     }
 
     getLastFrameAttr(frame,lastFrame)
@@ -844,6 +943,7 @@ const getLabels = (node,clz)=>{
         })
         ss = ss.substring(0,ss.length-1) + '|'
       }
+      // getFilters(frame,node,clz)
     })
     if(ls){
       ls = ls.substring(0,ls.length-1)
@@ -884,7 +984,7 @@ const parseFrames = (node, clz) => {
 
 
       node.attr['id'] = createId('_id')
-      parseCss(instance, node, claz.assetId,claz.frames)
+      parseCss(clz,instance, node, claz.assetId,claz.frames)
       child.push(node)
     })
   })
