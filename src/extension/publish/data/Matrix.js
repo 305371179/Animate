@@ -88,7 +88,7 @@ p.toTween = function()
 function round(val)
 {
 
-    return DataUtils.toPrecision(val, 5)
+    return DataUtils.toPrecision(val, 4)
     // console.log(DataUtils.toPrecision(val, 10))
     // return DataUtils.toPrecision(DataUtils.toPrecision(val, 10), 3);
 }

@@ -356,12 +356,18 @@ const parseInputText = (node, clz, cssId, cssNode, id) => {
   var nodeText = {
     node: 'text',
   }
+  // console.log(behaviour)
+  if(behaviour.isBorderDrawn){
+    cssNode.attr['border'] = '1px #000 solid'
+  }else{
+    cssNode.attr['border'] = 'none'
+  }
   cssNode.attr['box-sizing'] = 'border-box'
   cssNode.attr['display'] = 'inline-block'
   cssNode.attr['overflow'] = 'hidden'
   cssNode.attr['outline'] = 'none'
   cssNode.attr['background'] = '#00000000'
-  cssNode.attr['border'] = 'none'
+  /*cssNode.attr['border'] = 'none'*/
   cssNode.attr['type'] = 'text'
   node.child.push(nodeText)
   var text = clz.txt
@@ -754,8 +760,12 @@ const parseCss = (instance, node, assetId,libraryFrames) => {
     //   // if(instance.libraryItem.type === 'text')
     //   console.log(instance.initFrame)
     // }
-    if(instance.libraryItem.type === 'text')
-    console.log(instance.initFrame)
+    if(instance.libraryItem.type === 'text'){
+      // console.log(instance.initFrame)
+      // console.log(frame)
+
+    }
+
     getLastFrameAttr(frame,lastFrame)
     parseFrame(frame, cssNode, instance,node)
     lastFrame = frame

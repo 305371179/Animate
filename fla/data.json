@@ -1,14 +1,6 @@
 {
   "Shapes": [],
-  "Bitmaps": [
-    {
-      "assetId": 2,
-      "height": 58,
-      "width": 58,
-      "src": "images/Bitmap 1.png",
-      "name": "Bitmap 1"
-    }
-  ],
+  "Bitmaps": [],
   "Sounds": [],
   "Texts": [
     {
@@ -16,21 +8,21 @@
       "aaMode": {
         "mode": "advanced"
       },
-      "txt": "大大大阿斯顿发顺丰",
+      "txt": "哈哈哈哈哈哈哈",
       "behaviour": {
         "type": "Input",
         "name": "",
-        "isBorderDrawn": false,
-        "lineMode": "multi",
+        "isBorderDrawn": true,
+        "lineMode": "single",
         "isRenderAsHTML": false,
         "isScrollable": false,
-        "isPassword": false,
+        "isPassword": true,
         "isSelectable": true
       },
       "paras": [
         {
           "startIndex": 0,
-          "length": 9,
+          "length": 7,
           "indent": 0,
           "leftMargin": 0,
           "rightMargin": 0,
@@ -39,7 +31,7 @@
           "textRun": [
             {
               "startIndex": 0,
-              "length": 9,
+              "length": 7,
               "style": {
                 "fontName": "Times Roman",
                 "fontSize": 20,
@@ -60,228 +52,6 @@
   ],
   "Timelines": [
     {
-      "assetId": 6,
-      "type": "graphic",
-      "name": "Graphic1",
-      "totalFrames": 10,
-      "frames": [
-        {
-          "frame": 0,
-          "commands": [
-            {
-              "type": "Place",
-              "assetId": 2,
-              "instanceId": 1,
-              "placeAfter": 0,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": -29,
-                "ty": -29
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "assetId": 5,
-      "type": "graphic",
-      "name": "Graphic2",
-      "totalFrames": 10,
-      "frames": [
-        {
-          "frame": 0,
-          "commands": [
-            {
-              "type": "Place",
-              "assetId": 6,
-              "instanceId": 1,
-              "placeAfter": 0,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 0
-              },
-              "loop": false
-            },
-            {
-              "type": "ColorTransform",
-              "instanceId": 1,
-              "colorMatrix": {
-                "r": 1,
-                "rA": 0,
-                "g": 1,
-                "gA": 0,
-                "b": 1,
-                "bA": 0,
-                "a": 1,
-                "aA": 0
-              }
-            }
-          ]
-        },
-        {
-          "frame": 1,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 38.200001
-              }
-            }
-          ]
-        },
-        {
-          "frame": 2,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 76.449997
-              }
-            }
-          ]
-        },
-        {
-          "frame": 3,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 114.650002
-              }
-            }
-          ]
-        },
-        {
-          "frame": 4,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 152.899994
-              }
-            }
-          ]
-        },
-        {
-          "frame": 5,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 191.100006
-              }
-            }
-          ]
-        },
-        {
-          "frame": 6,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 229.350006
-              }
-            }
-          ]
-        },
-        {
-          "frame": 7,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 267.549988
-              }
-            }
-          ]
-        },
-        {
-          "frame": 8,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 305.799988
-              }
-            }
-          ]
-        },
-        {
-          "frame": 9,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 344
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "type": "stage",
       "name": "test",
       "totalFrames": 10,
@@ -295,200 +65,18 @@
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
-                "a": 1,
+                "a": 0.999985,
                 "b": 0,
                 "c": 0,
-                "d": 1,
-                "tx": -18.950001,
-                "ty": 327
+                "d": 0.999939,
+                "tx": 379,
+                "ty": 38
               },
               "bounds": {
                 "x": -2,
                 "y": -2,
-                "width": 204.949997,
-                "height": 75
-              }
-            },
-            {
-              "type": "Place",
-              "assetId": 5,
-              "instanceId": 2,
-              "placeAfter": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 29,
-                "ty": 29
-              },
-              "loop": false
-            },
-            {
-              "type": "ColorTransform",
-              "instanceId": 2,
-              "colorMatrix": {
-                "r": 1,
-                "rA": 0,
-                "g": 1,
-                "gA": 0,
-                "b": 1,
-                "bA": 0,
-                "a": 1,
-                "aA": 0
-              }
-            }
-          ]
-        },
-        {
-          "frame": 1,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 83.650002,
-                "ty": 0.65
-              }
-            }
-          ]
-        },
-        {
-          "frame": 2,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 138.350006,
-                "ty": -27.650002
-              }
-            }
-          ]
-        },
-        {
-          "frame": 3,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 193,
-                "ty": -56
-              }
-            }
-          ]
-        },
-        {
-          "frame": 4,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 247.649994,
-                "ty": -84.349998
-              }
-            }
-          ]
-        },
-        {
-          "frame": 5,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 302.350006,
-                "ty": -112.649994
-              }
-            }
-          ]
-        },
-        {
-          "frame": 6,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 357,
-                "ty": -141
-              }
-            }
-          ]
-        },
-        {
-          "frame": 7,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 411.649994,
-                "ty": -169.350006
-              }
-            }
-          ]
-        },
-        {
-          "frame": 8,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 466.350006,
-                "ty": -197.649994
-              }
-            }
-          ]
-        },
-        {
-          "frame": 9,
-          "commands": [
-            {
-              "type": "Move",
-              "instanceId": 2,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 521,
-                "ty": -226
+                "width": 173,
+                "height": 32
               }
             }
           ]
