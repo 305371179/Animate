@@ -8,20 +8,21 @@
       "aaMode": {
         "mode": "advanced"
       },
-      "txt": "哈哈哈哈哈哈哈",
+      "txt": "fasdfasfafs",
       "behaviour": {
-        "type": "Dynamic",
+        "type": "Input",
         "name": "",
         "isBorderDrawn": true,
         "lineMode": "multi",
         "isRenderAsHTML": false,
         "isScrollable": false,
+        "isPassword": false,
         "isSelectable": true
       },
       "paras": [
         {
           "startIndex": 0,
-          "length": 7,
+          "length": 11,
           "indent": 0,
           "leftMargin": 0,
           "rightMargin": 0,
@@ -30,7 +31,7 @@
           "textRun": [
             {
               "startIndex": 0,
-              "length": 7,
+              "length": 11,
               "style": {
                 "fontName": "Times Roman",
                 "fontSize": 20,
@@ -53,20 +54,21 @@
       "aaMode": {
         "mode": "advanced"
       },
-      "txt": "哈哈哈哈哈哈哈",
+      "txt": "fasdfasfafs",
       "behaviour": {
-        "type": "Dynamic",
+        "type": "Input",
         "name": "",
         "isBorderDrawn": true,
         "lineMode": "multi",
         "isRenderAsHTML": false,
         "isScrollable": false,
+        "isPassword": false,
         "isSelectable": true
       },
       "paras": [
         {
           "startIndex": 0,
-          "length": 7,
+          "length": 11,
           "indent": 0,
           "leftMargin": 0,
           "rightMargin": 0,
@@ -75,7 +77,7 @@
           "textRun": [
             {
               "startIndex": 0,
-              "length": 7,
+              "length": 11,
               "style": {
                 "fontName": "Times Roman",
                 "fontSize": 20,
@@ -110,35 +112,19 @@
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
-                "a": 0.999985,
+                "a": 0.999954,
                 "b": 0,
                 "c": 0,
-                "d": 0.999939,
-                "tx": 2,
-                "ty": 2
+                "d": 0.999954,
+                "tx": -124.949997,
+                "ty": -173.949997
               },
               "bounds": {
                 "x": -2,
                 "y": -2,
-                "width": 173,
-                "height": 32
+                "width": 105.949997,
+                "height": 40
               }
-            },
-            {
-              "type": "Filter",
-              "instanceId": 1,
-              "filterType": "DropShadowFilter",
-              "enabled": true,
-              "angle": 3.141593,
-              "blurX": 4,
-              "blurY": 4,
-              "distance": 15,
-              "hideObject": false,
-              "innerShadow": false,
-              "knockOut": false,
-              "qualityType": "low",
-              "strength": "100",
-              "shadowColor": "#00ff66"
             }
           ]
         }
@@ -147,7 +133,7 @@
     {
       "type": "stage",
       "name": "test",
-      "totalFrames": 10,
+      "totalFrames": 1,
       "frames": [
         {
           "frame": 0,
@@ -158,12 +144,12 @@
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
-                "a": 1,
+                "a": 0.999985,
                 "b": 0,
                 "c": 0,
-                "d": 1,
-                "tx": 247,
-                "ty": 56
+                "d": 0.999924,
+                "tx": 152.949997,
+                "ty": 266
               },
               "loop": true
             },
@@ -176,7 +162,7 @@
               "blurY": 4,
               "innerShadow": 0,
               "knockOut": 0,
-              "qualityType": "high",
+              "qualityType": "low",
               "strength": "117",
               "shadowColor": "#ff0000"
             },

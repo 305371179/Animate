@@ -1,6 +1,7 @@
 const DataUtils = require('../utils/DataUtils');
 const {exportHtml, exportCss, exportJs} = require('./export');
 var textAlignMap = {}
+// global.cssNodeMap = {}
 const utils = module.exports = {
   parseClass(idMap, id) {
     if(global.idsMap[id])return
@@ -12,10 +13,16 @@ const utils = module.exports = {
     }
 
     let node = createNode(clz, id)
+    node.classType = clz.type
+    node.cssMap = {}
+
     global.idsMap[id] = node
     let cssId = '.' + clz.type + id
     let cssNode = createCssNode(cssId)
+    // node.cssId = cssId
     global.cssMap.push(cssNode)
+    // node.cssMap[cssId] =cssNode
+    // cssNode.parent=parentCssNode
     // let nodes = getNode(clz,id)
     // let node = nodes[0]
     // let cssNode = nodes[1]
@@ -72,15 +79,33 @@ const utils = module.exports = {
         break
       case 'graphic':
       case 'movieclip':
+        // console.log(clz.frames)
+        /*for(var i=0;i<clz.frames.length;i++){
+          clz.frames[i].commands.forEach(item=>{
+            console.log(item)
+            if(item.type ==='Place'&&item.bounds){
+              console.log(item.bounds)
+              cssNode.attr.width = item.bounds.width
+              cssNode.attr.height = item.bounds.height
+            }
+          })
+        }*/
         parseFrames(node, clz)
-        // let bounds = ''
-        // let bounds = clz.frames[0].commands.forEach(item=>{
-        //
-        // })
+
         // console.log(4444,clz.frames)
         break
       case 'stage':
-        // console.log(stage)
+        // console.log(clz.frames.length,clz)
+        /*for(var i=0;i<clz.frames.length;i++){
+          clz.frames[i].commands.forEach(item=>{
+            console.log(item)
+            if(item.type ==='Place'&&item.bounds){
+              console.log(item.bounds)
+            }
+          })
+        }*/
+
+        // console.log(stage.frames)
         node.attr.id = clz.name
         cssNode.node = '#' + clz.name
         cssNode.attr.overflow = 'hidden'
@@ -92,6 +117,8 @@ const utils = module.exports = {
         break
     }
     if (clz.type === 'stage') {
+      // console.log(node.child[0])
+      getChildCssNode(node)
       parseHtml(global.idsMap['undefined'])
     }else{
       // node.attr.class+= ' hidden'
@@ -99,6 +126,123 @@ const utils = module.exports = {
     // console.log(55555555)
     return node
   }
+}
+const getCssNode = (id)=>{
+  for (let i = 0; i <global.cssMap.length; i++) {
+    if(id=== global.cssMap[i].node){
+      return global.cssMap[i]
+    }
+  }
+}
+const getChildCssNode = (node,pbs='')=>{
+  let newPbs = ''
+  let cssMap = node.cssMap
+  if(!cssMap)return
+  for(let k in cssMap){
+    let currentCssNode = getCssNode(k)
+    if(!currentCssNode)continue
+    let boxShadow = currentCssNode.attr['box-shadow']
+    if(!boxShadow){
+      if(pbs){
+        setPrifix(currentCssNode,'box-shadow',pbs)
+      }
+    }else{
+      if(pbs){
+        setPrifix(currentCssNode,'box-shadow',pbs + ',' +boxShadow)
+      }
+    }
+
+    if(node.child&&currentCssNode.classType === 'movieclip'){
+      var bs =currentCssNode.attr['box-shadow']
+      if(bs){
+        node.child.forEach(child=>{
+            getChildCssNode(child,bs)
+        })
+      }
+    }
+  }
+}
+const getMovieClipBounds = (node,clz,cssNode,cssId)=>{
+  // console.log(node.child)
+  // console.log(global.cssMap)
+
+  let cssNodeArray = getChildCssNode(node,clz,cssNode,cssId)
+  var minP = []
+  var maxP = []
+  for(var i=0;i<clz.frames.length;i++){
+    clz.frames[i].commands.forEach(item=>{
+      // console.log(item)
+      if(item.type ==='Place'&&item.bounds){
+        // console.log(item.transform,item.bounds)
+        if(!minP.length){
+          minP[0] = item.transform.tx+item.bounds.x
+          minP[1] = item.transform.ty+item.bounds.y
+          maxP[0] = minP[0]+item.bounds.width
+          maxP[1] = minP[1]+item.bounds.height
+        }else{
+          let minX = item.transform.tx+item.bounds.x
+          let minY = item.transform.ty+item.bounds.y
+          let maxX = minX+item.bounds.width
+          let maxY = minY+item.bounds.height
+          if(minP[0]>minX){
+            minP[0] = minX
+          }
+          if(minP[1]>minY){
+            minP[1] = minY
+          }
+          if(maxP[0]<maxX){
+            maxP[0] = maxX
+          }
+          if(maxP[1]<maxY){
+            maxP[1] = maxY
+          }
+        }
+      }
+    })
+   /* let maxWidth = maxP[0] -minP[0]
+    let maxHeight = maxP[1] -minP[1]
+
+    let boundNode = {
+      node: 'element',
+      tag: 'div',
+      attr:{
+        class:'bound'
+      }
+    }
+    node.child.splice(0,0,boundNode)
+    var cid = cssId+'.f'+(i+1)+' .bound'
+    if(clz.frames.length===1&&clz.frames[0]){
+      cid = cssId + ' .bound'
+    }
+    var css = createCssNode(cid)
+    global.cssMap.push(css)
+    css.attr ={
+      position:'absolute',
+      width:maxWidth,
+      height:maxHeight,
+      left:minP[0],
+      top:minP[1],
+      // border:'1px #000 solid'
+    }
+
+    // cssNode.attr.width = 0
+   var cid = cssId+'.f'+(i+1)
+    if(clz.frames.length===1&&clz.frames[0]){
+      cid = cssId
+    }
+    var css = createCssNode(cid)
+    global.cssMap.push(css)
+    css.attr ={
+      position:'absolute',
+      width:maxWidth,
+      height:maxHeight,
+      // left:minP[0],
+      // top:minP[1],
+    }
+    // console.log(minP,maxP)
+    console.log(i,minP[0],minP[1],maxWidth,maxHeight)*/
+  }
+
 }
 const getNode = (clz,id)=>{
   let node = global.idsMap[id]
@@ -545,108 +689,7 @@ const isEmptyFrame = (frame) => {
   }
   return true
 }
-const parseFrame = (frame, cssNode, instance,node) => {
-  let bounds = frame.bounds
-  if (bounds) {
 
-    console.log(bounds)
-    cssNode.attr.width = bounds.width
-    cssNode.attr.height = bounds.height
-    // cssNode.attr.left += bounds.x
-    // cssNode.attr.top += bounds.y
-    // cssNode.attr.overflow = 'hidden'
-    let cn = textAlignMap[instance.libraryItem.assetId]
-    // console.log(cn, textAlignMap)
-    if (cn && instance.libraryItem.type === 'text') {
-      let textAlign = cn.attr['text-align']
-      if (textAlign === 'center' || textAlign === 'justify') {
-        cssNode.attr.left =- bounds.width / 2
-      } else if (textAlign === 'right') {
-        cssNode.attr.left = -bounds.width
-      }
-    }
-  }
-
-  // console.log(frame, cssNode.attr, 4444)
-
-  setTransform(frame, cssNode, instance,node)
-}
-const setTransform = (frame, cssNode,instance,node) => {
-  // console.log(frame.bounds)
-  let value = ''
-  let cx = 1
-  let cy = 1
-  let rotate = frame.r == null ? 0 : frame.r
-  let skewX = frame.kx == null ? 0 : frame.kx
-  let skewY = frame.ky == null ? 0 : frame.ky
-  let scaleX = frame.sx == null ? 1 : frame.sx
-  let scaleY = frame.sy == null ? 1 : frame.sy
-  let visibility = frame.v == null ? true : frame.v
-  let alpha = frame.a == null ? 1 : frame.a
-  let x = Math.floor(frame.x)
-  let y = Math.floor(frame.y)
-
-  // if (x) cssNode.attr.left = x
-  // if (y) cssNode.attr.top = y
-  // let isShape = instance.libraryItem.type === 'shape'
-  // if(!isShape){
-  //   if (x) cssNode.attr.left = x
-  //   if (y) cssNode.attr.top = y
-  // }else{
-  if(x||y){
-    let v =  !x? 0:`${x}px`
-    v =  y? `${v},${y}px`:`${v},0`
-    value+= `translate3d(${v},0)`
-  }
-    // if(x){
-    //   if(y){
-    //     value+= `translate3d(${x}px,${y}px),0`
-    //   }else{
-    //     value+= `translate(${x}px)`
-    //   }
-    // }else if(y){
-    //   value+= `translate(0,${y}px)`
-    // }
-  // }
-  if (visibility === 0) {
-    cssNode.attr.visibility = 'hidden'
-  }
-  if (alpha != null && alpha != 1) {
-    cssNode.attr.opacity = alpha
-  }
-  // console.log(scaleX,scaleY)
-
-  if (skewX + skewY === 0) {
-    if (rotate !== 0)
-      value += setRotate(rotate)
-  } else {
-    if (skewX != 0 && skewY == 0) {
-      value += ` skew(${r2d(skewX)}deg)`
-      cy = Math.cos(skewX)
-    } else if (skewY != 0 && skewX == 0) {
-      value += ` skewY(${r2d(skewY)}deg)`
-      cx = Math.cos(skewY)
-    } else {
-      value += ` skew(${r2d(skewX)}deg,${r2d(skewY)}deg)`
-      cx = Math.cos(skewY)
-      cy = Math.cos(skewX)
-    }
-  }
-  //这个是为了转换flash/canvas的skew变化，使其使用于css3的变化
-  //css3的skew转换后几何宽高不变，flash/canvas是skew变化后，边长不变
-  scaleX *= cx
-  scaleY *= cy
-  if (scaleX === 1 && scaleY === 1) {
-
-  } else if (scaleX !== 1 && scaleY === 1) {
-    value += ` scaleX(${scaleX})`
-  } else if (scaleY !== 1 && scaleX === 1) {
-    value += ` scaleY(${scaleY})`
-  } else {
-    value += ` scale(${scaleX},${scaleY})`
-  }
-  setPrifix(cssNode, 'transform', value)
-}
 const round = (v) => {
   let f = Math.floor(v)
   if (v - f <= 0.0002) {
@@ -724,11 +767,17 @@ const getLastFrameAttr = (frame,lastFrame)=>{
 }
 const getFilters=(clz,key,node,cssNode,instance)=>{
   let frame = clz.frames[key]
-  console.log(frame)
+  cssNode.range = [
+    instance.startFrame,
+    instance.endFrame
+  ]
+  // console.log(instance.startFrame,instance.endFrame)
   let value = ''
   let boxShadow = ''
+  if(!frame)return
   frame.commands.forEach(c=>{
     if(c.type === 'Filter'){
+      // console.log(c.instanceId,c.filterType , instance.id,node.attr.id,cssNode)
       if(c.instanceId == instance.id){
         if(!c.enabled)return
         switch (c.filterType){
@@ -775,11 +824,14 @@ const getFilters=(clz,key,node,cssNode,instance)=>{
             if(c.innerShadow){
               boxShadow+='inset '
             }
-            console.log(Math.cos(0))
+            // console.log(Math.cos(0))
             // let angle = 180/Math.PI*c.angle
             // console.log(angle)
             // value+= `drop-shadow(${c.blurX}px ${c.blurY}px ${c.blurX*quality2}px ${c.shadowColor})`
             boxShadow+= `${c.distance*(Math.round(Math.cos(c.angle)))}px ${c.distance*(Math.round(Math.sin(c.angle)))}px ${c.blurX*quality2}px ${Math.round(c.strength/100)}px ${c.shadowColor} `
+            // if(cssNode.node==='#_id1'){
+            //   console.log(frame)
+            // }
             break;
           case 'GlowFilter':
             let quality = 1
@@ -808,10 +860,27 @@ const getFilters=(clz,key,node,cssNode,instance)=>{
       }
     }
   })
-  setPrifix(cssNode,'filter',value)
-  setPrifix(cssNode,'box-shadow',boxShadow)
+  /*console.log(value,boxShadow,cssNode.node)
+  if(cssNode.node==='#_id1'){
+    console.log(frame)
+  }*/
+  let cn = cssNode
+  /*
+  if((value||boxShadow)&&instance.libraryItem.type === 'movieclip'){
+    // console.log(node.attr.id,3333)
+    cn = {
+      node: cn.node + ' .bound',
+      attr: {
+      }
+    }
+    global.cssMap.push(cn)
+  }*/
+  // getChildCssNode(node,cssNode)
+  setPrifix(cn,'filter',value)
+  setPrifix(cn,'box-shadow',boxShadow)
+
 }
-const parseCss = (clz,instance, node, assetId,libraryFrames) => {
+const parseCss = (clz,instance, node, assetId,libraryFrames,parentNode) => {
   // console.log(libraryFrames)
   // if (instance.type === 'bitmap') {
   //   console.log(instance.frames)
@@ -847,6 +916,10 @@ const parseCss = (clz,instance, node, assetId,libraryFrames) => {
     }
     let cssNode = createCssNode(cssId)
     global.cssMap.push(cssNode)
+    cssNode.classType = instance.libraryItem.type
+    parentNode.cssMap[cssId]= cssNode
+    // console.log(node)
+    // node.cssNode.push(cssNode)
     getFilters(clz,key,node,cssNode,instance)
     // console.log(Object.keys(cssNode.attr))
     //去掉空帧
@@ -859,14 +932,14 @@ const parseCss = (clz,instance, node, assetId,libraryFrames) => {
     //   // if(instance.libraryItem.type === 'text')
     //   console.log(instance.initFrame)
     // }
-    if(instance.libraryItem.type === 'text'){
+    // if(instance.libraryItem.type === 'text'){
       // console.log(instance.initFrame)
       // console.log(frame)
       // console.log(instance)
-    }
+    // }
 
     getLastFrameAttr(frame,lastFrame)
-    parseFrame(frame, cssNode, instance,node)
+    parseFrame(clz,frame, cssNode, instance,node,key)
     lastFrame = frame
     // console.log(cssNode)
   }
@@ -963,6 +1036,7 @@ const parseFrames = (node, clz) => {
   node.attr.totalFrames = clz.totalFrames
   // console.log(clz.name)
   // console.log(clz.frames)
+  let parentNode = node
   let child = node.child
   clz.renderChildren(global.renderer, (children) => {
     children.forEach(instance => {
@@ -984,7 +1058,7 @@ const parseFrames = (node, clz) => {
 
 
       node.attr['id'] = createId('_id')
-      parseCss(clz,instance, node, claz.assetId,claz.frames)
+      parseCss(clz,instance, node, claz.assetId,claz.frames,parentNode)
       child.push(node)
     })
   })
@@ -1002,6 +1076,122 @@ const parseFrames = (node, clz) => {
   //   })
   // })
   // console.log(frames[0], frames[0].commands)
+  // getMovieClipBounds(node)
+}
+const parseFrame = (clz,frame, cssNode, instance,node,key) => {
+  let bounds = frame.bounds
+  if (bounds) {
+    // console.log(bounds)
+    cssNode.attr.width = bounds.width
+    cssNode.attr.height = bounds.height
+    // cssNode.attr.left += bounds.x
+    // cssNode.attr.top += bounds.y
+    // cssNode.attr.overflow = 'hidden'
+    let cn = textAlignMap[instance.libraryItem.assetId]
+    // console.log(cn, textAlignMap)
+    if (cn && instance.libraryItem.type === 'text') {
+      let textAlign = cn.attr['text-align']
+      if (textAlign === 'center' || textAlign === 'justify') {
+        cssNode.attr.left =- bounds.width / 2
+      } else if (textAlign === 'right') {
+        cssNode.attr.left = -bounds.width
+      }
+    }
+  }
+
+  // console.log(frame, cssNode.attr, 4444)
+
+  setTransform(frame, cssNode, instance,node,clz,key)
+}
+const setTransform = (frame, cssNode,instance,node,clz,key) => {
+  // let parentX = 0
+  // let parentY = 0
+  // let parentFrame = clz.frames[+key]
+  // for (let i = 0; i < parentFrame.commands.length; i++) {
+  //   let command = parentFrame.commands[i]
+  //   // console.log(command.type === 'Place')
+  //   if(command.type === 'Place' && command.assetId === instance.libraryItem.assetId){
+  //     // console.log(command.transform)
+  //     // parentX = command.transform.tx
+  //     // parentY = command.transform.ty
+  //
+  //   }
+  // }
+  // console.log(parentX,parentY,66666)
+  // console.log(frame.bounds)
+  let value = ''
+  let cx = 1
+  let cy = 1
+  let rotate = frame.r == null ? 0 : frame.r
+  let skewX = frame.kx == null ? 0 : frame.kx
+  let skewY = frame.ky == null ? 0 : frame.ky
+  let scaleX = frame.sx == null ? 1 : frame.sx
+  let scaleY = frame.sy == null ? 1 : frame.sy
+  let visibility = frame.v == null ? true : frame.v
+  let alpha = frame.a == null ? 1 : frame.a
+  let x = Math.floor(frame.x/*-parentX*/)
+  let y = Math.floor(frame.y/*-parentY*/)
+
+  // if (x) cssNode.attr.left = x
+  // if (y) cssNode.attr.top = y
+  // let isShape = instance.libraryItem.type === 'shape'
+  // if(!isShape){
+  //   if (x) cssNode.attr.left = x
+  //   if (y) cssNode.attr.top = y
+  // }else{
+  if(x||y){
+    let v =  !x? 0:`${x}px`
+    v =  y? `${v},${y}px`:`${v},0`
+    value+= `translate3d(${v},0)`
+  }
+  // if(x){
+  //   if(y){
+  //     value+= `translate3d(${x}px,${y}px),0`
+  //   }else{
+  //     value+= `translate(${x}px)`
+  //   }
+  // }else if(y){
+  //   value+= `translate(0,${y}px)`
+  // }
+  // }
+  if (visibility === 0) {
+    cssNode.attr.visibility = 'hidden'
+  }
+  if (alpha != null && alpha != 1) {
+    cssNode.attr.opacity = alpha
+  }
+  // console.log(scaleX,scaleY)
+
+  if (skewX + skewY === 0) {
+    if (rotate !== 0)
+      value += setRotate(rotate)
+  } else {
+    if (skewX != 0 && skewY == 0) {
+      value += ` skew(${r2d(skewX)}deg)`
+      cy = Math.cos(skewX)
+    } else if (skewY != 0 && skewX == 0) {
+      value += ` skewY(${r2d(skewY)}deg)`
+      cx = Math.cos(skewY)
+    } else {
+      value += ` skew(${r2d(skewX)}deg,${r2d(skewY)}deg)`
+      cx = Math.cos(skewY)
+      cy = Math.cos(skewX)
+    }
+  }
+  //这个是为了转换flash/canvas的skew变化，使其使用于css3的变化
+  //css3的skew转换后几何宽高不变，flash/canvas是skew变化后，边长不变
+  scaleX *= cx
+  scaleY *= cy
+  if (scaleX === 1 && scaleY === 1) {
+
+  } else if (scaleX !== 1 && scaleY === 1) {
+    value += ` scaleX(${scaleX})`
+  } else if (scaleY !== 1 && scaleX === 1) {
+    value += ` scaleY(${scaleY})`
+  } else {
+    value += ` scale(${scaleX},${scaleY})`
+  }
+  setPrifix(cssNode, 'transform', value)
 }
 const createId = (name) => {
   let count = global.uuidMap[name]

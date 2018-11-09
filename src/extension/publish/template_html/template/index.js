@@ -394,6 +394,7 @@
     this.children = []
     var childNodes = this.dom.childNodes
     // console.log(this.id,this.dom)
+    // var bounds = ''
     for (var i = 0; i < childNodes.length; i++) {
       var child = childNodes[i]
       // console.log(child)
@@ -416,12 +417,40 @@
       this[c.id] = c
       // console.log(this.id,c.id,666666)
       this.children.push(c)
+     /* var rect = c.dom.getBoundingClientRect()
+      console.log(rect,bounds)
+      if(!bounds){
+        bounds = []
+        bounds[0] = rect.x
+        bounds[1] = rect.y
+        bounds[2] = rect.x+rect.width
+        bounds[3] = rect.y+rect.height
+      }else{
+        if(bounds[0]>rect.x){
+          bounds[0] = rect.x
+        }
+        if(bounds[1]>rect.y){
+          bounds[1] = rect.y
+        }
+
+        if(bounds[2]>rect.x+rect.width){
+          bounds[2] = rect.x+rect.width
+        }
+        if(bounds[3]>rect.y+rect.height){
+          bounds[3] = rect.y+rect.height
+        }
+      }*/
     }
+    // if(bounds){
+    //   this.dom.style.width = Math.ceil(bounds[2] - bounds[0])+'px'
+    //   this.dom.style.height = Math.ceil(bounds[3] - bounds[1])+'px'
+    //   console.log(4444444,Math.ceil(bounds[3] - bounds[0]),Math.ceil(bounds[4] - bounds[1]))
+    // }
     // console.log(this.parent,66666)
     // this.parent[this.id] = this
-    if(this.id === 'id2'){
-      console.log(this.children[0])
-    }
+    // if(this.id === 'id2'){
+    //   console.log(this.children[0])
+    // }
     // console.log(nodeList,this.dom,66666)
   }
   // MovieClip中，只有stage没有totalFrames

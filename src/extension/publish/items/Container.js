@@ -338,6 +338,7 @@ p.renderChildren = function(renderer,callback)
 p.renderInstance = function(renderer, instance)
 {
     this.addChildren.push(instance.localName);
+    // console.log(this)
     return instance.render(renderer, this.getMaskByInstance(instance));
 };
 /**
