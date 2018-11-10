@@ -6,18 +6,17 @@
  */
 var DataUtils = {
 
-    /** 
+    /**
      * Round a number to decimal places
      * @method toPrecision
      * @param {Number} val Number to round
      * @param {int} [places=2] Number of decimal places to round to
      * @return {Number} Rounded number
      */
-    toPrecision: function(val, places)
-    {
-        places = places || 2;
-        const num = Math.pow(10, places); 
-        return Math.round(val * num) / num;
+    toPrecision: function (val, places) {
+      places = places || 2;
+      const num = Math.pow(10, places);
+      return Math.round(val * num) / num;
     },
 
     /**
@@ -27,10 +26,9 @@ var DataUtils = {
      * @param {Object} json
      * @return {String} Output stringify
      */
-    stringifySimple: function(json)
-    {
-        return JSON.stringify(json, null, '  ')
-            .replace(/\"([^(\")"\d\s\-]+)\":/g,"$1:");
+    stringifySimple: function (json) {
+      return JSON.stringify(json, null, '  ')
+        .replace(/\"([^(\")"\d\s\-]+)\":/g, "$1:");
     },
 
     /**
@@ -39,14 +37,13 @@ var DataUtils = {
      * @method readableShapes
      * @param {Object} json
      */
-    readableShapes: function(json)
-    {
-        return JSON.stringify(json).replace("{", "{\n  ")
-            .replace("]}", "\n  ]\n}")
-            .replace(/\:/g, ': ')
-            .replace(/,/g, ', ')
-            .replace(/(\"[a-z])/g, "\n    $1")
-            .replace(/\],/g, "],\n  ");
+    readableShapes: function (json) {
+      return JSON.stringify(json).replace("{", "{\n  ")
+        .replace("]}", "\n  ]\n}")
+        .replace(/\:/g, ': ')
+        .replace(/,/g, ', ')
+        .replace(/(\"[a-z])/g, "\n    $1")
+        .replace(/\],/g, "],\n  ");
     },
 
     /**
@@ -56,9 +53,8 @@ var DataUtils = {
      * @param {String} hex The hex color
      * @return {String}
      */
-    compressColors: function(hex)
-    {
-        return hex.replace(/([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3/, "$1$2$3");
+    compressColors: function (hex) {
+      return hex.replace(/([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3/, "$1$2$3");
     },
 
     /**
@@ -69,19 +65,17 @@ var DataUtils = {
      * @param {Array} array of 6 values, red, red-additive, green, green-additive, blue, blue-additive
      * @return {null|String} Color or null if not simple
      */
-    simpleTint: function(arr)
-    {
-        // Check to see if we have a simple tint
-        if (arr[1] === 0 && arr[3] === 0 && arr[5] === 0 && arr[0] >= 0 && arr[2] >= 0 && arr[4] >= 0)
-        {
-            const max = 255;
-            const r = Math.round(arr[0] * max);
-            const b = Math.round(arr[2] * max);
-            const g = Math.round(arr[4] * max);
-            const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-            return this.compressColors(hex);
-        }
-        return null;
+    simpleTint: function (arr) {
+      // Check to see if we have a simple tint
+      if (arr[1] === 0 && arr[3] === 0 && arr[5] === 0 && arr[0] >= 0 && arr[2] >= 0 && arr[4] >= 0) {
+        const max = 255;
+        const r = Math.round(arr[0] * max);
+        const b = Math.round(arr[2] * max);
+        const g = Math.round(arr[4] * max);
+        const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        return this.compressColors(hex);
+      }
+      return null;
     },
 
     /**
@@ -90,31 +84,29 @@ var DataUtils = {
      * @method optimizeColorTransforms
      * @param {Object} frames
      */
-    optimizeColorTransforms: function(frames) 
-    {
-        let tints = {};
-        for (let i in frames)
-        {
-            let frame = frames[i];
-            if (!frame.c) 
-            {
-                return;
-            }
-            let tint = this.simpleTint(frames[i].c);
-            if (tint === null)
-            {
-                return;
-            }
-            tints[i] = tint;
+    optimizeColorTransforms: function (frames) {
+      let tints = {};
+      for (let i in frames) {
+        let frame = frames[i];
+        if (!frame.c) {
+          return;
         }
+        let tint = this.simpleTint(frames[i].c);
+        if (tint === null) {
+          return;
+        }
+        tints[i] = tint;
+      }
 
-        for (let i in frames)
-        {
-            let frame = frames[i];
-            delete frame.c;
-            frame.t = tints[i];
-        }
+      for (let i in frames) {
+        let frame = frames[i];
+        delete frame.c;
+        frame.t = tints[i];
+      }
+    },
+    hexToRgba: function (hex, opacity) {
+      return "rgba(" + parseInt("0x" + hex.slice(1, 3)) + "," + parseInt("0x" + hex.slice(3, 5)) + "," + parseInt("0x" + hex.slice(5, 7)) + "," + opacity + ")";
     }
-};
+  }
 
 module.exports = DataUtils;

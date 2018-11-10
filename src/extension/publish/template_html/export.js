@@ -19,7 +19,8 @@ const convertStr = function (k,v) {
   /*let index = pxK.findIndex((item,index)=> {
 
   })*/
-  if(k === 'background' && v[0] !== '#') {
+  if(k === 'background' && (v[0] !== '#')) {
+    if(v.indexOf('-webkit-gradient')!==-1)return v
     return '#' + v
   }
   for(let item of pxK){

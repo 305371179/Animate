@@ -1,6 +1,7 @@
 (function(win) {
   var parseType = function(classList) {
     // console.log(classList,3333)
+    if (!classList || !classList.length) return
     return classList[0].replace(/\d*/g, '')
   }
   var Common = function(dom) {
@@ -567,7 +568,7 @@
 })(window);
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
-var stage = new Stage('#test').startUp()
+var stage = new Stage('#a').startUp()
 // stage['_id2'].gotoAndStop(10)
 // console.log(stage['_id2'].currentFrame)
 // stage['_id2']['_id1'].gotoAndStop(10)

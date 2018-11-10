@@ -272,23 +272,257 @@ const getSvgPath = command=>{
   let pathCommand = pathMap[command]
   return pathCommand?pathCommand:command
 }
+const getPercent = (x,w) => {
+  // console.log(x,w)
+  if(!w){
+    return x + '%'
+  }
+  return x/w*100 + '%'
+}
+const createGradientNode = (type,linearGradient,p)=>{
+  let id = createId('_lid')
+  let gNode = createNode({type:'',name:id},id)
+  let rect = getPathWH(p.d)
+  let wh = [rect[2],rect[3]]
+  let minX = rect[0]
+  let minY = rect[1]
+  // console.log(rect)
+  if(type === 'radialGradient'){
+    console.log(p)
+    let gradientTransform = linearGradient.gradientTransform
+    let tx = gradientTransform.tx-minX
+    let ty = gradientTransform.ty-minY
+    gNode.attr={
+      ...gNode.attr,
+      id,
+      cx:getPercent(linearGradient.cx+tx),//linearGradient.x1+'px',
+      cy:getPercent(linearGradient.cy+ty),//linearGradient.y1+ 'px',
+      r: getPercent(linearGradient.r),//linearGradient.x2+ 'px',
+      fx:getPercent(linearGradient.fx+tx),//linearGradient.y2+ 'px',
+      fy:getPercent(linearGradient.fy+tx),//linearGradient.y2+ 'px',
+    }
+  }else if(type === 'linearGradient'){
+    gNode.attr={
+      ...gNode.attr,
+      id,
+      x1:getPercent(linearGradient.x1-minX,wh[0]),//linearGradient.x1+'px',
+      y1:getPercent(linearGradient.y1-minY,wh[1]),//linearGradient.y1+ 'px',
+      x2: getPercent(linearGradient.x2-minX,wh[0]),//linearGradient.x2+ 'px',
+      y2:getPercent(linearGradient.y2-minY,wh[1]),//linearGradient.y2+ 'px',
+    }
+  }
+
+  gNode.tag = type
+  createStop(gNode,linearGradient,p)
+  return gNode
+}
+const createStop = (gNode,{stop},p)=>{
+  stop.forEach(s=>{
+    // console.log(s)
+    let node = {
+      node: 'element',
+      tag: 'stop',
+      attr:{
+        offset: s.offset+'%',
+        style: `stop-color:${s.stopColor};stop-opacity:${s.stopOpacity}`
+      }
+    }
+    gNode.child.push(node)
+  })
+}
+const quadraticCurve = function (p0, p1, p2, t) {
+  var p = []
+  p[0] = Math.pow(1 - t, 2) * p0[0] + 2 * t * (1 - t) * p1[0] + Math.pow(t, 2) * p2[0]
+  p[1] = Math.pow(1 - t, 2) * p0[1] + 2 * t * (1 - t) * p1[1] + Math.pow(t, 2) * p2[1]
+  return p
+}
+const quadraticCurveLength = function(p0, p1, p2) {
+  var fromX = p0[0]
+  var fromY = p0[1]
+  var cpX = p1[0]
+  var cpY = p1[1]
+  var toX = p2[0]
+  var toY = p2[1]
+  var ax = fromX - (2.0 * cpX + toX);
+  var ay = fromY - (2.0 * cpY + toY);
+  var bx = 2.0 * ((cpX - 2.0) * fromX);
+  var by = 2.0 * ((cpY - 2.0) * fromY);
+  var a = 4.0 * (ax * ax + ay * ay);
+  var b = 4.0 * (ax * bx + ay * by);
+  var c = bx * bx + by * by;
+
+  var s = 2.0 * Math.sqrt(a + b + c);
+  var a2 = Math.sqrt(a);
+  var a32 = 2.0 * a * a2;
+  var c2 = 2.0 * Math.sqrt(c);
+  var ba = b / a2;
+  return (a32 * s + a2 * b * (s - c2) + (4.0 * c * a - b * b) * Math.log((2.0 * a2 + ba + s) / (ba + c2))) / (4.0 * a32);
+};
+const getCurvePoints = function (p0,p1,p2) {
+  const length = quadraticCurveLength(p0,p1,p2)
+  // var minP = []
+  // var maxP = []
+  let points = []
+  for(var i=0;i<=length;i++){
+    var p = quadraticCurve(p0,p1,p2,1*i/length)
+    points.push(p)
+    /*if(minP[0] === undefined){
+      minP[0]= p[0]
+      minP[1]= p[1]
+      maxP[0]= p[0]
+      maxP[1]= p[1]
+    }
+    if(minP[0]<p[0]){
+      minP[0] = p[0]
+    }
+    if(minP[1]<p[1]){
+      minP[1] = p[1]
+    }
+    if(maxP[0]>p[0]){
+      maxP[0] = p[0]
+    }
+    if(maxP[1]>p[1]){
+      maxP[1] = p[1]
+    }*/
+  }
+  return points//[minP,maxP]
+}
+const getWH = function (points) {
+
+  const length = points.length
+  var minP = []
+  var maxP = []
+  for(var i=0;i<length;i++){
+    var p = points[i]
+    if(minP[0] === undefined){
+      minP[0]= p[0]
+      minP[1]= p[1]
+      maxP[0]= p[0]
+      maxP[1]= p[1]
+    }
+    if(minP[0]>p[0]){
+      minP[0] = p[0]
+    }
+    if(minP[1]>p[1]){
+      minP[1] = p[1]
+    }
+    if(maxP[0]<p[0]){
+      maxP[0] = p[0]
+    }
+    if(maxP[1]<p[1]){
+      maxP[1] = p[1]
+    }
+  }
+// console.log(minP,maxP)
+  // console.log(Math.abs(maxP[0]-minP[0]),Math.abs(maxP[1]-minP[1]))
+
+  return [...minP,Math.abs(maxP[0]-minP[0]),Math.abs(maxP[1]-minP[1])]
+}
+
+const parseGradient = (p,g)=>{
+  let id = ''
+  let linearGradient = p.linearGradient
+  if(linearGradient){
+    let gNode = createGradientNode('linearGradient',linearGradient,p)
+    g.child.push(gNode)
+    // console.log(css)
+    // css.attr.background = '-webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96))';
+    // console.log(css)
+    id = gNode.attr.id
+  }
+  let radialGradient = p.radialGradient
+  if(radialGradient){
+    let gNode = createGradientNode('radialGradient',radialGradient,p)
+    g.child.push(gNode)
+    // console.log(css)
+    // css.attr.background = '-webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96))';
+    // console.log(css)
+    id = gNode.attr.id
+  }
+
+  // console.log(linearGradient)
+  return id
+}
+const fillImage = (p,defs)=>{
+  /* <defs>
+        <pattern id="avatar" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+            <image width="1" height="1" xlink:href="http://userimg.yingyonghui.com/head/24/1458708838143/5426424.png-thumb"/>
+        </pattern>
+        <style>
+            circle, rect {
+                stroke: #ff9900;
+                stroke-width: 5px;
+            }
+        </style>
+    </defs>
+*/
+
+  let image = p.image
+  if(!image)return
+  let id = createId('_pattern')
+  let patternNode = createNode({type:'',name:id},id)
+  defs.child.push(patternNode)
+  patternNode.tag = 'pattern'
+  let patternTransform = image.patternTransform
+  let matrix = `matrix(${patternTransform.a},${patternTransform.b},${patternTransform.c},${patternTransform.d},${patternTransform.tx},${patternTransform.ty})`
+  patternNode.attr={
+    patternTransform: matrix,
+    id: id,
+    width: '100%',
+    height: '100%',
+    patternContentUnits: image.patternUnits,
+  }
+  let img = {
+    node: 'element',
+    tag: 'image',
+    attr:{
+      width: image.width,
+      height: image.height,
+      'xlink:href': image.src
+    }
+  }
+  patternNode.child.push(img)
+  return id
+}
 const parseShape = (node, clz, cssId, cssNode, id) => {
   let gid = createId('g'+id)
   let g = createNode({type:'',name:gid},gid)
   g.tag = 'g'
   node.child.push(g)
-  // console.log(cssNode)
+  let defs = {
+    node: 'element',
+    tag: 'defs',
+    child: []
+  }
+  // node.child.push(defs)
+  // console.log(clz)
+  // parseGradient(p,cssNode)
+  let isDefs = false
   clz.paths.forEach(p=>{
+    let imgId = fillImage(p,defs)
+    if(imgId&&!isDefs){
+      isDefs = true
+      node.child.push(defs)
+    }
     let pid = createId('path'+id)
+    let gradientId = parseGradient(p,g)
     let pathNode = createNode({type:'',name:pid},pid)
     pathNode.tag = 'path'
     // node.child.push(pathNode)
     g.child.push(pathNode)
     // g.attr['pointer-events'] = 'visiblePainted'
     // g.attr.onclick = 'console.log(111)'
-    if(p.color){
+
+    if(p.color&&!gradientId){
+      let color = p.color;
+      if(p.alpha!==1){
+        // console.log(color)
+        color = DataUtils.hexToRgba(color,p.alpha)
+      }
+
+      // console.log(p.alpha)
       if(!p.stroke){
-        pathNode.attr.fill = p.color
+        pathNode.attr.fill = color
         // g.attr.fill = p.color
       }else{
         pathNode.attr.fill = 'none'
@@ -297,25 +531,114 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
         pathNode.attr['stroke-linejoin']=p.linejoin
         pathNode.attr['stroke-linecap']=p.linecap
       }
+    }else{
+      if(gradientId){
+        if(p.stroke){
+          pathNode.attr.fill = 'none'
+          pathNode.attr.stroke = `url(#${gradientId})`
+          pathNode.attr['stroke-width'] = p.thickness
+          pathNode.attr['stroke-linejoin']=p.linejoin
+          pathNode.attr['stroke-linecap']=p.linecap
+        }else{
+          pathNode.attr.fill = `url(#${gradientId})`
+        }
+      }else if(imgId){
+        pathNode.attr.fill = `url(#${imgId})`
+      }
     }
     pathNode.attr.d = parseD(p.d)
     // pathNode.attr.d = parseD(p.d)
 
-    // console.log(p)
+    // console.log(wh)
   })
+}
+const getPathWH = d =>{
+  let points = []
+  let point = []
+  let lastPoint = []
+  for (let i = 0; i < d.length; i++) {
+    let c = d[i]
+    if(c === 'c')continue
+    if(c === 'm' || c === 'l'){
+      point = []
+      lastPoint = point
+      points.push(point)
+      point.push(d[++i])
+      point.push(d[++i])
+    }else if(c === 'q'){
+      let p0 = lastPoint
+      let p1 = [d[++i],d[++i]]
+      let p2 = [d[++i],d[++i]]
+      lastPoint = p2
+      points = [
+        ...points,
+        ...getCurvePoints(p0,p1,p2)
+      ]
+    }
+  }
+  let rect = getWH(points)
+  return rect
+  // console.log()
 }
 const parseD = d =>{
   let path = ''
+  let points = []
+  let point = []
+  let lastC = ''
+  let p0 = []
+  let p1 = []
+  let p2 = []
   d.forEach(item=>{
+    // console.log(item)
     if(isNaN(item)){
+      // if(lastC==='q'){
+      //   p0 = point
+      //   console.log(p0)
+      //   // p1 = []
+      //   // p2 = []
+      // }
+      //
+      // lastC = item
       // console.log(item)
       item=getSvgPath(item)
       path+=item.toUpperCase()+' '
+      // point = []
+      // points.push(point)
     }else{
-      path+= item + ' '
+      let v = parseFloat(item)
+      // if(lastC === 'q'){
+      //   /*if(p0.length<2){
+      //     // p0.push(v)
+      //   }else */if(p1.length<2){
+      //     p1.push(v)
+      //   }else if(p2.length<2){
+      //     p2.push(v)
+      //   }else if(p2.length === 2){
+      //     // console.log(p0,p1,p2)
+      //     p0 = []
+      //     p1 = []
+      //     p2 = []
+      //   }
+      // }else{
+      // }
+      // if(lastC === 'm' || lastC === 'l'){
+      //   console.log(point)
+      //   if(point.length === 2){
+      //     p0 = point
+      //     console.log(p0,55555)
+      //   }
+      // }
+      // point.push(v)
+      path+=  v+ ' '
+
     }
   })
   path=path.substring(0,path.length-1)
+  // if(!points[points.length-1].length){
+  //   points.splice(points.length-1,1)
+  // }
+
+  // console.log(getWH(points))
   // console.log(path)
   // console.log(d)
   return path
@@ -512,7 +835,7 @@ const parseInputText = (node, clz, cssId, cssNode, id) => {
   cssNode.attr['display'] = 'inline-block'
   cssNode.attr['overflow'] = 'hidden'
   cssNode.attr['outline'] = 'none'
-  cssNode.attr['background'] = '#00000000'
+  cssNode.attr['background'] = 'white'
   /*cssNode.attr['border'] = 'none'*/
   cssNode.attr['type'] = 'text'
   node.child.push(nodeText)
@@ -701,7 +1024,7 @@ const round = (v) => {
   }
   return v
 }
-const r2d = r => round(DataUtils.toPrecision(r * 180 / Math.PI, 3))
+const r2d = r => round(DataUtils.toPrecision(r * 180 / Math.PI, 8))
 const setRotate = r => {
   let deg = r2d(r)
   if (deg === 0) {
@@ -772,6 +1095,7 @@ const getFilters=(clz,key,node,cssNode,instance)=>{
     instance.endFrame
   ]
   // console.log(instance.startFrame,instance.endFrame)
+  let isText = instance.libraryItem.type === 'text'
   let value = ''
   let boxShadow = ''
   if(!frame)return
@@ -785,14 +1109,15 @@ const getFilters=(clz,key,node,cssNode,instance)=>{
             if(c.brightness!==1&&c.brightness!==0){
               value+=`brightness(${c.brightness}) `
             }
-            if(c.contrast!==1&&c.contrast!==0){
-              value+=`contrast(${c.contrast*100}%) `
-            }
+
             if(c.saturation!==1&&c.saturation!==0){
               value+=`saturate(${c.saturation*100}%) `
             }
             if(c.hue!==0&&c.hue!==0){
               value+=`hue-rotate(${c.hue}deg) `
+            }
+            if(c.contrast!==1&&c.contrast!==0){
+              value+=`contrast(${(c.contrast)/100}) `
             }
             break
           case 'BlurFilter':
@@ -828,7 +1153,12 @@ const getFilters=(clz,key,node,cssNode,instance)=>{
             // let angle = 180/Math.PI*c.angle
             // console.log(angle)
             // value+= `drop-shadow(${c.blurX}px ${c.blurY}px ${c.blurX*quality2}px ${c.shadowColor})`
-            boxShadow+= `${c.distance*(Math.round(Math.cos(c.angle)))}px ${c.distance*(Math.round(Math.sin(c.angle)))}px ${c.blurX*quality2}px ${Math.round(c.strength/100)}px ${c.shadowColor} `
+            let strength = ''
+            if(!isText){
+              strength = `${Math.round(c.strength/100)}px`
+            }
+            let color = DataUtils.hexToRgba(c.shadowColor,0.3)
+            boxShadow+= `${c.distance*(Math.round(Math.cos(c.angle)))}px ${c.distance*(Math.round(Math.sin(c.angle)))}px ${c.blurX*quality2}px ${strength} ${color} `
             // if(cssNode.node==='#_id1'){
             //   console.log(frame)
             // }
@@ -876,8 +1206,15 @@ const getFilters=(clz,key,node,cssNode,instance)=>{
     global.cssMap.push(cn)
   }*/
   // getChildCssNode(node,cssNode)
+  // console.log(instance.libraryItem.behaviour.type === 'Input')
+
   setPrifix(cn,'filter',value)
-  setPrifix(cn,'box-shadow',boxShadow)
+  if(isText&&instance.libraryItem.behaviour.type !== 'Input'){
+    setPrifix(cn,'text-shadow',boxShadow)
+  }else{
+    setPrifix(cn,'box-shadow',boxShadow)
+  }
+
 
 }
 const parseCss = (clz,instance, node, assetId,libraryFrames,parentNode) => {

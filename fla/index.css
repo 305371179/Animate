@@ -20,44 +20,14 @@ body {
   diaplay: none;
 }
 
-.text1 {
+.shape1 {
   position: absolute;
-  box-sizing: border-box;
-  display: inline-block;
-  overflow: hidden;
-  outline: none;
-  background: #00000000;
-  type: text;
-  resize: none;
-  border: 1px #000 solid;
-  text-align: right;
-  font-size: 20px;
-  line-height: 24px;
-  color: #00ff99;
-  font-family: "Times Roman";
-  font-style: normal;
+  pointer-events: none;
+  width: 550px;
+  height: 400px;
 }
 
-g {
-  pointer-events: visiblePainted;
-}
-
-.movieclip2 {
-  position: absolute;
-}
-
-#_id {
-  position: absolute;
-  width: 106px;
-  height: 40px;
-  left: -106px;
-  transform: translate3d(-21px, -176px, 0);
-  -webkit-transform: translate3d(-21px, -176px, 0);
-  box-shadow: 0 0 0.8px 1px #ff0000;
-  -webkit-box-shadow: 0 0 0.8px 1px #ff0000;
-}
-
-#test {
+#a {
   position: absolute;
   overflow: hidden;
   width: 550px;
@@ -65,10 +35,10 @@ g {
   background: #ffffff;
 }
 
-#_id1 {
+g {
+  pointer-events: visiblePainted;
+}
+
+#_id {
   position: absolute;
-  box-shadow: 0 0 0.8px 1px #ff0000;
-  -webkit-box-shadow: 0 0 0.8px 1px #ff0000;
-  transform: translate3d(152px, 266px, 0) scaleY(0.9999);
-  -webkit-transform: translate3d(152px, 266px, 0) scaleY(0.9999);
 }

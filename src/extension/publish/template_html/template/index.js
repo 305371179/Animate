@@ -1,6 +1,7 @@
 (function (win) {
   var parseType = function (classList) {
     // console.log(classList,3333)
+    if(!classList||!classList.length)return
     return classList[0].replace(/\d*/g, '')
   }
   var Common = function (dom) {
