@@ -302,6 +302,7 @@ namespace PixiJS
 		FCM::Result res;
 		std::string name;
 		std::string ext;
+//		ext = 'png'
 		JSONNode bitmapElem(JSON_NODE);
 
 		bitmapElem.set_name("image");
@@ -334,7 +335,10 @@ namespace PixiJS
 				ext = "png";
 			}
 		}
-
+		if (ext == "")
+			{
+				ext = "png";
+			}
 		std::string bitmapExportPath(m_outputImageFolder + name + "." + ext);
 		std::string bitmapRelPath(m_imagesPath + name + "." + ext);
 

@@ -1,4 +1,5 @@
 const DataUtils = require('../utils/DataUtils');
+const Matrix = require('../data/Matrix')
 const {exportHtml, exportCss, exportJs} = require('./export');
 var textAlignMap = {}
 // global.cssNodeMap = {}
@@ -279,7 +280,55 @@ const getPercent = (x,w) => {
   }
   return x/w*100 + '%'
 }
-const createGradientNode = (type,linearGradient,p)=>{
+const getTransform = (matrix)=>{
+  let value = ''
+  let x = matrix.x
+  let y = matrix.y
+  if(x||y){
+    let v =  !x? 0:`${x}`
+    v =  y? `${v},${y}`:`${v}`
+    value+= `translate(${v})`
+  }
+  let skewX = matrix.skewX;
+  let skewY = matrix.skewY;
+  let rotate = matrix.rotation;
+  let scaleX = matrix.scaleX;
+  let scaleY = matrix.scaleY;
+  let cx =1
+  let cy =1
+  if (skewX + skewY === 0) {
+    if (rotate !== 0)
+      value += setRotate(rotate)
+  } else {
+    if (skewX != 0 && skewY == 0) {
+      value += ` skew(${r2d(skewX)}deg)`
+      // cy = Math.cos(skewX)
+    } else if (skewY != 0 && skewX == 0) {
+      value += ` skewY(${r2d(skewY)}deg)`
+      // cx = Math.cos(skewY)
+    } else {
+      value += ` skew(${r2d(skewX)}deg,${r2d(skewY)}deg)`
+      // cx = Math.cos(skewY)
+      // cy = Math.cos(skewX)
+    }
+  }
+  //这个是为了转换flash/canvas的skew变化，使其使用于css3的变化
+  //css3的skew转换后几何宽高不变，flash/canvas是skew变化后，边长不变
+  scaleX *= cx
+  scaleY *= cy
+  if (scaleX === 1 && scaleY === 1) {
+
+  } else if (scaleX !== 1 && scaleY === 1) {
+    value += ` scaleX(${scaleX})`
+  } else if (scaleY !== 1 && scaleX === 1) {
+    value += ` scaleY(${scaleY})`
+  } else {
+    value += ` scale(${scaleX},${scaleY})`
+  }
+  value = 'matrix(1,0,0,1,0.5,0.5)'
+  return value
+}
+const createGradientNode = (type,linearGradient,p,g,pathNode)=>{
   let id = createId('_lid')
   let gNode = createNode({type:'',name:id},id)
   let rect = getPathWH(p.d)
@@ -288,18 +337,30 @@ const createGradientNode = (type,linearGradient,p)=>{
   let minY = rect[1]
   // console.log(rect)
   if(type === 'radialGradient'){
-    console.log(p)
-    let gradientTransform = linearGradient.gradientTransform
-    let tx = gradientTransform.tx-minX
-    let ty = gradientTransform.ty-minY
+    // console.log(p)
+    let patternTransform = linearGradient.gradientTransform
+    // let matrix = new Matrix(patternTransform)
+    // let transtorm = getTransform(matrix)
+    // console.log(transtorm)
+    let matrix = `matrix(${patternTransform.a},${patternTransform.b},${patternTransform.c},${patternTransform.d},${patternTransform.tx/wh[0]},${patternTransform.ty/wh[1]})`
+    gNode.attr.gradientTransform = matrix
+
+    let tx =/*patternTransform.tx*/-minX
+    let ty = /*patternTransform.ty*/-minY
+    // console.log(wh[0],wh[1],tx,ty,linearGradient.cx+tx)
+    // console.log()
+    let rx = (linearGradient.r)/wh[0]
+    let ry = (linearGradient.r)/wh[1]
+    let r = rx<ry?rx:ry
     gNode.attr={
       ...gNode.attr,
       id,
-      cx:getPercent(linearGradient.cx+tx),//linearGradient.x1+'px',
-      cy:getPercent(linearGradient.cy+ty),//linearGradient.y1+ 'px',
-      r: getPercent(linearGradient.r),//linearGradient.x2+ 'px',
-      fx:getPercent(linearGradient.fx+tx),//linearGradient.y2+ 'px',
-      fy:getPercent(linearGradient.fy+tx),//linearGradient.y2+ 'px',
+      // spreadMethod: linearGradient.spreadMethod,
+      cx:getPercent(linearGradient.cx+tx,wh[0]),//linearGradient.x1+'px',
+      cy:getPercent(linearGradient.cy+ty,wh[1]),//linearGradient.y1+ 'px',
+      r: getPercent(r*100),//linearGradient.x2+ 'px',
+      fx:getPercent(linearGradient.fx+tx,wh[0]),//linearGradient.y2+ 'px',
+      fy:getPercent(linearGradient.fy+ty,wh[1]),//linearGradient.y2+ 'px',
     }
   }else if(type === 'linearGradient'){
     gNode.attr={
@@ -419,11 +480,11 @@ const getWH = function (points) {
   return [...minP,Math.abs(maxP[0]-minP[0]),Math.abs(maxP[1]-minP[1])]
 }
 
-const parseGradient = (p,g)=>{
+const parseGradient = (p,g,pathNode)=>{
   let id = ''
   let linearGradient = p.linearGradient
   if(linearGradient){
-    let gNode = createGradientNode('linearGradient',linearGradient,p)
+    let gNode = createGradientNode('linearGradient',linearGradient,p,g,pathNode)
     g.child.push(gNode)
     // console.log(css)
     // css.attr.background = '-webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96))';
@@ -432,7 +493,7 @@ const parseGradient = (p,g)=>{
   }
   let radialGradient = p.radialGradient
   if(radialGradient){
-    let gNode = createGradientNode('radialGradient',radialGradient,p)
+    let gNode = createGradientNode('radialGradient',radialGradient,p,g,pathNode)
     g.child.push(gNode)
     // console.log(css)
     // css.attr.background = '-webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96))';
@@ -468,16 +529,16 @@ const fillImage = (p,defs)=>{
   patternNode.attr={
     patternTransform: matrix,
     id: id,
-    width: '100%',
-    height: '100%',
-    patternContentUnits: image.patternUnits,
+    width: image.width,
+    height: image.height,
+    patternUnits: image.patternUnits,
   }
   let img = {
     node: 'element',
     tag: 'image',
     attr:{
-      width: image.width,
-      height: image.height,
+      // width: image.width,
+      // height: image.height,
       'xlink:href': image.src
     }
   }
@@ -505,8 +566,8 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
       node.child.push(defs)
     }
     let pid = createId('path'+id)
-    let gradientId = parseGradient(p,g)
     let pathNode = createNode({type:'',name:pid},pid)
+    let gradientId = parseGradient(p,g,pathNode)
     pathNode.tag = 'path'
     // node.child.push(pathNode)
     g.child.push(pathNode)
@@ -527,6 +588,7 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
       }else{
         pathNode.attr.fill = 'none'
         pathNode.attr.stroke = p.color
+        console.log(p)
         pathNode.attr['stroke-width'] = p.thickness
         pathNode.attr['stroke-linejoin']=p.linejoin
         pathNode.attr['stroke-linecap']=p.linecap
