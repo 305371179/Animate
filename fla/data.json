@@ -4,62 +4,26 @@
       "assetId": 1,
       "paths": [
         {
-          "image": {
-            "height": 58,
-            "width": 58,
-            "src": "images/Bitmap 1.png",
-            "name": "Bitmap 1",
-            "patternUnits": "userSpaceOnUse",
-            "patternTransform": {
-              "a": 1,
-              "b": 0,
-              "c": 0,
-              "d": 1,
-              "tx": 370.5,
-              "ty": 91.050003
-            }
-          },
-          "d": [
-            "m",
-            476,
-            187.05,
-            "l",
-            476,
-            53.05,
-            "l",
-            323,
-            53.05,
-            "l",
-            323,
-            187.05,
-            "l",
-            476,
-            187.05,
-            "c"
-          ],
-          "stroke": false
-        },
-        {
-          "color": "#000000",
+          "color": "#330033",
           "alpha": 1,
           "d": [
             "m",
-            323,
-            53.05,
+            46.05,
+            66.05,
             "l",
-            476,
-            53.05,
+            183.05,
+            66.05,
             "l",
-            476,
-            187.05,
+            183.05,
+            170.05,
             "l",
-            323,
-            187.05,
+            46.05,
+            170.05,
             "l",
-            323,
-            53.05
+            46.05,
+            66.05
           ],
-          "thickness": 24.3,
+          "thickness": 20.55,
           "linecap": "round",
           "linejoin": "round",
           "stroke": true

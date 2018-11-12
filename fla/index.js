@@ -185,7 +185,7 @@
   var p = DisplayElement.prototype
   p.init = function() {
     this._getFrames()
-    this._setSvgSize()
+    // this._setSvgSize()
   }
   p._setSvgSize = function() {
     if (this.type === 'shape') {

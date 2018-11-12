@@ -328,10 +328,10 @@ const getTransform = (matrix)=>{
   value = 'matrix(1,0,0,1,0.5,0.5)'
   return value
 }
-const createGradientNode = (type,linearGradient,p,g,pathNode)=>{
+const createGradientNode = (type,linearGradient,p,g,pathNode,rect)=>{
   let id = createId('_lid')
   let gNode = createNode({type:'',name:id},id)
-  let rect = getPathWH(p.d)
+  // let rect = getPathWH(p.d)
   let wh = [rect[2],rect[3]]
   let minX = rect[0]
   let minY = rect[1]
@@ -477,14 +477,14 @@ const getWH = function (points) {
 // console.log(minP,maxP)
   // console.log(Math.abs(maxP[0]-minP[0]),Math.abs(maxP[1]-minP[1]))
 
-  return [...minP,Math.abs(maxP[0]-minP[0]),Math.abs(maxP[1]-minP[1])]
+  return [...minP,Math.abs(maxP[0]-minP[0]),Math.abs(maxP[1]-minP[1]),maxP[0],maxP[1]]
 }
 
-const parseGradient = (p,g,pathNode)=>{
+const parseGradient = (p,g,pathNode,rect)=>{
   let id = ''
   let linearGradient = p.linearGradient
   if(linearGradient){
-    let gNode = createGradientNode('linearGradient',linearGradient,p,g,pathNode)
+    let gNode = createGradientNode('linearGradient',linearGradient,p,g,pathNode,rect)
     g.child.push(gNode)
     // console.log(css)
     // css.attr.background = '-webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96))';
@@ -493,7 +493,7 @@ const parseGradient = (p,g,pathNode)=>{
   }
   let radialGradient = p.radialGradient
   if(radialGradient){
-    let gNode = createGradientNode('radialGradient',radialGradient,p,g,pathNode)
+    let gNode = createGradientNode('radialGradient',radialGradient,p,g,pathNode,rect)
     g.child.push(gNode)
     // console.log(css)
     // css.attr.background = '-webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96))';
@@ -559,21 +559,47 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
   // console.log(clz)
   // parseGradient(p,cssNode)
   let isDefs = false
+  let maxRect = []
   clz.paths.forEach(p=>{
     let imgId = fillImage(p,defs)
     if(imgId&&!isDefs){
       isDefs = true
       node.child.push(defs)
     }
+    let rect = getPathWH(p.d)
+
     let pid = createId('path'+id)
     let pathNode = createNode({type:'',name:pid},pid)
-    let gradientId = parseGradient(p,g,pathNode)
+    let gradientId = parseGradient(p,g,pathNode,rect)
     pathNode.tag = 'path'
     // node.child.push(pathNode)
     g.child.push(pathNode)
     // g.attr['pointer-events'] = 'visiblePainted'
     // g.attr.onclick = 'console.log(111)'
-
+    if(p.stroke&&rect){
+      let half = p.thickness/2
+      rect[0] -= half
+      rect[1] -= half
+      rect[4] += half
+      rect[5] += half
+      // console.log(rect,p.thickness)
+    }
+    if(!maxRect.length){
+      maxRect = rect
+    }else{
+      if(maxRect[0]>rect[0]){
+        maxRect[0]=rect[0]
+      }
+      if(maxRect[1]>rect[1]){
+        maxRect[1]=rect[1]
+      }
+      if(maxRect[4]<rect[4]){
+        maxRect[4]=rect[4]
+      }
+      if(maxRect[5]<rect[5]){
+        maxRect[5]=rect[5]
+      }
+    }
     if(p.color&&!gradientId){
       let color = p.color;
       if(p.alpha!==1){
@@ -588,7 +614,7 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
       }else{
         pathNode.attr.fill = 'none'
         pathNode.attr.stroke = p.color
-        console.log(p)
+        // console.log(p)
         pathNode.attr['stroke-width'] = p.thickness
         pathNode.attr['stroke-linejoin']=p.linejoin
         pathNode.attr['stroke-linecap']=p.linecap
@@ -613,6 +639,19 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
 
     // console.log(wh)
   })
+  if(maxRect){
+    let x = maxRect[0]
+    let y = maxRect[1]
+    let width = maxRect[4] -x
+    let height = maxRect[5] - y
+    x = Math.floor(x)
+    y = Math.floor(y)
+    width = Math.ceil(width)
+    height = Math.ceil(height)
+    g.attr.transform = 'translate('+(-x)+' '+(-y)+')'
+    node.attr.style = `width:${width}px;height:${height}px;left:${x}px;top:${y}px`
+  }
+  // console.log(maxRect)
 }
 const getPathWH = d =>{
   let points = []

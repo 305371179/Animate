@@ -6,4 +6,6 @@ Render: getTimelines方法开始解释，timeline的内容有 stage 	movieclip�
 
 Container: 主要的内容都是在此执行的
 
+要完成的东西，图片的输出 没有ext   stroke的linejoin lindecap
+
 
