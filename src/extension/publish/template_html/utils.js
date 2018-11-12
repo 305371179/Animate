@@ -1,9 +1,67 @@
 const DataUtils = require('../utils/DataUtils');
 const Matrix = require('../data/Matrix')
 const {exportHtml, exportCss, exportJs} = require('./export');
+const fs = require('fs-extra')
+const path = require('path')
 var textAlignMap = {}
 // global.cssNodeMap = {}
+global.isSpriteSheet = false
+global.spriteSheetJson = ''
 const utils = module.exports = {
+  exportAssets(assets){
+    if(global.isDebug)
+    assets = {'a':"/Users/gsch/编程/AnimateCC/pixi-animate-extension/fla/images/a_atlas_1.json"}
+    if(assets){
+      global.spriteSheetJson= []
+      for(let k in assets){
+       let str = fs.readFileSync(path.resolve(process.cwd(),assets[k]),'utf-8')
+        global.spriteSheetJson.push(JSON.parse(str))
+      }
+      global.isSpriteSheet = true
+      // alert(JSON.stringify(global.spriteSheetJson))
+    }
+  },
+  getImage(image){
+    if(!global.isSpriteSheet){
+      return image
+    }
+    for (let i = 0; i < global.spriteSheetJson.length; i++) {
+      let sprite = global.spriteSheetJson[i]
+      let frames = sprite['frames']
+      let img = frames[image.name]
+      if(img){
+        let frame = img.frame
+        let scale = sprite.meta.scale
+          // image.width = frame.w/scale
+          // image.height = frame.h/scale
+          image.src = path.join(global.meta.imagesPath,sprite.meta.image)
+        // console.log(frame.w,scale,frame)
+          image.x = frame.x
+          image.y = frame.y
+          image.w = frame.w
+          image.h = frame.h
+        console.log(frame,image.name)
+        /*let scale = sprite.meta.scale
+        let bigSize = sprite.meta.size
+        let image = sprite.meta.image
+        let app = sprite.meta.app
+        return {
+            "x": 1,
+            "y": 1,
+            "w": 126*scale,
+            "h": 88*scale,
+            "width":frame['sourceSize'].w,
+            "height":frame['sourceSize'].h,
+            bigSize,
+            "src": image,
+            app
+
+        }*/
+      }
+    }
+    return image
+    // return global.spriteSheetJson.frames[image.name]
+  },
   parseClass(idMap, id) {
     if(global.idsMap[id])return
     let clz = idMap[id]
@@ -38,16 +96,19 @@ const utils = module.exports = {
     }
     switch (clz.type) {
       case 'bitmap':
-        node.tag = 'img'
+        node.tag = 'div'
+        utils.getImage(clz)
         node.attr = {
           ...node.attr,
           // id: createId('id'),
-          src: clz.src
+          // src: clz.src
         }
         cssNode.attr = {
           ...cssNode.attr,
-          width: clz.width,
-          height: clz.height,
+          width: clz.width+1,
+          height: clz.height+1,
+          'background':`url(${clz.src}) no-repeat`,
+          'background-position': `${-clz.x}px ${-clz.y}px`,
         }
 
         break
@@ -118,6 +179,7 @@ const utils = module.exports = {
         break
     }
     if (clz.type === 'stage') {
+      // alert(JSON.stringify(global.assets)+'2222')
       // console.log(node.child[0])
       getChildCssNode(node)
       parseHtml(global.idsMap['undefined'])
@@ -331,6 +393,7 @@ const getTransform = (matrix)=>{
 const createGradientNode = (type,linearGradient,p,g,pathNode,rect)=>{
   let id = createId('_lid')
   let gNode = createNode({type:'',name:id},id)
+  if(!rect)rect = getPathWH(p.d)
   // let rect = getPathWH(p.d)
   let wh = [rect[2],rect[3]]
   let minX = rect[0]
@@ -517,7 +580,7 @@ const fillImage = (p,defs)=>{
         </style>
     </defs>
 */
-
+//位图填充的图片是不会被打到雪碧图里面的
   let image = p.image
   if(!image)return
   let id = createId('_pattern')
@@ -526,6 +589,7 @@ const fillImage = (p,defs)=>{
   patternNode.tag = 'pattern'
   let patternTransform = image.patternTransform
   let matrix = `matrix(${patternTransform.a},${patternTransform.b},${patternTransform.c},${patternTransform.d},${patternTransform.tx},${patternTransform.ty})`
+  // utils.getImage(image)
   patternNode.attr={
     patternTransform: matrix,
     id: id,
@@ -533,6 +597,17 @@ const fillImage = (p,defs)=>{
     height: image.height,
     patternUnits: image.patternUnits,
   }
+  // let img = {
+  //   node: 'element',
+  //   tag: 'rect',
+  //   attr:{
+  //     x:0,
+  //     y:0,
+  //     width: image.width,
+  //     height: image.height,
+  //     'style': 'background:url(image.src)'
+  //   }
+  // }
   let img = {
     node: 'element',
     tag: 'image',
@@ -560,13 +635,14 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
   // parseGradient(p,cssNode)
   let isDefs = false
   let maxRect = []
+  let rect = ''
   clz.paths.forEach(p=>{
     let imgId = fillImage(p,defs)
     if(imgId&&!isDefs){
       isDefs = true
       node.child.push(defs)
     }
-    let rect = getPathWH(p.d)
+    // rect = getPathWH(p.d)
 
     let pid = createId('path'+id)
     let pathNode = createNode({type:'',name:pid},pid)
@@ -576,7 +652,7 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
     g.child.push(pathNode)
     // g.attr['pointer-events'] = 'visiblePainted'
     // g.attr.onclick = 'console.log(111)'
-    if(p.stroke&&rect){
+   /* if(p.stroke&&rect){
       let half = p.thickness/2
       rect[0] -= half
       rect[1] -= half
@@ -599,7 +675,7 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
       if(maxRect[5]<rect[5]){
         maxRect[5]=rect[5]
       }
-    }
+    }*/
     if(p.color&&!gradientId){
       let color = p.color;
       if(p.alpha!==1){
@@ -648,18 +724,18 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
 
     // console.log(wh)
   })
-  if(maxRect){
+/*  if(maxRect){
     let x = maxRect[0]
     let y = maxRect[1]
-    let width = maxRect[4] -x
-    let height = maxRect[5] - y
+    let width = Math.ceil(maxRect[4]) -x
+    let height = Math.ceil(maxRect[5]) - y
     x = Math.floor(x)
     y = Math.floor(y)
     width = Math.ceil(width)
     height = Math.ceil(height)
     g.attr.transform = 'translate('+(-x)+' '+(-y)+')'
     node.attr.style = `width:${width}px;height:${height}px;left:${x}px;top:${y}px`
-  }
+  }*/
   // console.log(maxRect)
 }
 const getPathWH = d =>{
@@ -711,6 +787,7 @@ const parseD = d =>{
       // lastC = item
       // console.log(item)
       item=getSvgPath(item)
+      if(item.toUpperCase() === 'H')return
       path+=item.toUpperCase()+' '
       // point = []
       // points.push(point)

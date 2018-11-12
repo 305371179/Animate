@@ -20,7 +20,7 @@ const convertStr = function (k,v) {
 
   })*/
   if(k === 'background' && (v[0] !== '#')) {
-    if(v.indexOf('-webkit-gradient')!==-1)return v
+    if(v.indexOf('-webkit-gradient')!==-1||v.indexOf('url')!==-1)return v
     return '#' + v
   }
   for(let item of pxK){

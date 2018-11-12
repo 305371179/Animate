@@ -1,134 +1,21 @@
 {
-  "Shapes": [
+  "Shapes": [],
+  "Bitmaps": [
     {
       "assetId": 1,
-      "paths": [
-        {
-          "image": {
-            "height": 58,
-            "width": 58,
-            "src": "images/Bitmap 1.png",
-            "name": "Bitmap 1",
-            "patternUnits": "userSpaceOnUse",
-            "patternTransform": {
-              "a": 1,
-              "b": 0,
-              "c": 0,
-              "d": 1,
-              "tx": 51.049999,
-              "ty": 299.549988
-            }
-          },
-          "d": [
-            "m",
-            29.05,
-            302.05,
-            "l",
-            29.05,
-            355.05,
-            "l",
-            131.05,
-            355.05,
-            "l",
-            131.05,
-            302.05,
-            "l",
-            29.05,
-            302.05,
-            "c"
-          ],
-          "stroke": false
-        },
-        {
-          "image": {
-            "height": 138,
-            "width": 152,
-            "src": "images/Bitmap 11.png",
-            "name": "Bitmap 11",
-            "patternUnits": "userSpaceOnUse",
-            "patternTransform": {
-              "a": 1,
-              "b": 0,
-              "c": 0,
-              "d": 1,
-              "tx": 112,
-              "ty": 35.049999
-            }
-          },
-          "d": [
-            "m",
-            274,
-            151.05,
-            "l",
-            274,
-            57.05,
-            "l",
-            102.05,
-            57.05,
-            "l",
-            102.05,
-            151.05,
-            "l",
-            274,
-            151.05,
-            "c"
-          ],
-          "stroke": false
-        },
-        {
-          "color": "#ff0000",
-          "alpha": 1,
-          "d": [
-            "m",
-            29.05,
-            302.05,
-            "l",
-            131.05,
-            302.05,
-            "l",
-            131.05,
-            355.05,
-            "l",
-            29.05,
-            355.05,
-            "l",
-            29.05,
-            302.05
-          ],
-          "thickness": 20.55,
-          "linecap": "round",
-          "linejoin": "round",
-          "stroke": true
-        },
-        {
-          "color": "#000000",
-          "alpha": 1,
-          "d": [
-            "m",
-            102.05,
-            57.05,
-            "l",
-            274,
-            57.05,
-            "l",
-            274,
-            151.05,
-            "l",
-            102.05,
-            151.05,
-            "l",
-            102.05,
-            57.05
-          ],
-          "thickness": 56.1,
-          "linecap": "round",
-          "linejoin": "round",
-          "stroke": true
-        }
-      ]
+      "height": 132,
+      "width": 52,
+      "src": "images/Bitmap 6.png",
+      "name": "Bitmap 6"
+    },
+    {
+      "assetId": 2,
+      "height": 53,
+      "width": 224,
+      "src": "images/Bitmap 5.png",
+      "name": "Bitmap 5"
     }
   ],
-  "Bitmaps": [],
   "Sounds": [],
   "Texts": [],
   "Timelines": [
@@ -150,8 +37,22 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 0,
-                "ty": 0
+                "tx": 425,
+                "ty": 241
+              }
+            },
+            {
+              "type": "Place",
+              "assetId": 2,
+              "instanceId": 2,
+              "placeAfter": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 118,
+                "ty": 296
               }
             }
           ]
@@ -173,7 +74,7 @@
     "height": 400,
     "libsPath": "libs/",
     "imagesPath": "images/",
-    "spritesheets": false,
+    "spritesheets": true,
     "spritesheetSize": 1024,
     "spritesheetScale": 1,
     "htmlPath": "无标题-1.html",

@@ -20,11 +20,24 @@ body {
   diaplay: none;
 }
 
-.shape1 {
+.bitmap1 {
   position: absolute;
-  pointer-events: none;
-  width: 550px;
-  height: 400px;
+  width: 53px;
+  height: 133px;
+  background: url(images/a_atlas_1.png) no-repeat;
+  background-position: -1px -1px;
+}
+
+g {
+  pointer-events: visiblePainted;
+}
+
+.bitmap2 {
+  position: absolute;
+  width: 225px;
+  height: 54px;
+  background: url(images/a_atlas_1.png) no-repeat;
+  background-position: -55px -1px;
 }
 
 #a {
@@ -35,10 +48,14 @@ body {
   background: #ffffff;
 }
 
-g {
-  pointer-events: visiblePainted;
-}
-
 #_id {
   position: absolute;
+  transform: translate3d(118px, 296px, 0);
+  -webkit-transform: translate3d(118px, 296px, 0);
+}
+
+#_id1 {
+  position: absolute;
+  transform: translate3d(425px, 241px, 0);
+  -webkit-transform: translate3d(425px, 241px, 0);
 }

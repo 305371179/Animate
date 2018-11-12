@@ -1,15 +1,20 @@
 "use strict";
-const debug = false
+global.isDebug = true
 const fs = require('fs-extra')
 const jsonFormat = require('json-format')
-const electron = require('electron');
-const app = electron.app;
+var electron ;
+var app;
+if(!global.isDebug){
+  electron = require('electron');
+  app = electron.app;
+}
+
 const minimist = require('minimist');
 const path = require('path');
 const semver = require('semver');
 // const {exportFiles} = require('./renderHtml')
 var argv = ''
-if(debug){
+if(isDebug){
    argv = {"_":[],"debug":true,"compress":false,"perf":false,"src":"/Users/gsch/编程/AnimateCC/pixi-animate-extension/fla/data.json"}
   const startTime = process.hrtime()[1];
   const Publisher = require('./Publisher');
@@ -19,7 +24,7 @@ if(debug){
     argv.compress, // If the output should be compressed
     argv.debug, // Don't delete the source file
     argv.assets || __dirname,
-    debug
+    isDebug
   );
   publisher.renderer.snippetsPath = path.resolve(
     argv.assets || __dirname, 'snippets'
@@ -50,69 +55,72 @@ if(debug){
     }
   });
 }
-
-app.on('ready', function () {
-  if (!semver.gte(process.versions.electron, '1.8.2')) {
-    alert("Must use Electron v1.8.2 or greater. Install using 'npm install -g electron-prebuilt'");
-    quit();
-  }
-  else if (!argv.src) {
-    alert("Source must be path to data output.");
-    quit();
-  }
-  else if (!/\.json$/i.test(argv.src)) {
-    alert("Data file must be valid JSON.");
-    quit();
-  }
-  else {
-    let dataFile = argv.src
-    process.chdir(path.dirname(dataFile));
-    if (!fs.existsSync(dataFile)) {
-      alert(`${dataFile}没有保存`)
-      return quit();
+if(!global.isDebug){
+  app.on('ready', function () {
+    if (!semver.gte(process.versions.electron, '1.8.2')) {
+      alert("Must use Electron v1.8.2 or greater. Install using 'npm install -g electron-prebuilt'");
+      quit();
     }
-    // For measuring performance
-    const startTime = process.hrtime()[1];
-
-    // Include classes
-    const Publisher = require('./Publisher');
-    const DataUtils = require('./utils/DataUtils');
-
-    // Create a new publisher
-    const publisher = new Publisher(
-      argv.src, // path to the javascript file
-      argv.compress, // If the output should be compressed
-      argv.debug, // Don't delete the source file
-      argv.assets || __dirname,
-      debug
-    );
-    // 输出json
-    fs.writeFileSync('data.json', jsonFormat(publisher._data, {
-      type: 'space',
-      size: 2
-    }));
-    // Allow override of snippets for debugging purposes
-    publisher.renderer.snippetsPath = path.resolve(
-      argv.assets || __dirname, 'snippets'
-    );
-
-    publisher.run((err) => {
-      if (err) {
-        alert(JSON.stringify(err));
+    else if (!argv.src) {
+      alert("Source must be path to data output.");
+      quit();
+    }
+    else if (!/\.json$/i.test(argv.src)) {
+      alert("Data file must be valid JSON.");
+      quit();
+    }
+    else {
+      let dataFile = argv.src
+      process.chdir(path.dirname(dataFile));
+      if (!fs.existsSync(dataFile)) {
+        alert(`${dataFile}没有保存`)
         return quit();
       }
-      // Output performance information
-      if (argv.perf) {
-        let executionTime = DataUtils.toPrecision(
-          (process.hrtime()[1] - startTime) / Math.pow(10, 9), 4
-        );
-        console.log(`\nExecuted in ${executionTime} seconds\n`);
-      }
-      // exportFiles()
-      quit();
-    });
-  }
-});
+      // For measuring performance
+      const startTime = process.hrtime()[1];
+
+      // Include classes
+      const Publisher = require('./Publisher');
+      const DataUtils = require('./utils/DataUtils');
+
+      // Create a new publisher
+      const publisher = new Publisher(
+        argv.src, // path to the javascript file
+        argv.compress, // If the output should be compressed
+        argv.debug, // Don't delete the source file
+        argv.assets || __dirname,
+        isDebug
+      );
+      // 输出json
+      fs.writeFileSync('data.json', jsonFormat(publisher._data, {
+        type: 'space',
+        size: 2
+      }));
+      // Allow override of snippets for debugging purposes
+      publisher.renderer.snippetsPath = path.resolve(
+        argv.assets || __dirname, 'snippets'
+      );
+
+      publisher.run((err) => {
+        // alert(JSON.stringify(global.assets))
+        if (err) {
+          alert(JSON.stringify(err));
+          return quit();
+        }
+        // Output performance information
+        if (argv.perf) {
+          let executionTime = DataUtils.toPrecision(
+            (process.hrtime()[1] - startTime) / Math.pow(10, 9), 4
+          );
+          console.log(`\nExecuted in ${executionTime} seconds\n`);
+        }
+        // exportFiles()
+        quit();
+      });
+    }
+  });
+}
+
 function quit() {
   app.quit();
 }
@@ -137,7 +145,7 @@ function alert(message) {
     // icon: nativeImage.createFromPath(icon)
   });
 }
-
+global.alert = alert
 
 
 

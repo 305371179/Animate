@@ -1,14 +1,19 @@
 "use strict";
 
 // Node modules
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const Library = require('./Library');
 const Renderer = require('./Renderer');
+const {exportAssets} = require('./template_html/utils');
 const DataUtils = require('./utils/DataUtils');
 const beautify = require('js-beautify').js_beautify;
-const SpritesheetBuilder = require('./SpritesheetBuilder');
+var SpritesheetBuilder;
+if(!global.isDebug){
+   SpritesheetBuilder = require('./SpritesheetBuilder');
+}
+
 const {exportFiles} = require('./renderHtml')
 
 /**
@@ -125,12 +130,16 @@ p.exportAssets = function (done) {
     assetsToLoad[meta.stageName] = meta.imagesPath + filename;
     // console.log(assetsToLoad)
   }
-
+  if(global.isDebug){
+    meta.spritesheets = false
+  }
   if (meta.spritesheets && this.library.bitmaps.length) {
+    let spriteSheetJsonPath = meta.imagesPath + meta.stageName + '_atlas_'
+    // exportAssets(fs.readFileSync(path.resolve(process.cwd(),spriteSheetJsonPath+'.png'),'utf-8'))
     // Create the builder
     new SpritesheetBuilder({
         assets: assetsToLoad,
-        output: meta.imagesPath + meta.stageName + '_atlas_',
+        output: spriteSheetJsonPath,
         size: meta.spritesheetSize,
         scale: meta.spritesheetScale || 1,
         debug: this.debug
@@ -138,7 +147,9 @@ p.exportAssets = function (done) {
       this.assetsPath,
       (assets) => {
         this.library.stage.assets = assets;
-        done();
+        global.assets = assets
+        // alert(JSON.stringify(assets))
+        done(assets);
       }
     );
   }
@@ -170,9 +181,10 @@ p.destroy = function () {
  */
 p.run = function (done) {
   try {
-    this.exportAssets(() => {
+    this.exportAssets((assets) => {
       try {
-        const buffer = this.publish();
+        exportAssets(assets)
+        const buffer = this.publish(assets)
         this.destroy();
         if (this.debug) {
           buffer.split('\n').forEach((line) => {
@@ -195,11 +207,11 @@ p.run = function (done) {
  * Save the output stream
  * @method publish
  */
-p.publish = function () {
+p.publish = function (alert) {
   const meta = this._data._meta;
 // return
   // Get the javascript buffer
-  let buffer = this.renderer.render();
+  let buffer = this.renderer.render(global.assets);
   if (meta.compressJS) {
     // Run through uglify
     const UglifyJS = require('uglify-js');

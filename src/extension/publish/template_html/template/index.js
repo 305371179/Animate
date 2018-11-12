@@ -191,18 +191,34 @@
     if(this.type === 'shape'){
       //设置svg大小，刚好包裹矢量元素
       let g = this.dom.querySelector('g')
+      let paths = g.querySelectorAll('path')
+      // console.log(paths)
+      let maxStrokeWidth = 0
+      if(paths){
+        for (var i = 0; i < paths.length; i++) {
+          let p = paths[i];
+          let strokeWidth = p.getAttribute('stroke-width')
+          if(strokeWidth&&maxStrokeWidth<strokeWidth){
+            maxStrokeWidth = strokeWidth
+          }
+        }
+      }
+      // console.log(maxStrokeWidth)
       let box = g.getBBox()
       let x = Math.floor(box.x)
       let y = Math.floor(box.y)
       let width = Math.ceil(box.width)
       let height = Math.ceil(box.height)
+      let half = maxStrokeWidth/2
+      x -=half
+      y -=half
       if(x||y){
         g.setAttribute('transform','translate('+(-x)+' '+(-y)+')')
         if(x)this.dom.style.left=x+'px'
         if(y)this.dom.style.top=y+'px'
       }
-      this.dom.style.width=width+'px'
-      this.dom.style.height=height+'px'
+      this.dom.style.width=width+maxStrokeWidth+'px'
+      this.dom.style.height=height+maxStrokeWidth+'px'
 
       // this.dom.style.width=Math.ceil(box.x+box.width)+'px'
       // this.dom.style.height=Math.ceil(box.y+box.height)+'px'

@@ -157,6 +157,8 @@ p.getTimelines = function()
     let buffer = "";
     const renderer = this;
     // console.log(this.library.timelines)
+// alert(this.assets)
+
   getStageTimeline(this.library.timelines,renderer)
     this.library.timelines.forEach(function(timeline)
     {
@@ -189,8 +191,9 @@ p.getFooter = function()
  * @method render
  * @return {string} buffer
  */
-p.render = function()
+p.render = function(assets)
 {
+    this.assets = assets
     const meta = this.library.meta;
     let buffer = "";
     buffer += this.getHeader();

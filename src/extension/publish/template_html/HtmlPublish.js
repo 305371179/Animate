@@ -28,11 +28,12 @@ module.exports = {
   getStageTimeline(timelines,renderer){
     global.renderer = renderer
     global.stage = timelines[timelines.length-1]
+    global.assets = renderer.assets
     global.library = global.stage.library
     global.meta = global.library.meta
     for(let id in global.library._mapById){
       // console.log(id)
-      utils.parseClass(global.library._mapById,id)
+      utils.parseClass(global.library._mapById,id,assets)
     }
     // 获取所有的html标签类
     // console.log(stage.library._mapById)
