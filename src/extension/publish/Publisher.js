@@ -8,7 +8,7 @@ const Library = require('./Library');
 const Renderer = require('./Renderer');
 const DataUtils = require('./utils/DataUtils');
 const beautify = require('js-beautify').js_beautify;
-// const SpritesheetBuilder = require('./SpritesheetBuilder');
+const SpritesheetBuilder = require('./SpritesheetBuilder');
 const {exportFiles} = require('./renderHtml')
 
 /**
@@ -197,7 +197,7 @@ p.run = function (done) {
  */
 p.publish = function () {
   const meta = this._data._meta;
-
+// return
   // Get the javascript buffer
   let buffer = this.renderer.render();
   if (meta.compressJS) {
@@ -216,9 +216,9 @@ p.publish = function () {
   // Save the output file
   let outputFile = path.join(process.cwd(), meta.outputFile);
   fs.writeFileSync(outputFile, buffer);
-  setTimeout(()=>{
-    exportFiles(outputFile)
-  })
+  // setTimeout(()=>{
+  //   // exportFiles(outputFile)
+  // })
 
   /*let indexJs = path.join(process.cwd(), 'index.js');
   let html = path.join(process.cwd(), 'index.html');

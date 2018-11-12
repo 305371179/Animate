@@ -31,7 +31,11 @@ const convertStr = function (k,v) {
   return v
 }
 const resolve = p => {
-  return Handlebars.compile(fs.readFileSync(path.resolve(__dirname, p), 'utf-8'))
+  let dir = __dirname
+  // if(dir.indexOf('template_html')===-1){
+  //   dir =path.resolve(dir,'template_html')
+  // }
+  return Handlebars.compile(fs.readFileSync(path.resolve(dir, p), 'utf-8'))
 }
 var htmlTemplate = resolve('./template/index.html')
 var cssTemplate = resolve('./template/css.mustache')

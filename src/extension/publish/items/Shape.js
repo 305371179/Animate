@@ -114,6 +114,7 @@ const p = Shape.prototype;
  */
 p.toColor = function(hex)
 {
+    if(!hex)return hex
     return DataUtils.compressColors(hex);
 };
 

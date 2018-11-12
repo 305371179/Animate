@@ -1,6 +1,10 @@
 module.exports = function(gulp, options, plugins) {
     gulp.task('default', function(done){
-
+        var fs = require('fs-extra')
+        var path = require('path')
+        fs.copySync(path.resolve(__dirname,'../../src/extension/publish/template_html/template'),path.resolve(__dirname,'../../extension/publish/template'))
+        // console.log(__dirname,path.resolve('../../extension/publish'))
+        // return
         var debug = options.argv.debug;
         var plugin = options.argv.plugin;
         var install = options.argv.install;

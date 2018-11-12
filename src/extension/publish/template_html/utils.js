@@ -631,7 +631,16 @@ const parseShape = (node, clz, cssId, cssNode, id) => {
           pathNode.attr.fill = `url(#${gradientId})`
         }
       }else if(imgId){
-        pathNode.attr.fill = `url(#${imgId})`
+        if(!p.stroke){
+          pathNode.attr.fill = `url(#${imgId})`
+        }else{
+          pathNode.attr.fill = 'none'
+          pathNode.attr.stroke =`url(#${imgId})`
+          // console.log(p)
+          pathNode.attr['stroke-width'] = p.thickness
+          pathNode.attr['stroke-linejoin']=p.linejoin
+          pathNode.attr['stroke-linecap']=p.linecap
+        }
       }
     }
     pathNode.attr.d = parseD(p.d)

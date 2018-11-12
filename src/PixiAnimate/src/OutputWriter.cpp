@@ -313,6 +313,8 @@ namespace PixiJS
 		FCM::AutoPtr<FCM::IFCMUnknown> pUnk;
 
 		FCM::Boolean alreadyExported = GetImageExportFileName(libPathName, name);
+//		// 看看名字是否有输出过
+//    			GetImageExportName(name, name);
 		if (!alreadyExported)
 		{
 			if (m_images && !m_imageFolderCreated)
@@ -325,11 +327,16 @@ namespace PixiJS
 				}
 				m_imageFolderCreated = true;
 			}
+
 			Utils::GetFileExtension(libPathName, ext);
 			Utils::GetFileNameWithoutExtension(libPathName, name);
+			// 看看名字是否有输出过
+      Utils::Trace(m_pCallback, "INFO111: Output image name (%s) \n", name.c_str());
+      			GetImageExportName(name, name);
+      Utils::Trace(m_pCallback, "INFO111: Output image name (%s) \n", name.c_str());
 			SetImageExportFileName(libPathName, name);
-			Utils::Trace(m_pCallback, "INFO111: Output image folder (%s) could not be created\n", libPathName.c_str());
-			Utils::Trace(m_pCallback, "INFO111: Output image folder (%s) could not be created\n", name.c_str());
+//			Utils::Trace(m_pCallback, "INFO111: Output image libPathName (%s) \n", libPathName.c_str());
+//			Utils::Trace(m_pCallback, "INFO111: Output image name (%s) \n", name.c_str());
 			if (ext == "")
 			{
 				ext = "png";
@@ -339,6 +346,10 @@ namespace PixiJS
 			{
 				ext = "png";
 			}
+			if (ext != "png" && ext != "jpg" && ext != "jpeg")
+          {
+            ext = "png";
+          }
 		std::string bitmapExportPath(m_outputImageFolder + name + "." + ext);
 		std::string bitmapRelPath(m_imagesPath + name + "." + ext);
 
@@ -747,7 +758,7 @@ namespace PixiJS
 				res = Utils::CreateDir(m_outputImageFolder, m_pCallback);
 				if (!(FCM_SUCCESS_CODE(res)))
 				{
-					Utils::Trace(m_pCallback, "ERROR: Output image folder (%s) could not be created\n", m_outputImageFolder.c_str());
+					Utils::Trace(m_pCallback, "ERROR: Output image folder (%s) could not be created\n11111", m_outputImageFolder.c_str());
 					return res;
 				}
 				m_imageFolderCreated = true;
@@ -767,7 +778,7 @@ namespace PixiJS
 
 
 		}else{
-					Utils::Trace(m_pCallback, "11111111");
+//					Utils::Trace(m_pCallback, "11111111");
 
 		}
 

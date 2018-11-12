@@ -5,7 +5,7 @@
   "scripts": {
     "debug": "node src/extension/publish/index.js",
     "mkdir": "sh build.sh",
-    "fla": "open /Users/gsch/编程/AnimateCC/pixi-animate-extension/fla/pixi1.fla",
+    "fla": "open /Users/gsch/编程/AnimateCC/pixi-animate-extension/fla/aa.fla",
     "open": "open '/Library/Application Support/Adobe/CEP/extensions/com.jibo.PixiAnimate'",
     "copy": "cp -r 'com.jibo.PixiAnimate/.' '/Library/Application Support/Adobe/CEP/extensions/com.jibo.PixiAnimate'",
     "extract": "rm -rf com.jibo.PixiAnimate && mkdir com.jibo.PixiAnimate && tar -xzfPixiAnimate.zxp -C com.jibo.PixiAnimate",

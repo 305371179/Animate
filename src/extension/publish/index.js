@@ -1,26 +1,19 @@
 "use strict";
-const debug = true
+const debug = false
 const fs = require('fs-extra')
 const jsonFormat = require('json-format')
-// const electron = require('electron');
-// const app = electron.app;
+const electron = require('electron');
+const app = electron.app;
 const minimist = require('minimist');
 const path = require('path');
 const semver = require('semver');
 // const {exportFiles} = require('./renderHtml')
 var argv = ''
 if(debug){
-  // const argv = {"_":[],"debug":true,"compress":false,"perf":false,"src":"/Users/gsch/Downloads/fun/guangzhou/data.json"}
    argv = {"_":[],"debug":true,"compress":false,"perf":false,"src":"/Users/gsch/编程/AnimateCC/pixi-animate-extension/fla/data.json"}
-
-// For measuring performance
   const startTime = process.hrtime()[1];
-
-// Include classes
   const Publisher = require('./Publisher');
   const DataUtils = require('./utils/DataUtils');
-
-// Create a new publisher
   const publisher = new Publisher(
     argv.src, // path to the javascript file
     argv.compress, // If the output should be compressed
@@ -58,7 +51,7 @@ if(debug){
   });
 }
 
-/*app.on('ready', function () {
+app.on('ready', function () {
   if (!semver.gte(process.versions.electron, '1.8.2')) {
     alert("Must use Electron v1.8.2 or greater. Install using 'npm install -g electron-prebuilt'");
     quit();
@@ -115,7 +108,7 @@ if(debug){
         );
         console.log(`\nExecuted in ${executionTime} seconds\n`);
       }
-      exportFiles()
+      // exportFiles()
       quit();
     });
   }
@@ -143,7 +136,7 @@ function alert(message) {
     buttons: ['Close']
     // icon: nativeImage.createFromPath(icon)
   });
-}*/
+}
 
 
 
