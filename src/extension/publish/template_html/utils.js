@@ -1652,7 +1652,7 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
     }
   })
   //JSON.parse(JSON.stringify(node.child[0].child))
- /* mask.libraryItem.frames[0].commands.forEach(c=>{
+  mask.libraryItem.frames[0].commands.forEach(c=>{
     // console.log(c)
     if(c.type === 'Place'){
       clipPathNode.child.forEach(p=>{
@@ -1680,7 +1680,7 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
         },cssNode)
       })
     }
-  })*/
+  })
 
 
   // clipPathNode.attr.frames = maskInstance.libraryItem.totalFrames

@@ -27,29 +27,39 @@ body {
   height: 400px;
 }
 
-.movieclip2 {
+.bitmap5 {
   position: absolute;
+  width: 201px;
+  height: 201px;
 }
 
 g {
   pointer-events: visiblePainted;
 }
 
+.movieclip7 {
+  position: absolute;
+}
+
 #_id {
   position: absolute;
 }
 
-.bitmap3 {
-  position: absolute;
-  width: 201px;
-  height: 201px;
-}
-
-.movieclip5 {
+.movieclip8 {
   position: absolute;
 }
 
 #_id1 {
+  position: absolute;
+  transform: translate3d(25px, 26px, 0);
+  -webkit-transform: translate3d(25px, 26px, 0);
+}
+
+.movieclip9 {
+  position: absolute;
+}
+
+#_id2 {
   position: absolute;
   transform: translate3d(-100px, -100px, 0);
   -webkit-transform: translate3d(-100px, -100px, 0);
@@ -63,28 +73,65 @@ g {
   background: #ffffff;
 }
 
-#_id2 {
+#_id3 {
   position: absolute;
   transform: translate3d(101px, 101px, 0);
   -webkit-transform: translate3d(101px, 101px, 0);
 }
 
+#path {}
+
 #mask_1 {
-  transform: translate3d(-50px, 0, 0) scaleY(0.9999);
-  -webkit-transform: translate3d(-50px, 0, 0) scaleY(0.9999);
+  transform: translate3d(27px, 27px, 0);
+  -webkit-transform: translate3d(27px, 27px, 0);
 }
 
-#_id2.mask_1 * {
+#_id3.mask_1 * {
   clip-path: url(#mask_1);
   -webkit-clip-path: url(#mask_1);
 }
 
-#mask1_5 {
-  transform: translate3d(-50px, 0, 0) scaleY(0.9999);
-  -webkit-transform: translate3d(-50px, 0, 0) scaleY(0.9999);
+#mask_2 {
+  transform: translate3d(57px, 20px, 0);
+  -webkit-transform: translate3d(57px, 20px, 0);
 }
 
-#_id2.mask1_5 * {
+#_id3.mask_2 * {
+  clip-path: url(#mask_2);
+  -webkit-clip-path: url(#mask_2);
+}
+
+#mask_3 {
+  transform: translate3d(87px, 14px, 0);
+  -webkit-transform: translate3d(87px, 14px, 0);
+}
+
+#_id3.mask_3 * {
+  clip-path: url(#mask_3);
+  -webkit-clip-path: url(#mask_3);
+}
+
+#mask_4 {
+  transform: translate3d(117px, 7px, 0);
+  -webkit-transform: translate3d(117px, 7px, 0);
+}
+
+#_id3.mask_4 * {
+  clip-path: url(#mask_4);
+  -webkit-clip-path: url(#mask_4);
+}
+
+#path1 {
+  transform: translate3d(25px, 26px, 0);
+  -webkit-transform: translate3d(25px, 26px, 0);
+}
+
+#mask1_5 {
+  transform: translate3d(147px, 0, 0);
+  -webkit-transform: translate3d(147px, 0, 0);
+}
+
+#_id3.mask1_5 * {
   clip-path: url(#mask1_5);
   -webkit-clip-path: url(#mask1_5);
 }

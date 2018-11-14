@@ -8,20 +8,20 @@
           "alpha": 1,
           "d": [
             "m",
-            119.95,
-            50,
+            29,
+            -26,
             "l",
-            119.95,
-            0,
+            -25,
+            -26,
             "l",
-            50,
-            0,
+            -25,
+            28,
             "l",
-            50,
-            50,
+            29,
+            28,
             "l",
-            119.95,
-            50,
+            29,
+            -26,
             "c"
           ],
           "stroke": false
@@ -31,7 +31,7 @@
   ],
   "Bitmaps": [
     {
-      "assetId": 3,
+      "assetId": 5,
       "height": 201,
       "width": 201,
       "src": "images/Bitmap 8.png",
@@ -42,10 +42,10 @@
   "Texts": [],
   "Timelines": [
     {
-      "assetId": 2,
-      "type": "movieclip",
-      "name": "补间_13",
-      "totalFrames": 1,
+      "assetId": 7,
+      "type": "graphic",
+      "name": "Graphic1",
+      "totalFrames": 4,
       "frames": [
         {
           "frame": 0,
@@ -69,9 +69,9 @@
       ]
     },
     {
-      "assetId": 5,
+      "assetId": 9,
       "type": "graphic",
-      "name": "Graphic1",
+      "name": "Graphic2",
       "totalFrames": 5,
       "frames": [
         {
@@ -79,7 +79,7 @@
           "commands": [
             {
               "type": "Place",
-              "assetId": 3,
+              "assetId": 5,
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
@@ -96,6 +96,33 @@
       ]
     },
     {
+      "assetId": 8,
+      "type": "graphic",
+      "name": "Graphic3",
+      "totalFrames": 1,
+      "frames": [
+        {
+          "frame": 0,
+          "commands": [
+            {
+              "type": "Place",
+              "assetId": 1,
+              "instanceId": 1,
+              "placeAfter": 0,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 25,
+                "ty": 26
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "type": "stage",
       "name": "a",
       "totalFrames": 5,
@@ -105,18 +132,18 @@
           "commands": [
             {
               "type": "Place",
-              "assetId": 2,
+              "assetId": 7,
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
-                "a": 0.999969,
+                "a": 1,
                 "b": 0,
                 "c": 0,
-                "d": 0.999924,
-                "tx": -50,
-                "ty": 0
+                "d": 1,
+                "tx": 27,
+                "ty": 27
               },
-              "loop": true
+              "loop": false
             },
             {
               "type": "ColorTransform",
@@ -133,18 +160,8 @@
               }
             },
             {
-              "type": "Visibility",
-              "instanceId": 1,
-              "visibility": true
-            },
-            {
-              "type": "BlendMode",
-              "instanceId": 1,
-              "blendMode": "Normal"
-            },
-            {
               "type": "Place",
-              "assetId": 5,
+              "assetId": 9,
               "instanceId": 2,
               "placeAfter": 1,
               "transform": {
@@ -179,16 +196,53 @@
           ]
         },
         {
+          "frame": 1,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 57,
+                "ty": 20.25
+              }
+            }
+          ]
+        },
+        {
           "frame": 2,
           "commands": [
             {
-              "type": "Remove",
-              "instanceId": 1
-            },
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 87,
+                "ty": 13.5
+              }
+            }
+          ]
+        },
+        {
+          "frame": 3,
+          "commands": [
             {
-              "type": "ZOrder",
-              "instanceId": 2,
-              "placeAfter": 0
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 117,
+                "ty": 6.75
+              }
             }
           ]
         },
@@ -196,19 +250,23 @@
           "frame": 4,
           "commands": [
             {
+              "type": "Remove",
+              "instanceId": 1
+            },
+            {
               "type": "Place",
-              "assetId": 2,
+              "assetId": 8,
               "instanceId": 3,
               "placeAfter": 0,
               "transform": {
-                "a": 0.999969,
+                "a": 1,
                 "b": 0,
                 "c": 0,
-                "d": 0.999924,
-                "tx": -50,
+                "d": 1,
+                "tx": 147,
                 "ty": 0
               },
-              "loop": true
+              "loop": false
             },
             {
               "type": "ColorTransform",
@@ -223,16 +281,6 @@
                 "a": 1,
                 "aA": 0
               }
-            },
-            {
-              "type": "Visibility",
-              "instanceId": 3,
-              "visibility": true
-            },
-            {
-              "type": "BlendMode",
-              "instanceId": 3,
-              "blendMode": "Normal"
             },
             {
               "type": "ZOrder",
