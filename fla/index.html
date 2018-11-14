@@ -33,9 +33,20 @@
 
 <body>
   <!--<button class="a" onclick="console.log(4444)">44444</button>-->
-  <div class="stage" name="a" id="a" totalFrames="1">
-    <div class="bitmap2" name="Bitmap 5" id="_id" range="1,-1"></div>
-    <div class="bitmap1" name="Bitmap 6" id="_id1" range="1,-1"></div>
+  <div class="stage" name="a" id="a" totalFrames="5">
+    <svg class="masks" name="masks" id="_masks">
+      <defs mask="1" mask1="5">
+        <clipPath id="mask_1" class="mask">
+          <path d="M 119.95 50 L 119.95 0 L 50 0 L 50 50 L 119.95 50 Z"></path>
+        </clipPath>
+        <clipPath id="mask1_5" class="mask">
+          <path d="M 119.95 50 L 119.95 0 L 50 0 L 50 50 L 119.95 50 Z"></path>
+        </clipPath>
+      </defs>
+    </svg>
+    <div class="movieclip5" name="Graphic1" totalFrames="5" id="_id2" range="1,-1" maskId="mask,mask1">
+      <img class="bitmap3" name="Bitmap 8" src="images/Bitmap 8.png" id="_id1" range="1,-1" />
+    </div>
   </div>
   <!--<script type="text/javascript" src="libs/stat.js"></script>-->
   <script type="text/javascript" src="index.js"></script>

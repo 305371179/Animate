@@ -177,6 +177,7 @@ p.renderInstance = function(renderer, instance)
 p.getMaskFrames = function(instance)
 {
     const result = {};
+    // console.log(this.masks)
     this.masks.forEach(function(entry)
     {
         if (entry.instance === instance)

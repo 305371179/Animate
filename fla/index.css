@@ -20,24 +20,39 @@ body {
   diaplay: none;
 }
 
-.bitmap1 {
+.shape1 {
   position: absolute;
-  width: 53px;
-  height: 133px;
-  background: url(images/a_atlas_1.png) no-repeat;
-  background-position: -1px -1px;
+  pointer-events: none;
+  width: 550px;
+  height: 400px;
+}
+
+.movieclip2 {
+  position: absolute;
 }
 
 g {
   pointer-events: visiblePainted;
 }
 
-.bitmap2 {
+#_id {
   position: absolute;
-  width: 225px;
-  height: 54px;
-  background: url(images/a_atlas_1.png) no-repeat;
-  background-position: -55px -1px;
+}
+
+.bitmap3 {
+  position: absolute;
+  width: 201px;
+  height: 201px;
+}
+
+.movieclip5 {
+  position: absolute;
+}
+
+#_id1 {
+  position: absolute;
+  transform: translate3d(-100px, -100px, 0);
+  -webkit-transform: translate3d(-100px, -100px, 0);
 }
 
 #a {
@@ -48,14 +63,36 @@ g {
   background: #ffffff;
 }
 
-#_id {
+#_id2 {
   position: absolute;
-  transform: translate3d(118px, 296px, 0);
-  -webkit-transform: translate3d(118px, 296px, 0);
+  transform: translate3d(101px, 101px, 0);
+  -webkit-transform: translate3d(101px, 101px, 0);
 }
 
-#_id1 {
+#mask_1 {
+  transform: translate3d(-50px, 0, 0) scaleY(0.9999);
+  -webkit-transform: translate3d(-50px, 0, 0) scaleY(0.9999);
+}
+
+#_id2.mask_1 * {
+  clip-path: url(#mask_1);
+  -webkit-clip-path: url(#mask_1);
+}
+
+#mask1_5 {
+  transform: translate3d(-50px, 0, 0) scaleY(0.9999);
+  -webkit-transform: translate3d(-50px, 0, 0) scaleY(0.9999);
+}
+
+#_id2.mask1_5 * {
+  clip-path: url(#mask1_5);
+  -webkit-clip-path: url(#mask1_5);
+}
+
+.masks {
   position: absolute;
-  transform: translate3d(425px, 241px, 0);
-  -webkit-transform: translate3d(425px, 241px, 0);
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
 }

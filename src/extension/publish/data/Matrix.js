@@ -11,6 +11,7 @@ const DataUtils = require('../utils/DataUtils');
  */
 const Matrix = function(matrix)
 {
+    this.matrix = matrix
     /**
      * The x position
      * @property {Number} x
@@ -81,7 +82,8 @@ p.toTween = function()
         sy: this.scaleY,
         kx: this.skewX,
         ky: this.skewY,
-        r: this.rotation
+        r: this.rotation,
+        matrix: [this.matrix.a,this.matrix.b,this.matrix.c,this.matrix.d,this.matrix.tx,this.matrix.ty]
     };
 };
 

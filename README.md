@@ -102,3 +102,4 @@ gulp --plugin --install
 ```
 
 Now use the ZXP utility for windows to install the **PixiAnimate.zxp** plugin for Adobe Animate CC 2015, make sure to remove the existing plugin before install
+

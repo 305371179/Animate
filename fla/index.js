@@ -1,4 +1,5 @@
 (function(win) {
+
   var parseType = function(classList) {
     // console.log(classList,3333)
     if (!classList || !classList.length) return
@@ -7,10 +8,10 @@
   var Common = function(dom) {
     if (!dom) return
     if (typeof dom === "string") {
-      // console.log(dom,5555)
       dom = document.querySelector(dom)
       if (!dom) {
-        throw new Error('不存在此元素' + dom)
+        // throw new Error('不存在此元素' + dom)
+        return
       }
     }
     this.dom = dom
@@ -21,8 +22,130 @@
     this.type = parseType((this.classList))
     this.currentFrame = 1
     this._getStartAndEndFrame()
+    this._setMask()
   }
+  // Common._masksMap = null
   var p = Common.prototype
+  p._setMask = function() {
+    var masks = this.dom.getAttribute('maskid')
+    if (!masks) return
+    if (masks) {
+      masks = masks.split(',')
+    }
+    // console.log(this.totalFrames,4444)
+    this._masksMap = {
+
+    }
+    // this._masksFrames = {}
+    // console.log(this._masksMap,this._masksFrames)
+    // if(!Common._masksMap.length){
+    //
+    //
+    // }
+    var defs = document.querySelector('.masks defs')
+    for (var i = 0; i < masks.length; i++) {
+      var maskId = masks[i]
+      var range = defs.getAttribute(maskId)
+      var max = []
+      var fs = this._parseRange(range, max)
+      // console.log(max)
+      this._masksMap[maskId] = {
+        frames: fs,
+        max: max
+      }
+      // if(fs[i].length){
+      //   this._masksFrames = fs[[i]]
+      // }
+      // console.log(55555)
+      /*for (var j = 0; j < fs.length; j++) {
+          this.masks[fs[j]] = maskId+'_'+fs[j]
+      }*/
+
+      // var mask = new MaskElement('#'+masks[i]+"_1")
+      // if(!mask)continue
+      // mask.parent = this
+      // mask.parentClassList = this.classList
+      // this.masks.push(mask)
+    }
+    // console.log(this._masksMap)
+    // alert(33)
+  }
+  p._runMasks = function() {
+    if (!this._masksMap) return
+    // console.log(this._masksMap,this._masksFrames)
+    // return
+    if (!this._masksFrames) {
+      this._masksFrames = {}
+    }
+    // var isRemove = false
+    var maskId = this._masksFrames[this.currentFrame]
+    if (!maskId) {
+      for (var k in this._masksMap) {
+        // console.log(k,this._masksMap[k],this.currentFrame)
+        // return
+        // console.log(this._masksMap[k])
+        maskId = this._isKeyFrame(this._masksMap[k]['frames'], this.currentFrame)
+        // console.log(maskId)
+        if (maskId) {
+          maskId = k + '_' + this.currentFrame
+          this._masksFrames[this.currentFrame] = maskId
+          break
+        }
+        /*else if(this.currentFrame>this._maxMaskFrame){
+                  // if(this._lastMaskId){
+                  //   this.classList.remove(this._lastMaskId)
+                  // }
+                  isRemove = true
+                }*/
+      }
+    }
+
+    if (maskId) {
+      if (this._lastMaskId) {
+        this.classList.remove(this._lastMaskId)
+      }
+      this._lastMaskId = maskId
+      this.classList.add(this._lastMaskId)
+    } else {
+      if (this._lastMaskId) {
+
+        var max = this._masksMap[this._lastMaskId.split('_')[0]].max
+        // console.log(max)
+        if (max[0] > this.currentFrame || this.currentFrame > max[1]) {
+          this.classList.remove(this._lastMaskId)
+        }
+      }
+      // console.log(this._lastMaskId)
+      /*if(this.currentFrame>this._maxMaskFrame)
+      if(this._lastMaskId){
+        this.classList.remove(this._lastMaskId)
+      }*/
+    }
+    // for (var i = 0; i < this.masks.length; i++) {
+
+    /*let id =this.masks[i]._renderSelf(this.currentFrame)
+    if(id){
+      id += '_'+this.currentFrame
+      var find = false
+      var classes = this.classList.toString().split(' ')
+      for (var j = 0; j < classes.length; j++) {
+        // console.log(classes[j],this._lastMaskId)
+        if(classes[j]===this._lastMaskId){
+          find = true
+          break
+        }
+      }
+      if(find)continue
+      if(this._lastMaskId){
+        this.classList.remove(this._lastMaskId)
+      }
+      // console.log(this.classList)
+      this.classList.add(id)
+      this._lastMaskId = id
+      // return
+    }*/
+    // }
+  }
   p.getCurrentFrameClass = function(currentFrame) {
     return 'f' + currentFrame
   }
@@ -42,27 +165,7 @@
     //   throw new Error(this.dom.toString()+'属性endFrame不存在')
     // }
   }
-  p._getFrames = function() {
-    this.frames = this.dom.getAttribute('frames')
-    if (!this.frames) {
-      this.frames = [1]
-    } else {
-      var fs = this.frames.split(',')
-      for (var i = 0; i < fs.length; i++) {
-        if (fs[i].indexOf('~') !== -1) {
-          var r = fs[i].split('~')
-          fs[i] = [parseInt(r[0]), parseInt(r[1])]
-        } else {
-          fs[i] = parseInt(fs[i])
-        }
-      }
-      // fs=[1,2]
-      // console.log(JSON.stringify(fs),this.dom)
-      // console.log()
-      // console.log(fs)
-      this.frames = fs //JSON.parse('[' + fs + ']')
-    }
-  }
+
   p._getTotalFrames = function() {
     this.totalFrames = this.dom.getAttribute('totalFrames')
     if (!this.totalFrames) {
@@ -74,10 +177,10 @@
   p.render = function() {
     // Should be overwrite
   }
-  p._isKeyFrame = function(currentFrame) {
+  p._isKeyFrame = function(frames, currentFrame) {
     // console.log(this.frames)
-    for (var i = 0; i < this.frames.length; i++) {
-      let frame = this.frames[i]
+    for (var i = 0; i < frames.length; i++) {
+      let frame = frames[i]
       // console.log(typeof frame)
       if (frame.length) {
         if (currentFrame >= frame[0] && currentFrame <= frame[1]) {
@@ -155,12 +258,16 @@
     // if(this.id === 'id2'){
     //   console.log(currentFrame,this.startFrame,this.endFrame,currentFrame<this.startFrame||(currentFrame >= this.endFrame&&this.endFrame!==-1))
     // }
+    this._runMasks()
+    // if(this.type === 'mask'){
+    //   console.log(this.startFrame,this.endFrame,this.totalFrames,this.frames)
+    // }
     if (currentFrame < this.startFrame || currentFrame >= this.endFrame && this.endFrame !== -1) {
       // console.log(this.type,this.name)
       this._deleteFrame()
       return
     }
-    var frame = this._isKeyFrame(currentFrame)
+    var frame = this._isKeyFrame(this.frames, currentFrame)
     // if(currentFrame)
     // console.log(frame,currentFrame)
     if (frame) {
@@ -174,21 +281,66 @@
       this._deleteFrame()
     }
   }
+  p._parseRange = function(range, max) {
+    var fs = range.split(',')
+    if (!max) max = []
+    for (var i = 0; i < fs.length; i++) {
+      if (fs[i].indexOf('~') !== -1) {
+        var r = fs[i].split('~')
+        fs[i] = [parseInt(r[0]), parseInt(r[1])]
+        if (!max.length) {
+          max[0] = fs[i][0]
+          max[1] = fs[i][1]
+        }
+        if (max[0] > fs[i][0]) {
+          max[0] = fs[i][0]
+        }
+        if (max[1] < fs[i][1]) {
+          max[1] = fs[i][1]
+        }
+      } else {
+        fs[i] = parseInt(fs[i])
+        if (!max.length) {
+          max[0] = fs[i]
+          max[1] = fs[i]
+        }
+        if (max[0] > fs[i]) {
+          max[0] = fs[i]
+        }
+        if (max[1] < fs[i]) {
+          max[1] = fs[i]
+        }
+      }
+    }
+    // console.log(max,555)
+    return fs
+  }
+  p._getFrames = function() {
+    this.frames = this.dom.getAttribute('frames')
+    if (!this.frames) {
+      this.frames = [1]
+    } else {
+      this.frames = this._parseRange(this.frames) //JSON.parse('[' + fs + ']')
+    }
+  }
   win.Common = Common
 })(window);
 (function(win) {
   var DisplayElement = function(dom) {
     Common.call(this, dom)
+    if (!dom) return
     this.init()
   }
   DisplayElement.prototype = new Common()
   var p = DisplayElement.prototype
   p.init = function() {
     this._getFrames()
-    // this._setSvgSize()
+    this._setSvgSize()
   }
   p._setSvgSize = function() {
     if (this.type === 'shape') {
+      // console.log(this.dom.style)
+      // if(this.dom.class)
       //设置svg大小，刚好包裹矢量元素
       let g = this.dom.querySelector('g')
       let paths = g.querySelectorAll('path')
@@ -249,6 +401,41 @@
   }
 
   win.DisplayElement = DisplayElement
+})(window);
+(function(win) {
+  var MaskElement = function(dom) {
+    DisplayElement.call(this, dom)
+    this.init()
+  }
+  MaskElement.prototype = new DisplayElement()
+  var p = MaskElement.prototype
+  p.init = function() {}
+  p._renderSelf = function(currentFrame) {
+    // console.log(this.currentFrame)
+    if (this.currentFrame === currentFrame) {
+      return
+    }
+    this.currentFrame = currentFrame
+    if (currentFrame < this.startFrame || currentFrame >= this.endFrame && this.endFrame !== -1) {
+      this._deleteFrame()
+      return
+    }
+    // return
+    this._changFrame(currentFrame)
+    return this.id
+  }
+  p._changFrame = function(currentFrame) {
+    var currentClass = this.getCurrentFrameClass(currentFrame)
+    if (this.lastClass && this.lastClass === currentClass) {
+      // console.log(this.lastClass)
+      // this.classList.remove('hidden')
+      return
+    }
+    this.lastClass && this.classList.remove(this.lastClass)
+    this.lastClass = currentClass
+    this.classList.add(this.lastClass)
+  }
+  win.MaskElement = MaskElement
 })(window);
 (function(win) {
   var MovieClip = function(dom) {
@@ -412,10 +599,23 @@
     var childNodes = this.dom.childNodes
     // console.log(this.id,this.dom)
     // var bounds = ''
+
     for (var i = 0; i < childNodes.length; i++) {
       var child = childNodes[i]
+      if (!child.getAttribute) continue
       // console.log(child)
       if (child.nodeName === '#text') continue
+      /*if(this.mask){
+        if(!child.style['clip-path'])child.style['clip-path']=''
+        var masks = this.mask.split(' ')
+        // console.log(masks)
+        for (var j = 0; j < masks.length; j++) {
+          child.style['clip-path'] += 'url(#'+masks[j]+") "
+          console.log(child.style['clip-path'])
+        }
+
+      }*/
+
       //movieclip都有totalFrames属性
       // console.log(child.getAttribute('totalFrames')===null)
       var c = ''
@@ -573,10 +773,17 @@
     clearInterval(this._renderId)
   }
   p.startUp = function() {
+    let last = ''
     this._renderId = setInterval(function() {
       if (this._paused) return
       this.render(1)
-    }.bind(this), 1000 / this.frameRate)
+      // console.log(this.currentFrame)
+      // // last = 'f'+this.currentFrame
+      // if(last)
+      // document.getElementById('mask').classList.remove(last)
+      // last = 'f'+this.currentFrame
+      // document.getElementById('mask').classList.add(last)
+    }.bind(this), 10000 / this.frameRate)
     this.render(1)
     return this
   }
@@ -585,6 +792,15 @@
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
 var stage = new Stage('#a').startUp()
+// var stage = new Stage('#a')
+//   stage.startUp()
+//
+// var count = 0
+// document.body.onclick=function () {
+//   console.log(stage)
+//   // stage.render()
+//   document.querySelector('#_mask path').setAttribute('transform','translate('+(count++)+',0)')
+// }
 // stage['_id2'].gotoAndStop(10)
 // console.log(stage['_id2'].currentFrame)
 // stage['_id2']['_id1'].gotoAndStop(10)
@@ -607,4 +823,15 @@ var stage = new Stage('#a').startUp()
 // },3000)
 // setTimeout(function () {
 //   stage.resume()
+// console.log()
 // },6000)
+// let box = document.querySelector('clipPath').getBBox()
+// document.querySelector('clipPath').style.left =-box.width/2 + 'px'
+// document.querySelector('clipPath').style.top =-box.height/2 + 'px'
+// console.log(document.querySelector('#_mask').classList.add('f3'))
+// console.log(document.querySelector('#_mask1').classList.add('hidden'))
+// console.log(document.querySelector('#_id2').classList.add('_mask_5'))
+//
+// console.log(document.querySelector('#_mask').classList.add('f1'))
+// console.log(document.querySelector('#_mask1').classList.add('f5'))
+// console.log(document.querySelector('#_id3').classList.add('_mask'))
