@@ -1,104 +1,21 @@
 {
-  "Shapes": [
-    {
-      "assetId": 1,
-      "paths": [
-        {
-          "color": "#000000",
-          "alpha": 1,
-          "d": [
-            "m",
-            29,
-            -26,
-            "l",
-            -25,
-            -26,
-            "l",
-            -25,
-            28,
-            "l",
-            29,
-            28,
-            "l",
-            29,
-            -26,
-            "c"
-          ],
-          "stroke": false
-        }
-      ]
-    }
-  ],
+  "Shapes": [],
   "Bitmaps": [
     {
-      "assetId": 5,
-      "height": 201,
-      "width": 201,
-      "src": "images/Bitmap 8.png",
-      "name": "Bitmap 8"
+      "assetId": 1,
+      "height": 108,
+      "width": 87,
+      "src": "images/Bitmap 12.png",
+      "name": "Bitmap 12"
     }
   ],
   "Sounds": [],
   "Texts": [],
   "Timelines": [
     {
-      "assetId": 7,
-      "type": "graphic",
-      "name": "Graphic1",
-      "totalFrames": 4,
-      "frames": [
-        {
-          "frame": 0,
-          "commands": [
-            {
-              "type": "Place",
-              "assetId": 1,
-              "instanceId": 1,
-              "placeAfter": 0,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 0,
-                "ty": 0
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "assetId": 9,
-      "type": "graphic",
-      "name": "Graphic2",
-      "totalFrames": 5,
-      "frames": [
-        {
-          "frame": 0,
-          "commands": [
-            {
-              "type": "Place",
-              "assetId": 5,
-              "instanceId": 1,
-              "placeAfter": 0,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": -100.5,
-                "ty": -100.5
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "assetId": 8,
-      "type": "graphic",
-      "name": "Graphic3",
+      "assetId": 2,
+      "type": "movieclip",
+      "name": "元件_8",
       "totalFrames": 1,
       "frames": [
         {
@@ -114,8 +31,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 25,
-                "ty": 26
+                "tx": 35,
+                "ty": 15
               }
             }
           ]
@@ -132,7 +49,7 @@
           "commands": [
             {
               "type": "Place",
-              "assetId": 7,
+              "assetId": 2,
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
@@ -140,10 +57,10 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 27,
-                "ty": 27
+                "tx": 30,
+                "ty": 34
               },
-              "loop": false
+              "loop": true
             },
             {
               "type": "ColorTransform",
@@ -160,38 +77,14 @@
               }
             },
             {
-              "type": "Place",
-              "assetId": 9,
-              "instanceId": 2,
-              "placeAfter": 1,
-              "transform": {
-                "a": 1,
-                "b": 0,
-                "c": 0,
-                "d": 1,
-                "tx": 100.5,
-                "ty": 100.5
-              },
-              "loop": false
-            },
-            {
-              "type": "ColorTransform",
-              "instanceId": 2,
-              "colorMatrix": {
-                "r": 1,
-                "rA": 0,
-                "g": 1,
-                "gA": 0,
-                "b": 1,
-                "bA": 0,
-                "a": 1,
-                "aA": 0
-              }
-            },
-            {
-              "type": "Mask",
+              "type": "Visibility",
               "instanceId": 1,
-              "maskTill": 2
+              "visibility": true
+            },
+            {
+              "type": "BlendMode",
+              "instanceId": 1,
+              "blendMode": "Normal"
             }
           ]
         },
@@ -206,8 +99,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 57,
-                "ty": 20.25
+                "tx": 51.75,
+                "ty": 42.75
               }
             }
           ]
@@ -223,8 +116,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 87,
-                "ty": 13.5
+                "tx": 73.5,
+                "ty": 51.5
               }
             }
           ]
@@ -240,8 +133,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 117,
-                "ty": 6.75
+                "tx": 95.25,
+                "ty": 60.25
               }
             }
           ]
@@ -255,22 +148,23 @@
             },
             {
               "type": "Place",
-              "assetId": 8,
-              "instanceId": 3,
+              "assetId": 2,
+              "instanceId": 2,
               "placeAfter": 0,
               "transform": {
                 "a": 1,
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 147,
-                "ty": 0
+                "tx": 117,
+                "ty": 69
               },
-              "loop": false
+              "instanceName": "aaa",
+              "loop": true
             },
             {
               "type": "ColorTransform",
-              "instanceId": 3,
+              "instanceId": 2,
               "colorMatrix": {
                 "r": 1,
                 "rA": 0,
@@ -283,14 +177,14 @@
               }
             },
             {
-              "type": "ZOrder",
+              "type": "Visibility",
               "instanceId": 2,
-              "placeAfter": 3
+              "visibility": true
             },
             {
-              "type": "Mask",
-              "instanceId": 3,
-              "maskTill": 2
+              "type": "BlendMode",
+              "instanceId": 2,
+              "blendMode": "Normal"
             }
           ]
         }

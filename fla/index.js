@@ -15,9 +15,9 @@
       }
     }
     this.dom = dom
-    this.id = this.dom.getAttribute('id')
     this.name = this.dom.getAttribute('name')
     this.classList = this.dom.classList
+    this.id = this.classList[1]
     // console.log(dom,this.dom)
     this.type = parseType((this.classList))
     this.currentFrame = 1
@@ -282,6 +282,7 @@
     }
   }
   p._parseRange = function(range, max) {
+    // console.log(range)
     var fs = range.split(',')
     if (!max) max = []
     for (var i = 0; i < fs.length; i++) {
@@ -312,7 +313,7 @@
         }
       }
     }
-    // console.log(max,555)
+    // console.log(fs,555)
     return fs
   }
   p._getFrames = function() {
@@ -783,7 +784,7 @@
       // document.getElementById('mask').classList.remove(last)
       // last = 'f'+this.currentFrame
       // document.getElementById('mask').classList.add(last)
-    }.bind(this), 10000 / this.frameRate)
+    }.bind(this), 1000 / this.frameRate)
     this.render(1)
     return this
   }
@@ -791,7 +792,7 @@
 })(window);
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
-var stage = new Stage('#a').startUp()
+var stage = new Stage('.a').startUp()
 // var stage = new Stage('#a')
 //   stage.startUp()
 //

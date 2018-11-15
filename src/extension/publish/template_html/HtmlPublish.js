@@ -31,6 +31,10 @@ module.exports = {
     global.assets = renderer.assets
     global.library = global.stage.library
     global.meta = global.library.meta
+
+    // console.log(timelines)
+    // mergeTimeline(timelines)
+
     for(let id in global.library._mapById){
       // console.log(id)
       utils.parseClass(global.library._mapById,id,assets)
@@ -42,4 +46,27 @@ module.exports = {
   getTimeline(timeline){
     // console.log(timeline)
   },
+}
+// 当
+const isEqual = (tl,tl1)=>{
+
+}
+const mergeTimeline = (timelines)=>{
+  let tMap = {}
+  for(let i=0;i<timelines.length-1;i++){
+    let tl = timelines[i]
+    if(!tMap[tl.assetId]){
+      continue
+    }
+    let find = false
+    for(let key in tMap){
+      let tl1 = tMap[key]
+      if(isEqual(tl,tl1)){
+        find= true
+        break;
+      }
+    }
+    if(find)continue
+  }
+  console.log(tMap)
 }

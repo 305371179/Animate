@@ -64,6 +64,7 @@ module.exports = {
     writeFile('index.css',cssText)
   },
   exportHtml(stage){
+    paseId2Class(stage)
     let text = htmlTemplate({
       content: new Handlebars.SafeString(json2html(stage))
     })
@@ -74,6 +75,20 @@ module.exports = {
     })
     writeFile('index.html',htmlText)
     // console.log(htmlText)
+  },
+  merge(stage){
+    // console.log(stage)
+    // mergeHtml(stage)
+  },
+}
+const paseId2Class = (node)=>{
+  node.attr.class = node.attr.class +(node.attr.id?' ' +node.attr.id:'')
+  delete node.attr.id
+  let child = node.child
+  if(child.length){
+    child.forEach(c=>{
+      paseId2Class(c)
+    })
   }
 }
 const writeFile = (dest,str)=> {
@@ -83,4 +98,18 @@ const writeFile = (dest,str)=> {
   // let parse = path.parse(dest)
   // fs.ensureDirSync(parse.dir)
   fs.writeFileSync(dest, str, 'utf-8')
+}
+
+const mergeHtml = node=>{
+  return
+  let child = node
+  if(!child.length)return
+  let map = {}
+  child.forEach(c=>{
+    let id = c.attr.id
+    if(!map[id]){
+      return
+    }
+
+  })
 }

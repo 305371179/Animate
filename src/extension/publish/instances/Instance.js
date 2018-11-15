@@ -155,7 +155,7 @@ p.addToFrame = function(frameIndex, command)
     {
         this.initFrame = frame;
     }
-
+    // console.log(/*this.frames,*/command)
     // Check to see if this is animated
     if (Object.keys(this.frames).length > 1)
     {
@@ -232,6 +232,8 @@ p.getFrames = function(compress)
 
         // Remove frames with no properties
         let keys = frame.validKeys;
+        //就算没有位移，也要把这帧添加上去，想blendmode，filter，如果没有transform，visibility，alpha等变化，会为空的
+        keys.length =1
         if (!keys.length)
         {
             delete this.frames[index];

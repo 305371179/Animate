@@ -138,7 +138,7 @@ p.getChildren = function()
 
             // Add to the list of commands for this instance
             instance.addToFrame(frame.frame, command);
-
+            // console.log(command)
             // Add it if it hasn't been added already
             if (!(instance instanceof SoundInstance) && children.indexOf(instance) == -1) 
             {

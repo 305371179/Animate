@@ -1,6 +1,6 @@
 const DataUtils = require('../utils/DataUtils');
 const Matrix = require('../data/Matrix')
-const {exportHtml, exportCss, exportJs} = require('./export');
+const {merge,exportHtml, exportCss, exportJs} = require('./export');
 const fs = require('fs-extra')
 const path = require('path')
 var textAlignMap = {}
@@ -212,12 +212,13 @@ const utils = module.exports = {
         cssNode.attr.height = global.meta.height
         cssNode.attr.background = global.meta.background
 
-        console.log(clz.masks)
+        // console.log(clz.masks)
         // console.log(global.library)
         parseFrames(node, clz)
         break
     }
     if (clz.type === 'stage') {
+      // console.log(clz.frames)
       if (global.maskDefs.child.length) {
         node.child.splice(0, 0, global.maskNode)
       }
@@ -940,6 +941,7 @@ const parseStaticTextRun = (clz, node, cssNode, id) => {
   node.tag = 'div'
   //设置样式，静态文本有多种样式
   var paras = clz.paras
+  if(!paras)return
   // console.log(clz)
   // console.log('======================', txt.replace(/\\n/g, "_").length)
   const key = getEnterKey(txt)
@@ -1190,6 +1192,7 @@ const parseHtml = (stage) => {
   // console.log(JSON.stringify(stage))
   // console.log(stage)
   // parseId(stage)
+  merge(stage)
   // console.log(global.cssMap)
   exportJs()
   exportCss(global.cssMap)
@@ -1226,6 +1229,7 @@ const createNode = (clz, id) => {
   return {
     node: 'element',
     tag: 'div',
+    // type: clz.type,
     attr: {
       class: clz.type + id,
       'name': clz.name
@@ -1235,8 +1239,9 @@ const createNode = (clz, id) => {
   }
 }
 const createCssNode = (id) => {
+  // console.log(id,type)
   let cssNode = {
-    node: id,
+    node: id.replace('#','.'),
     attr: {
       // 'will-change': 'all',
       // position: 'absolute',
@@ -1340,18 +1345,49 @@ const getLastFrameAttr = (frame, lastFrame) => {
   // console.log('=====================')
   return frame
 }
+
+//Layer 图层  Add：增加 Substract：减去 Invert：反向 Alpha：透明 Erase：擦除
+const blendModes = {
+  'Normal': 'normal',        //正常
+'Multiply': 'multiply',       //正片叠底
+'Screen': 'screen',          //滤色
+'Overlay': 'overlay',        //叠加
+'Darken': 'darken',          //变暗
+'Lighten': 'lighten',         //变亮
+'Substract': 'color-dodge',     //颜色减淡
+'Add': 'color-burn',      //颜色加深
+'Hardlight': 'hard-light',      //强光
+// mix-blend-mode: soft-light,      //柔光
+'Difference': 'difference',     //差值 减去
+'Invert': 'exclusion',       //排除
+// mix-blend-mode: hue;             //色相
+// mix-blend-mode: saturation;      //饱和度
+// mix-blend-mode: color;           //颜色
+// mix-blend-mode: luminosity;      //亮度
+}
+const getBlendMode = (cssNode,c)=>{
+  let blendMode = blendModes[c.blendMode]
+  // console.log(c.blendMode)
+  return blendMode
+  if(blendMode)
+  setPrifix(cssNode,'mix-blend-mode',blendMode)
+}
+
 const getFilters = (clz, key, node, cssNode, instance) => {
   let frame = clz.frames[key]
   cssNode.range = [
     instance.startFrame,
     instance.endFrame
   ]
+  // console.log(cssNode.node)
   // console.log(instance.startFrame,instance.endFrame)
   let isText = instance.libraryItem.type === 'text'
   let value = ''
   let boxShadow = ''
   if (!frame) return
+  let blendMode = ''
   frame.commands.forEach(c => {
+    // console.log(c)
     if (c.type === 'Filter') {
       // console.log(c.instanceId,c.filterType , instance.id,node.attr.id,cssNode)
       if (c.instanceId == instance.id) {
@@ -1440,13 +1476,16 @@ const getFilters = (clz, key, node, cssNode, instance) => {
             break
         }
       }
+    }else if(c.type ==='BlendMode'){
+      blendMode = getBlendMode(cssNode,c)
+      // console.log(blendMode)
     }
   })
   /*console.log(value,boxShadow,cssNode.node)
   if(cssNode.node==='#_id1'){
     console.log(frame)
   }*/
-  let cn = cssNode
+  // let cn = cssNode
   /*
   if((value||boxShadow)&&instance.libraryItem.type === 'movieclip'){
     // console.log(node.attr.id,3333)
@@ -1459,8 +1498,24 @@ const getFilters = (clz, key, node, cssNode, instance) => {
   }*/
   // getChildCssNode(node,cssNode)
   // console.log(instance.libraryItem.behaviour.type === 'Input')
-
+  // let cn = {
+  //   node: cssNode.node + '.f'+key
+  // }
+  // if(value) {
+  //   global.cssMap.push(cn)
+  // }
+  let cn = cssNode
   setPrifix(cn, 'filter', value)
+  if(blendMode){
+    let cn = {
+      node: cssNode.node /*+ '.f'+(frame.frame+1)*/ + ' *',
+      attr:{
+
+      }
+    }
+      global.cssMap.push(cn)
+    setPrifix(cn,'mix-blend-mode',blendMode)
+  }
   if (isText && instance.libraryItem.behaviour.type !== 'Input') {
     setPrifix(cn, 'text-shadow', boxShadow)
   } else {
@@ -1480,7 +1535,7 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
   // node.attr['endFrame'] = instance.endFrame ==-1? -1:instance.endFrame +1
   let frames = []
   let lastFrame = ''
-  // console.log(instance.frames.labels)
+  // console.log(instance.frames)
   for (let key in instance.frames) {
     let frame = instance.frames[key]
     // console.log(frame.labels,555)
@@ -1500,6 +1555,9 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
       frames.push(parseInt(key) + 1)
     }
     let cssId = `#${id}${indexFrame}`
+    // if(clz.type !== 'movieclip'){
+    //
+    // }
     if (instance.libraryItem.type === 'shape') {
       cssId += ''
     }
@@ -1919,7 +1977,8 @@ const parseFrames = (node, clz) => {
   let maskId = ''
   clz.renderChildren(global.renderer, (children) => {
     children.forEach(instance => {
-
+      // console.log(instance)
+      // console.log(instance.frames)
       let claz = instance.libraryItem
       // console.log(instance.frames)
       // let node = {}
