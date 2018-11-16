@@ -16,9 +16,9 @@ module.exports = function(gulp, options, plugins) {
 
         var tasks = [];
 
-        if (plugin) {
+        // if (plugin) {
             tasks.push('plugin');
-        }
+        // }
 
         tasks.push(
             'clean',

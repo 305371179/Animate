@@ -9,4 +9,5 @@ module.exports = function(gulp, options, plugins) {
                 fileLoggerParameters: 'LogFile=Build.log;Append;Verbosity=diagnostic'
             }));
         });
+
 };
