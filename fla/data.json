@@ -1,8 +1,37 @@
 {
-  "Shapes": [],
-  "Bitmaps": [
+  "Shapes": [
     {
       "assetId": 1,
+      "paths": [
+        {
+          "color": "#00ff33",
+          "alpha": 1,
+          "d": [
+            "m",
+            55,
+            71,
+            "l",
+            55,
+            0,
+            "l",
+            0,
+            0,
+            "l",
+            0,
+            71,
+            "l",
+            55,
+            71,
+            "c"
+          ],
+          "stroke": false
+        }
+      ]
+    }
+  ],
+  "Bitmaps": [
+    {
+      "assetId": 3,
       "height": 108,
       "width": 87,
       "src": "images/Bitmap 12.png",
@@ -13,10 +42,10 @@
   "Texts": [],
   "Timelines": [
     {
-      "assetId": 2,
-      "type": "movieclip",
-      "name": "元件_8",
-      "totalFrames": 1,
+      "assetId": 6,
+      "type": "graphic",
+      "name": "Graphic1",
+      "totalFrames": 5,
       "frames": [
         {
           "frame": 0,
@@ -31,8 +60,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 35,
-                "ty": 15
+                "tx": 0,
+                "ty": 0
               }
             }
           ]
@@ -40,16 +69,17 @@
       ]
     },
     {
-      "type": "stage",
-      "name": "a",
-      "totalFrames": 5,
+      "assetId": 4,
+      "type": "movieclip",
+      "name": "元件_9",
+      "totalFrames": 1,
       "frames": [
         {
           "frame": 0,
           "commands": [
             {
               "type": "Place",
-              "assetId": 2,
+              "assetId": 3,
               "instanceId": 1,
               "placeAfter": 0,
               "transform": {
@@ -57,8 +87,35 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 30,
-                "ty": 34
+                "tx": 35,
+                "ty": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "assetId": 5,
+      "type": "movieclip",
+      "name": "元件_8",
+      "totalFrames": 8,
+      "frames": [
+        {
+          "frame": 0,
+          "commands": [
+            {
+              "type": "Place",
+              "assetId": 4,
+              "instanceId": 1,
+              "placeAfter": 0,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 0,
+                "ty": 14
               },
               "loop": true
             },
@@ -99,8 +156,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 51.75,
-                "ty": 42.75
+                "tx": 66.300003,
+                "ty": 14
               }
             }
           ]
@@ -116,8 +173,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 73.5,
-                "ty": 51.5
+                "tx": 132.550003,
+                "ty": 14
               }
             }
           ]
@@ -133,8 +190,8 @@
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 95.25,
-                "ty": 60.25
+                "tx": 198.850006,
+                "ty": 14
               }
             }
           ]
@@ -143,23 +200,122 @@
           "frame": 4,
           "commands": [
             {
-              "type": "Remove",
-              "instanceId": 1
-            },
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 265.100006,
+                "ty": 14
+              }
+            }
+          ]
+        },
+        {
+          "frame": 5,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 331.399994,
+                "ty": 14
+              }
+            }
+          ]
+        },
+        {
+          "frame": 6,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 397.649994,
+                "ty": 14
+              }
+            }
+          ]
+        },
+        {
+          "frame": 7,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 463.950012,
+                "ty": 14
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stage",
+      "name": "a",
+      "totalFrames": 5,
+      "frames": [
+        {
+          "frame": 0,
+          "commands": [
             {
               "type": "Place",
-              "assetId": 2,
-              "instanceId": 2,
+              "assetId": 6,
+              "instanceId": 1,
               "placeAfter": 0,
               "transform": {
                 "a": 1,
                 "b": 0,
                 "c": 0,
                 "d": 1,
-                "tx": 117,
-                "ty": 69
+                "tx": 0,
+                "ty": 0
               },
-              "instanceName": "aaa",
+              "loop": false
+            },
+            {
+              "type": "ColorTransform",
+              "instanceId": 1,
+              "colorMatrix": {
+                "r": 1,
+                "rA": 0,
+                "g": 1,
+                "gA": 0,
+                "b": 1,
+                "bA": 0,
+                "a": 1,
+                "aA": 0
+              }
+            },
+            {
+              "type": "Place",
+              "assetId": 5,
+              "instanceId": 2,
+              "placeAfter": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": -35,
+                "ty": -15
+              },
               "loop": true
             },
             {
@@ -185,6 +341,79 @@
               "type": "BlendMode",
               "instanceId": 2,
               "blendMode": "Normal"
+            },
+            {
+              "type": "Mask",
+              "instanceId": 1,
+              "maskTill": 2
+            }
+          ]
+        },
+        {
+          "frame": 1,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 8,
+                "ty": 9
+              }
+            }
+          ]
+        },
+        {
+          "frame": 2,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 16,
+                "ty": 18
+              }
+            }
+          ]
+        },
+        {
+          "frame": 3,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 24,
+                "ty": 27
+              }
+            }
+          ]
+        },
+        {
+          "frame": 4,
+          "commands": [
+            {
+              "type": "Move",
+              "instanceId": 1,
+              "transform": {
+                "a": 1,
+                "b": 0,
+                "c": 0,
+                "d": 1,
+                "tx": 32,
+                "ty": 36
+              }
             }
           ]
         }

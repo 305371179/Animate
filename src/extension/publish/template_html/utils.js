@@ -97,6 +97,7 @@ const utils = module.exports = {
     global.idsMap[id] = node
     let cssId = '.' + clz.type + id
     let cssNode = createCssNode(cssId)
+    cssNode.attr.visibility = 'hidden'
     // node.cssId = cssId
     global.cssMap.push(cssNode)
     // node.cssMap[cssId] =cssNode
@@ -208,6 +209,7 @@ const utils = module.exports = {
         node.attr.id = clz.name
         cssNode.node = '#' + clz.name
         cssNode.attr.overflow = 'hidden'
+        delete cssNode.attr.visibility
         cssNode.attr.width = global.meta.width
         cssNode.attr.height = global.meta.height
         cssNode.attr.background = global.meta.background
@@ -221,6 +223,7 @@ const utils = module.exports = {
       // console.log(clz.frames)
       if (global.maskDefs.child.length) {
         node.child.splice(0, 0, global.maskNode)
+        // console.log(global.maskNode)
       }
       global.cssMap.push({
         node: '.masks',
@@ -234,6 +237,7 @@ const utils = module.exports = {
         }
       })
       getChildCssNode(node)
+      // cssNode.node = '.'+clz.name
       parseHtml(global.idsMap['undefined'])
     } else {
       // node.attr.class+= ' hidden'
@@ -1241,7 +1245,7 @@ const createNode = (clz, id) => {
 const createCssNode = (id) => {
   // console.log(id,type)
   let cssNode = {
-    node: id.replace('#','.'),
+    node: id.replace(/#/g,'.'),
     attr: {
       // 'will-change': 'all',
       // position: 'absolute',
@@ -1348,7 +1352,7 @@ const getLastFrameAttr = (frame, lastFrame) => {
 
 //Layer 图层  Add：增加 Substract：减去 Invert：反向 Alpha：透明 Erase：擦除
 const blendModes = {
-  'Normal': 'normal',        //正常
+  // 'Normal': 'normal',        //正常
 'Multiply': 'multiply',       //正片叠底
 'Screen': 'screen',          //滤色
 'Overlay': 'overlay',        //叠加
@@ -1549,20 +1553,36 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
     }
     // console.log(frame)
     // console.log(isEmptyFrame(frame))
-    if (isEmptyFrame(frame)) {
-      frames.push((parseInt(key) + 1))
+    let isEmpty = isEmptyFrame(frame)
+    if (isEmpty) {
+      // frames.push((parseInt(key) + 1))
     } else {
       frames.push(parseInt(key) + 1)
     }
-    let cssId = `#${id}${indexFrame}`
+    // console.log(parentNode)
+    let parentId = parentNode.attr.id?'#'+parentNode.attr.id:''
+    let cssId = `${parentId}${indexFrame} #${id}`
+    // let cssId = `#${id}${indexFrame}`
     // if(clz.type !== 'movieclip'){
     //
     // }
-    if (instance.libraryItem.type === 'shape') {
+    let type = instance.libraryItem.type
+    if (type=== 'shape') {
       cssId += ''
     }
+    // console.log(cssId)
+    // if(id==='_id1'){
+    //   // console.log(isEmpty)
+    // }
     let cssNode = createCssNode(cssId)
-    global.cssMap.push(cssNode)
+    // if(instance.t)
+    cssNode.attr.visibility = 'inherit'
+    // console.log(key,instance.endFrame)
+    if(!isEmpty &&(key<instance.endFrame||instance.endFrame ===-1)){
+      global.cssMap.push(cssNode)
+      // console.log(cssId,instance.endFrame)
+    }
+
     cssNode.classType = instance.libraryItem.type
 
     parentNode.cssMap[cssId] = cssNode
@@ -1689,7 +1709,8 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
   // <path d="m0,200 l100,-100 100,100 -100,100z"/>
   // </clipPath>
   // console.log(node.child[0].child)
-  if(node.child[0].child[0]!=='g'&&global.alert)global.alert('只支持矢量遮罩')
+  // global.alert(JSON.stringify(node.child[0].child[0].tag))
+  if(node.child[0].child[0].tag!=='g'&&global.alert)global.alert('只支持矢量遮罩')
   let id = createId('mask')
   let clipPathNode = {
     node: 'element',
@@ -1708,6 +1729,7 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
       if(k === 'd')continue
       delete c.attr[k]
     }
+    c.isMaskPath = true
   })
   //JSON.parse(JSON.stringify(node.child[0].child))
   mask.libraryItem.frames[0].commands.forEach(c=>{
@@ -1722,6 +1744,7 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
 
           }
         }
+        // console.log(id)
         global.cssMap.push(cssNode)
         // console.log()
         let matrix = new Matrix(c.transform)
@@ -1767,7 +1790,7 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
       }
     }
     global.cssMap.push(cssNode)
-
+    // console.log(cnId)
     let cpn = JSON.parse(JSON.stringify(clipPathNode))
     // for(let k in cpn.attr){
     //   if(k === 'd')continue
@@ -1778,12 +1801,12 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
     // delete cpn.attr.stroke
     // delete cpn.attr['stroke-width']
     cpn.attr.id = cnId
-    global.maskDefs.child.push(cpn)
     maskTransform(frame,cssNode,cpn)
+    global.maskDefs.child.push(cpn)
     // console.log(node,4444)
 
     let mn = {
-      node: '#'+nodeId + '.' + cnId +' *',
+      node: '.'+nodeId + '.' + cnId +' *:not([class^="movieclip"])',
       attr:{
         // 'clip-path': `url(#${cnId})`
       }
@@ -1905,6 +1928,32 @@ const maskTransform = (frame, cssNode, node)=>{
     // cssNode.attr.transform = value
   // console.log(value,444)
     setPrifix(cssNode, 'transform', value)
+
+  // console.log(clipPathNode)
+  // if(node){
+  //   node.child.forEach(c=>{
+  //     let d = []
+  //     let count = 0
+  //     console.log(c.d)
+  //     c.d.forEach(item=>{
+  //       if(isNaN(item)){
+  //         d.push(item)
+  //         count=0
+  //       }else{
+  //         let p = (count++)===0?x:y
+  //         d.push(item-p)
+  //       }
+  //     })
+  //     c.attr.d = d
+  //     console.log(c.attr.d)
+  //     console.log('============',x,y)
+  //   })
+  //   // console.log(node.child)
+  // }
+
+
+
+  // console.log(cssNode,node)
   // console.log(frame.matrix)、
   // if(frame.matrix)
   //   setPrifix(cssNode, 'transform', `matrix(${frame.matrix.toString()})`)

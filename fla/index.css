@@ -12,16 +12,21 @@ body {
   overflow: hidden;
 }
 
-.hidden {
-  visibility: hidden;
-}
-
 .stop {
   diaplay: none;
 }
 
-.bitmap1 {
+.shape1 {
   position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  width: 550px;
+  height: 400px;
+}
+
+.bitmap3 {
+  position: absolute;
+  visibility: hidden;
   width: 87px;
   height: 108px;
 }
@@ -30,14 +35,79 @@ g {
   pointer-events: visiblePainted;
 }
 
-.movieclip2 {
+.movieclip4 {
   position: absolute;
+  visibility: hidden;
 }
 
 ._id {
   position: absolute;
-  transform: translate3d(35px, 15px, 0);
-  -webkit-transform: translate3d(35px, 15px, 0);
+  visibility: inherit;
+  transform: translate3d(35px, 0, 0);
+  -webkit-transform: translate3d(35px, 0, 0);
+}
+
+.movieclip5 {
+  position: absolute;
+  visibility: hidden;
+}
+
+.f1 ._id1 {
+  visibility: inherit;
+  transform: translate3d(0, 14px, 0);
+  -webkit-transform: translate3d(0, 14px, 0);
+}
+
+.f2 ._id1 {
+  visibility: inherit;
+  transform: translate3d(66px, 14px, 0);
+  -webkit-transform: translate3d(66px, 14px, 0);
+}
+
+.f3 ._id1 {
+  visibility: inherit;
+  transform: translate3d(133px, 14px, 0);
+  -webkit-transform: translate3d(133px, 14px, 0);
+}
+
+.f4 ._id1 {
+  visibility: inherit;
+  transform: translate3d(199px, 14px, 0);
+  -webkit-transform: translate3d(199px, 14px, 0);
+}
+
+.f5 ._id1 {
+  visibility: inherit;
+  transform: translate3d(265px, 14px, 0);
+  -webkit-transform: translate3d(265px, 14px, 0);
+}
+
+.f6 ._id1 {
+  visibility: inherit;
+  transform: translate3d(331px, 14px, 0);
+  -webkit-transform: translate3d(331px, 14px, 0);
+}
+
+.f7 ._id1 {
+  visibility: inherit;
+  transform: translate3d(398px, 14px, 0);
+  -webkit-transform: translate3d(398px, 14px, 0);
+}
+
+.f8 ._id1 {
+  visibility: inherit;
+  transform: translate3d(464px, 14px, 0);
+  -webkit-transform: translate3d(464px, 14px, 0);
+}
+
+.movieclip6 {
+  position: absolute;
+  visibility: hidden;
+}
+
+._id2 {
+  position: absolute;
+  visibility: inherit;
 }
 
 #a {
@@ -48,49 +118,60 @@ g {
   background: #ffffff;
 }
 
-._id1.f1 {
-  transform: translate3d(30px, 34px, 0);
-  -webkit-transform: translate3d(30px, 34px, 0);
+.a ._id3 {
+  position: absolute;
+  visibility: inherit;
+  transform: translate3d(-35px, -15px, 0);
+  -webkit-transform: translate3d(-35px, -15px, 0);
 }
 
-._id1.f1 * {
-  mix-blend-mode: normal;
-  -webkit-mix-blend-mode: normal;
+#path {}
+
+#mask_1 {}
+
+._id3.mask_1 *:not([class^="movieclip"]) {
+  clip-path: url(#mask_1);
+  -webkit-clip-path: url(#mask_1);
 }
 
-._id1.f2 {
-  transform: translate3d(52px, 43px, 0);
-  -webkit-transform: translate3d(52px, 43px, 0);
+#mask_2 {
+  transform: translate3d(8px, 9px, 0);
+  -webkit-transform: translate3d(8px, 9px, 0);
 }
 
-._id1.f3 {
-  transform: translate3d(74px, 52px, 0);
-  -webkit-transform: translate3d(74px, 52px, 0);
+._id3.mask_2 *:not([class^="movieclip"]) {
+  clip-path: url(#mask_2);
+  -webkit-clip-path: url(#mask_2);
 }
 
-._id1.f4 {
-  transform: translate3d(95px, 60px, 0);
-  -webkit-transform: translate3d(95px, 60px, 0);
+#mask_3 {
+  transform: translate3d(16px, 18px, 0);
+  -webkit-transform: translate3d(16px, 18px, 0);
 }
 
-._id1.f5 {
-  transform: translate3d(95px, 60px, 0);
-  -webkit-transform: translate3d(95px, 60px, 0);
+._id3.mask_3 *:not([class^="movieclip"]) {
+  clip-path: url(#mask_3);
+  -webkit-clip-path: url(#mask_3);
 }
 
-._id1.f5 * {
-  mix-blend-mode: normal;
-  -webkit-mix-blend-mode: normal;
+#mask_4 {
+  transform: translate3d(24px, 27px, 0);
+  -webkit-transform: translate3d(24px, 27px, 0);
 }
 
-._id2.f5 {
-  transform: translate3d(117px, 69px, 0);
-  -webkit-transform: translate3d(117px, 69px, 0);
+._id3.mask_4 *:not([class^="movieclip"]) {
+  clip-path: url(#mask_4);
+  -webkit-clip-path: url(#mask_4);
 }
 
-._id2.f5 * {
-  mix-blend-mode: normal;
-  -webkit-mix-blend-mode: normal;
+#mask_5 {
+  transform: translate3d(32px, 36px, 0);
+  -webkit-transform: translate3d(32px, 36px, 0);
+}
+
+._id3.mask_5 *:not([class^="movieclip"]) {
+  clip-path: url(#mask_5);
+  -webkit-clip-path: url(#mask_5);
 }
 
 .masks {

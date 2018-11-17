@@ -59,12 +59,13 @@ module.exports = {
     let cssText =css(text,{
       indent_size: 2
     })
-    cssText = cssText.replace(/&quot;\n\s*/g,'"')
+    cssText = cssText.replace(/&quot;\n\s*/g,'"').replace(/&#x3D;\n/g, '=')
     // console.log(cssText)
     writeFile('index.css',cssText)
   },
   exportHtml(stage){
-    paseId2Class(stage)
+    // console.log( global.maskDefs)
+    paseId2Class(stage,true)
     let text = htmlTemplate({
       content: new Handlebars.SafeString(json2html(stage))
     })
@@ -81,9 +82,16 @@ module.exports = {
     // mergeHtml(stage)
   },
 }
-const paseId2Class = (node)=>{
+const paseId2Class = (node,isStage)=>{
+  let isMask = node.attr.id ==='_masks' || node.tag === 'defs' || node.tag === 'clipPath' || node.isMaskPath
+  if(!isMask)
   node.attr.class = node.attr.class +(node.attr.id?' ' +node.attr.id:'')
-  delete node.attr.id
+  if(!isStage&&!isMask){
+    delete node.attr.id
+  }else{
+    // delete node.attr.visibility
+  }
+
   let child = node.child
   if(child.length){
     child.forEach(c=>{
