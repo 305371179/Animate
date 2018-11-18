@@ -1,5 +1,5 @@
 (function(win) {
-
+  win.isDebug = false
   var parseType = function(classList) {
     if (!classList || !classList.length) return
     return classList[0].replace(/\d*/g, '')
@@ -14,7 +14,7 @@
       }
     }
     this.dom = dom
-    this.name = this.dom.getAttribute('name')
+    this.name = this.getAttribute('name')
     this.classList = this.dom.classList
     this.id = this.classList[1]
     this.type = parseType((this.classList))
@@ -23,8 +23,16 @@
     this._setMask()
   }
   var p = Common.prototype
+  p.getAttribute = function(attrName) {
+    if (!this.dom || !attrName) return
+    var attr = this.dom.getAttribute(attrName)
+    if (!win.isDebug) {
+      this.dom.removeAttribute(attrName)
+    }
+    return attr
+  }
   p._setMask = function() {
-    var masks = this.dom.getAttribute('maskid')
+    var masks = this.getAttribute('maskid')
     if (!masks) return
     if (masks) {
       masks = masks.split(',')
@@ -80,7 +88,7 @@
     return 'f' + currentFrame
   }
   p._getStartAndEndFrame = function() {
-    var range = this.dom.getAttribute('range')
+    var range = this.getAttribute('range')
     if (range) {
       range = range.split(',')
       this.startFrame = parseInt(range[0])
@@ -89,7 +97,7 @@
   }
 
   p._getTotalFrames = function() {
-    this.totalFrames = this.dom.getAttribute('totalFrames')
+    this.totalFrames = this.getAttribute('totalFrames')
     if (!this.totalFrames) {
       throw new Error(this.dom.toString() + '属性totalFrames不存在')
     } else {
@@ -173,7 +181,7 @@
     return fs
   }
   p._getFrames = function() {
-    this.frames = this.dom.getAttribute('frames')
+    this.frames = this.getAttribute('frames')
     if (!this.frames) {
       this.frames = [1]
     } else {
@@ -281,7 +289,7 @@
   }
   p._getLabels = function() {
     this._labels = {}
-    var labelsStr = this.dom.getAttribute('labels')
+    var labelsStr = this.getAttribute('labels')
     if (labelsStr) {
       var labels = labelsStr.split('|')
       for (var i = 0; i < labels.length; i++) {
@@ -297,7 +305,7 @@
     }
   }
   p._getScripts = function() {
-    var scriptsStr = this.dom.getAttribute('scripts')
+    var scriptsStr = this.getAttribute('scripts')
     if (scriptsStr) {
       this._scripts = {}
       var scripts = scriptsStr.split('|')
@@ -409,7 +417,7 @@
     this._paused = false
     this.type = 'movieclip'
     this.isStage = true
-    this.frameRate = 24
+    this.frameRate = 30
   }
   Stage.prototype = new MovieClip()
   var p = Stage.prototype
@@ -426,7 +434,7 @@
     this._renderId = setInterval(function() {
       if (this._paused) return
       this.render(1)
-    }.bind(this), 6000 / this.frameRate)
+    }.bind(this), 1000 / this.frameRate)
     this.render(1)
     return this
   }
@@ -434,10 +442,11 @@
 })(window);
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
-// var stage = new Stage('.a').gotoAndStop(1)
+// var stage = new Stage('.Fizzy').gotoAndStop(1)
 // document.getElementById('mask_1')
 // document.querySelector('._id3').classList.add('mask_1')
-var stage = new Stage('#a')
+var stage = new Stage('#Fizzy')
+// stage.gotoAndStop(5)
 stage.startUp()
 //
 // var count = 0

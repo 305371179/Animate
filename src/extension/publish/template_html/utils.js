@@ -1534,14 +1534,23 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
   //   console.log(instance.frames)
   // }
   let id = node.attr['id']
-  node.attr['range'] = (instance.startFrame + 1) + ',' + (instance.endFrame == -1 ? -1 : instance.endFrame + 1)
+  let startFrame = instance.startFrame + 1
+  let endFrame = instance.endFrame == -1 ? -1 : instance.endFrame + 1
+  node.attr['range'] = startFrame + ',' + endFrame
   // node.attr['startFrame'] = instance.startFrame + 1
   // node.attr['endFrame'] = instance.endFrame ==-1? -1:instance.endFrame +1
+  let parentId = parentNode.attr.id?'#'+parentNode.attr.id:''
   let frames = []
   let lastFrame = ''
-  // console.log(instance.frames)
+  let lastCssNode = ''
+  let lastFrameIndex = -1
+  /*if(id==='_id4'){
+    console.log(instance.frames)
+  }*/
+
   for (let key in instance.frames) {
     let frame = instance.frames[key]
+    // console.log(parseInt(key)+1,endFrame)
     // console.log(frame.labels,555)
     // if(frame.labels){
     //   // console.log(frame.labels,3333)
@@ -1555,12 +1564,14 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
     // console.log(isEmptyFrame(frame))
     let isEmpty = isEmptyFrame(frame)
     if (isEmpty) {
+
       // frames.push((parseInt(key) + 1))
     } else {
       frames.push(parseInt(key) + 1)
     }
+    // lastFrame = frames
     // console.log(parentNode)
-    let parentId = parentNode.attr.id?'#'+parentNode.attr.id:''
+
     let cssId = `${parentId}${indexFrame} #${id}`
     // let cssId = `#${id}${indexFrame}`
     // if(clz.type !== 'movieclip'){
@@ -1578,14 +1589,39 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
     // if(instance.t)
     cssNode.attr.visibility = 'inherit'
     // console.log(key,instance.endFrame)
-    if(!isEmpty &&(key<instance.endFrame||instance.endFrame ===-1)){
+
+    if(/*!isEmpty &&*/(parseInt(key)<instance.endFrame||instance.endFrame ===-1)){
+      // if(id==='_id4'){
+      //   console.log(key,isEmpty)
+      // }
       global.cssMap.push(cssNode)
       // console.log(cssId,instance.endFrame)
+    }else{
+      // if(id==='_id6'){
+      //   console.log(instance.endFrame,key)
+      // }
+
     }
 
     cssNode.classType = instance.libraryItem.type
 
     parentNode.cssMap[cssId] = cssNode
+    //如果上一帧，不是当前帧-1，就要将上一帧到当前帧中间的帧数补充，然后设置为可见
+    //例如  上一帧是1  ，当前帧是3，就要补充第二针的值
+    if(lastCssNode&&lastFrameIndex!==parseInt(key)){
+      let cid = ''
+      for (let i = lastFrameIndex+1; i < parseInt(key)+1; i++) {
+        // console.log(parentId)
+        cid += `${parentId}.f${i} #${id},`
+      }
+      if(cid){
+        cid=cid.substring(0,cid.length-1).replace(/#/g,'.')
+        lastCssNode.node = lastCssNode.node+','+cid
+      }
+    }
+
+    lastFrameIndex = parseInt(key) +1
+    lastCssNode = cssNode
     // console.log(node)
     // node.cssNode.push(cssNode)
     getFilters(clz, key, node, cssNode, instance)
@@ -1614,6 +1650,46 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
     lastFrame = frame
     // console.log(cssNode)
   }
+
+  let totalFrames = parentNode.attr.totalFrames
+
+  if(totalFrames&&(lastFrameIndex<=endFrame||endFrame === -1)){
+    let cid = ''
+    for (let i = lastFrameIndex+1; i < totalFrames+1; i++) {
+      cid += `${parentId}.f${i} #${id},`
+      // console.log(parentId)
+    }
+    if(cid){
+      cid=cid.substring(0,cid.length-1).replace(/#/g,'.')
+      lastCssNode.node = lastCssNode.node+','+cid
+    }
+    if(endFrame!==-1){
+      cid = ''
+      // if(id==='_id4'){
+      //   console.log(totalFrames,endFrame)
+      // }
+
+      for(let i = endFrame;i<totalFrames+1;i++){
+        cid += `${parentId}.f${i} #${id},`
+      }
+      if(cid){
+        cid=cid.substring(0,cid.length-1).replace(/#/g,'.')
+        global.cssMap.push({
+          node:cid,
+          attr:{
+            visibility: 'hidden'
+          }
+
+        })
+      }
+    }
+    // if(id==='_id6'){
+    //   console.log(totalFrames,lastFrameIndex,endFrame,lastCssNode)
+    //   console.log(lastCssNode)
+    // }
+  }
+  // console.log(node.attr.totalFrames,33333,lastFrameIndex,endFrame)
+  // if(la)
   // console.log(frames)
   if (frames.length) {
     // console.log(instance)/**/
