@@ -153,10 +153,13 @@ const mergeHtml = node=>{
     }
     let first = map[id]
     let firstRange = first.attr.range
+    if(first.classType!=='movieclip')continue
     if(firstRange.indexOf('-1')!==-1)continue
     if(!isTheSame(first.cssMap,c.cssMap))continue
-    first.attr.range = firstRange.split(',')[0] + c.attr.range.split(',')[1]
+    first.attr.range = firstRange.split(',')[0] + ','+c.attr.range.split(',')[1]
+    if(first.attr.totalFrames)
     first.attr.totalFrames += c.attr.totalFrames
+    console.log(first.attr.totalFrames,c.attr.totalFrames)
     first.attr.frames += ','+c.attr.frames
     replaceCssNode(c.attr.id,first.attr.id)
     deletes.push(i)
