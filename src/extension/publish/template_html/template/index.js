@@ -449,8 +449,8 @@
 // document.getElementById('mask_1')
 // document.querySelector('._id3').classList.add('mask_1')
 var stage = new Stage('#{{stageId}}')
-// stage.gotoAndStop(5)
   stage.startUp()
+// stage.gotoAndStop(5)
 //
 // var count = 0
 // document.body.onclick=function () {

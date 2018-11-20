@@ -1786,6 +1786,12 @@ const getLabels = (node, clz) => {
 const isTheSame = (clz, assetId) => {
   return clz.libraryItem.assetId === assetId
 }
+const getG = (node)=>{
+  if(node.tag==='g')return node
+  if(node.child){
+    return getG(node.child[0])
+  }
+}
 const createMaskNode = (maskInstance,mask,node,nodeId) => {
   //<clipPath id="clipPathDefinition" style="clip-rule:evenodd"
   // clipPathUnits="userSpaceOnUse">
@@ -1793,7 +1799,20 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
   // </clipPath>
   // console.log(node.child[0].child)
   // global.alert(JSON.stringify(node.child[0].child[0].tag))
-  if(node.child[0].child[0].tag!=='g'&&global.alert)global.alert('只支持矢量遮罩')
+  let g = getG(node)
+  // if(g.tag !=='g'){
+  //
+  // }
+  // let g = node.child[0].child[0]
+  // if(g.tag === 'path'){
+  //   g = node.child[0]
+  // }
+  // global.alert(!g+' 'JSON.stringify(g))
+  // global.alert(JSON.stringify(g.child))
+  // return ''
+  // global.alert(JSON.stringify(node))
+
+  if((!g||g.tag!=='g')&&global.alert)global.alert('只支持矢量遮罩')
   let id = createId('mask')
   let clipPathNode = {
     node: 'element',
@@ -1806,7 +1825,8 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
   }
   // global.maskDefs.child.push(clipPathNode)
 
-  clipPathNode.child = node.child[0].child[0].child
+  clipPathNode.child = g.child//node.child[0].child[0].child
+
   clipPathNode.child.forEach(c=>{
     for(let k in c.attr){
       if(k === 'd')continue
@@ -1814,7 +1834,10 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
     }
     c.isMaskPath = true
   })
-  //JSON.parse(JSON.stringify(node.child[0].child))
+
+  // global.alert(JSON.stringify(clipPathNode.child))
+  // JSON.parse(JSON.stringify(mask.libraryItem.frames))
+  if(mask.libraryItem.frames)
   mask.libraryItem.frames[0].commands.forEach(c=>{
     // console.log(c)
     if(c.type === 'Place'){
@@ -1858,7 +1881,7 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
   // console.log(mask.frames)
   for (let key in mask.frames) {
     let frame = mask.frames[key]
-    if(isEmptyFrame(frame))continue
+    // if(isEmptyFrame(frame))continue
     frames.push(parseInt(key) + 1)
     // console.log(frame)
     getLastFrameAttr(frame,lastFrame)
@@ -1900,7 +1923,7 @@ const createMaskNode = (maskInstance,mask,node,nodeId) => {
   }
 
   global.maskDefs.attr[id] = parseRange(frames)//[mask.startFrame+1,mask.endFrame===-1?-1:mask.endFrame+1].toString()
-
+// global.alert(id)
   // parseFrame(mask.libraryItem, frame, cssNode, instance, node, key)
   return id
 }
