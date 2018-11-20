@@ -91,7 +91,7 @@ const paseId2Class = (node,isStage)=>{
   }else{
     // delete node.attr.visibility
   }
-
+  delete node.attr.assetId
   let child = node.child
   if(child.length){
     child.forEach(c=>{
