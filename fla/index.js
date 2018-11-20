@@ -417,7 +417,7 @@
     this._paused = false
     this.type = 'movieclip'
     this.isStage = true
-    this.frameRate = 30
+    this.frameRate = 24
   }
   Stage.prototype = new MovieClip()
   var p = Stage.prototype
@@ -442,10 +442,10 @@
 })(window);
 // new MovieClip('#pixi')
 // new DisplayElement('#id1')
-// var stage = new Stage('.Fizzy').gotoAndStop(1)
+// var stage = new Stage('.a').gotoAndStop(1)
 // document.getElementById('mask_1')
 // document.querySelector('._id3').classList.add('mask_1')
-var stage = new Stage('#Fizzy')
+var stage = new Stage('#a')
 // stage.gotoAndStop(5)
 stage.startUp()
 //

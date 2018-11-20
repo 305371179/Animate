@@ -93,7 +93,7 @@ const utils = module.exports = {
     let node = createNode(clz, id)
     node.classType = clz.type
     node.cssMap = {}
-
+    node.attr.assetId = id
     global.idsMap[id] = node
     let cssId = '.' + clz.type + id
     let cssNode = createCssNode(cssId)
@@ -1547,7 +1547,8 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
   /*if(id==='_id4'){
     console.log(instance.frames)
   }*/
-
+  // console.log(instance.frames)
+  // console.log(instance.libraryItem.totalFrames)
   for (let key in instance.frames) {
     let frame = instance.frames[key]
     // console.log(parseInt(key)+1,endFrame)
@@ -1563,12 +1564,7 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
     // console.log(frame)
     // console.log(isEmptyFrame(frame))
     let isEmpty = isEmptyFrame(frame)
-    if (isEmpty) {
 
-      // frames.push((parseInt(key) + 1))
-    } else {
-      frames.push(parseInt(key) + 1)
-    }
     // lastFrame = frames
     // console.log(parentNode)
 
@@ -1613,14 +1609,24 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
       for (let i = lastFrameIndex+1; i < parseInt(key)+1; i++) {
         // console.log(parentId)
         cid += `${parentId}.f${i} #${id},`
+        // frames.push(i)
       }
       if(cid){
         cid=cid.substring(0,cid.length-1).replace(/#/g,'.')
         lastCssNode.node = lastCssNode.node+','+cid
       }
     }
+    /*if (isEmpty) {
 
-    lastFrameIndex = parseInt(key) +1
+          // frames.push((parseInt(key) + 1))
+        } else {
+          frames.push(parseInt(key) + 1)
+        }*/
+    let currentFrame = parseInt(key) + 1
+    if(currentFrame<endFrame||endFrame===-1){
+      frames.push(currentFrame)
+    }
+    lastFrameIndex = currentFrame
     lastCssNode = cssNode
     // console.log(node)
     // node.cssNode.push(cssNode)
@@ -1695,7 +1701,7 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
     // console.log(instance)/**/
     // console.log(frames)
     if (frames.length === 1 && frames[0] === 1) {
-
+      node.attr['frames'] = [1]
     } else {
       // frames = [1]
       var f = []
@@ -1731,6 +1737,7 @@ const parseCss = (clz, instance, node, assetId, libraryFrames, parentNode) => {
 
       node.attr['frames'] = fstr
     }
+
     // console.log(frames,fstr)
   }
 

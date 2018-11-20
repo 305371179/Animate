@@ -1,5 +1,5 @@
 "use strict";
-global.isDebug = false
+global.isDebug = true
 const fs = require('fs-extra')
 const jsonFormat = require('json-format')
 var electron ;
