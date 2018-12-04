@@ -9,7 +9,7 @@
 
   // The root parent of the FLA
   var parentPath;
-
+  // var fs = require('fs-extra')
   // UI Elements
   var $body = $('body');
   var $outputFile = $('#outputFile');
@@ -160,7 +160,18 @@
 
     isLoaded();
   }
-
+  function addF(str) {
+    if(str[str.length-1]!=='/'){
+      str=str+'/'
+    }
+    return str
+    /*for(var i=1;i<data.length;i++){
+      console.log(data[i][data[i].length-1])
+      if(data[i][data[i].length-1]!=='/'){
+        data[i]=data[i]+'/'
+      }
+    }*/
+  }
   function saveState() {
     setTimeout(function () {
       exec('save')
@@ -180,6 +191,9 @@
     data[SETTINGS + "Spritesheets"] = $spritesheets.checked.toString();
 
     // Strings
+    $libsPath.value = addF($libsPath.value)
+    $imagesPath.value = addF($imagesPath.value)
+    $soundsPath.value = addF($soundsPath.value)
     data[SETTINGS + "OutputFile"] = $outputFile.value.toString();
     data[SETTINGS + "HTMLPath"] = $htmlPath.value.toString();
     data[SETTINGS + "LibsPath"] = $libsPath.value.toString();
@@ -190,6 +204,12 @@
     data[SETTINGS + "SpritesheetSize"] = $spritesheetSize.value.toString();
     data[SETTINGS + "SpritesheetScale"] = $spritesheetScale.value.toString();
 
+   /* fs.ensureDirSync(data[SETTINGS + "OutputFile"])
+    fs.ensureDirSync(data[SETTINGS + "LibsPath"])
+    fs.ensureDirSync(data[SETTINGS + "ImagesPath"])
+    fs.ensureDirSync(data[SETTINGS + "SoundsPath"])
+    fs.ensureDirSync(data[SETTINGS + "OutputFile"])*/
+
     // Global options
     data["PublishSettings.IncludeInvisibleLayer"] = $hiddenLayers.checked.toString();
 
@@ -199,6 +219,12 @@
     event.data = JSON.stringify(data);
     event.extensionId = csInterface.getExtensionID();
     csInterface.dispatchEvent(event);
+    return [
+      data[SETTINGS + "OutputFile"],
+      data[SETTINGS + "LibsPath"],
+      data[SETTINGS + "ImagesPath"],
+      data[SETTINGS + "SoundsPath"]
+    ]
   }
 
   function isLoaded() {
@@ -227,8 +253,10 @@
 
   $publishButton.onclick = function () {
     if (isReadyToPublish()) {
-      saveState();
-      exec("publish");
+      var data = saveState();
+      // console.log(data[0],data[1],data[2],data[3])
+      // return
+      exec("publish",function (){},data[0],data[1],data[2],data[3]);
     }
   };
 

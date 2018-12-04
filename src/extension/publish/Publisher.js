@@ -122,7 +122,6 @@ p.exportAssets = function (done) {
     // Create the directory if it doesn't exist
     const baseUrl = path.resolve(process.cwd(), meta.imagesPath);
     mkdirp.sync(baseUrl);
-
     // Save the file data
     fs.writeFileSync(path.join(baseUrl, filename), buffer);
     // console.log(path.join(baseUrl, filename))

@@ -192,6 +192,7 @@ const p = Library.prototype;
 p.createInstance = function(assetId, instanceId)
 {
     const libraryItem = this._mapById[assetId];
+    // alert(JSON.stringify(this._mapById))
     return libraryItem.create(instanceId);
 };
 

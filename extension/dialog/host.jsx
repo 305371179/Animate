@@ -3,7 +3,17 @@
 /*eslint-disable no-unused-vars */
 
 // Publish the application
-function publish() {
+function publish(outFile,imageDir,libsDir,soundsDir) {
+  // data = JSON.parse(data)
+  // fl.trace(outFile,imageDir,libsDir,soundsDir)
+  var base = FLfile.platformPathToURI(getParentPath().replace(fl.getDocumentDOM().name,''))
+  // fl.trace(base+imageDir)
+  // fl.trace(base+libsDir)
+  // fl.trace(base+soundsDir)
+  FLfile.createFolder(base+imageDir)
+  FLfile.createFolder(base+libsDir)
+  FLfile.createFolder(base+soundsDir)
+  // return
     var dom = fl.getDocumentDOM()
       if(!dom)return
   dom.publish();
