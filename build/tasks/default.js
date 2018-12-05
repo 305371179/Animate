@@ -3,6 +3,7 @@ module.exports = function(gulp, options, plugins) {
         var fs = require('fs-extra')
         var path = require('path')
         fs.copySync(path.resolve(__dirname,'../../src/extension/publish/template_html/template'),path.resolve(__dirname,'../../extension/publish/template'))
+        fs.copySync(path.resolve(__dirname,'../../src/extension/publish/template_html/wx_template'),path.resolve(__dirname,'../../extension/publish/wx_template'))
         // console.log(__dirname,path.resolve('../../extension/publish'))
         // return
         var debug = options.argv.debug;

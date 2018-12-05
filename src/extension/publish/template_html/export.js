@@ -37,22 +37,29 @@ const resolve = p => {
   // }
   return Handlebars.compile(fs.readFileSync(path.resolve(dir, p), 'utf-8'))
 }
-var htmlTemplate = resolve('./template/index.html')
-var cssTemplate = resolve('./template/css.mustache')
-var jsTemplate = resolve('./template/index.js')
+var type = global.isWx?'wx_template':'template'
+var htmlTemplate = resolve(`./${type}/index.html`)
+var cssTemplate = resolve(`./${type}/css.mustache`)
+var jsTemplate = resolve(`./${type}/index.js`)
 module.exports = {
   exportJs(){
     // console.log(global.meta)
     let text =jsTemplate({
       items:cssMap,
       frameRate:global.meta.framerate,
-      stageId: global.meta.stageName
+      stageId: global.meta.stageName,
+      pageName: global.meta.stageName[0].toUpperCase()+global.meta.stageName.substring(1,global.meta.stageName.length),
     })
     const jsText =js_beautify(text,{
       indent_size: 2
     })
     // console.log(jsText)
-    writeFile('index.js',jsText)
+    // writeFile('index.js',jsText)
+      setTimeout(()=>{
+        writeFile(global.meta.stageName+'.js',jsText)
+        // alert(path.resolve(process.cwd(),global.meta.libsPath))
+      },4444)
+
   },
   exportCss(cssMap){
     let text =cssTemplate({items:cssMap})
@@ -61,7 +68,12 @@ module.exports = {
     })
     cssText = cssText.replace(/&quot;\n\s*/g,'"').replace(/&#x3D;\n/g, '=')
     // console.log(cssText)
-    writeFile('index.css',cssText)
+    // writeFile('index.css',cssText)
+    if(global.isWx){
+      writeFile(global.meta.stageName+'.wxss',cssText)
+    }else{
+      writeFile(global.meta.stageName+'.css',cssText)
+    }
   },
   exportHtml(stage){
     // console.log( global.maskDefs)
@@ -74,7 +86,12 @@ module.exports = {
       inline: ['br'],
       indent_size: 2
     })
-    writeFile('index.html',htmlText)
+    if(global.isWx){
+      writeFile(global.meta.stageName+'.wxml',htmlText)
+    }else{
+      writeFile(global.meta.stageName+'.html',htmlText)
+    }
+
     // console.log(htmlText)
   },
   merge(stage){
@@ -92,7 +109,16 @@ const paseId2Class = (node,isStage)=>{
     // delete node.attr.visibility
   }
   delete node.attr.assetId
+  if(global.isWx){
+    if(node.tag === 'div'){
+      node.tag = 'view'
+    }else if(node.tag === 'img'){
+      node.tag = 'image'
+      node.attr.src= node.attr.src.replace(global.meta.stageName+'/','')
+    }
+  }
   let child = node.child
+  console.log(node)
   if(child.length){
     child.forEach(c=>{
       paseId2Class(c)
@@ -100,6 +126,9 @@ const paseId2Class = (node,isStage)=>{
   }
 }
 const writeFile = (dest,str)=> {
+  if(global.isWx){
+    dest = global.meta.stageName + '/' +dest
+  }
   dest = path.resolve(process.cwd(),dest)
   // dest = path.resolve(__dirname,'dist',dest)
   // console.log(process.cwd())

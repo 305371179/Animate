@@ -3,7 +3,8 @@
 /*eslint-disable no-unused-vars */
 
 // Publish the application
-function publish(outFile,imageDir,libsDir,soundsDir) {
+var libs,sounds,image,js,html;
+function publish(outFile,libsDir,imageDir,soundsDir,stageName,htmlName) {
   // data = JSON.parse(data)
   // fl.trace(outFile,imageDir,libsDir,soundsDir)
   var base = FLfile.platformPathToURI(getParentPath().replace(fl.getDocumentDOM().name,''))
@@ -13,10 +14,26 @@ function publish(outFile,imageDir,libsDir,soundsDir) {
   FLfile.createFolder(base+imageDir)
   FLfile.createFolder(base+libsDir)
   FLfile.createFolder(base+soundsDir)
+  libs = base+libsDir
+  sounds = base+soundsDir
   // return
     var dom = fl.getDocumentDOM()
       if(!dom)return
   dom.publish();
+  js = base+outFile
+  html =base+ htmlName
+  // setTimeout(function () {
+  //   FLfile.remove(base+outFile)
+  //   FLfile.remove(base+htmlName)
+  return base+outFile+ ' '+(base+htmlName)
+  // },500)
+
+}
+function deleteDir() {
+    FLfile.remove(libs)
+    FLfile.remove(sounds)
+    FLfile.remove(js)
+    FLfile.remove(html)
 }
 function save() {
   fl.saveDocument(fl.getDocumentDOM())

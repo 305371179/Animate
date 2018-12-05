@@ -3,7 +3,7 @@
   // Convenience wrappers for the querySelector, poor-man's jQuery
   var $ = document.querySelector.bind(document);
   var $$ = document.querySelectorAll.bind(document);
-
+  var isWx = true
   // Interface for interaction with the CEP API
   var csInterface;
 
@@ -194,6 +194,17 @@
     $libsPath.value = addF($libsPath.value)
     $imagesPath.value = addF($imagesPath.value)
     $soundsPath.value = addF($soundsPath.value)
+
+    if(isWx){
+      // $outputFile.value = $stageName.value+'/'+$outputFile.value
+      $htmlPath.value = $stageName.value+'.html'
+      $libsPath.value = $stageName.value+'/'+'libs/'
+      $imagesPath.value = $stageName.value+'/'+'img/'
+      $soundsPath.value = $stageName.value+'/'+'sounds/'
+      $outputFile.value =  $stageName.value+'.js'
+    }
+
+
     data[SETTINGS + "OutputFile"] = $outputFile.value.toString();
     data[SETTINGS + "HTMLPath"] = $htmlPath.value.toString();
     data[SETTINGS + "LibsPath"] = $libsPath.value.toString();
@@ -223,7 +234,9 @@
       data[SETTINGS + "OutputFile"],
       data[SETTINGS + "LibsPath"],
       data[SETTINGS + "ImagesPath"],
-      data[SETTINGS + "SoundsPath"]
+      data[SETTINGS + "SoundsPath"],
+      data[SETTINGS + "StageName"],
+      $htmlPath.value
     ]
   }
 
@@ -256,7 +269,13 @@
       var data = saveState();
       // console.log(data[0],data[1],data[2],data[3])
       // return
-      exec("publish",function (){},data[0],data[1],data[2],data[3]);
+      exec("publish",function (data){
+        // console.log(data)
+      },data[0],data[1],data[2],data[3],data[4],data[5]);
+      if(isWx)
+      setTimeout(function () {
+        exec("deleteDir")
+      },500)
     }
   };
 

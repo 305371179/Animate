@@ -1,5 +1,7 @@
 "use strict";
 global.isDebug = false
+global.isWx = true
+const rm = require('rimraf')
 const fs = require('fs-extra')
 const jsonFormat = require('json-format')
 var electron ;
@@ -15,7 +17,7 @@ const semver = require('semver');
 // const {exportFiles} = require('./renderHtml')
 var argv = ''
 if(isDebug){
-   argv = {"_":[],"debug":true,"compress":false,"perf":false,"src":"/Users/gsch/编程/AnimateCC/pixi-animate-extension/fla/data.json"}
+   argv = {"_":[],"debug":true,"compress":false,"perf":false,"src":"/Users/gsch/Desktop/外包项目/测试/data.json"}
   const startTime = process.hrtime()[1];
   const Publisher = require('./Publisher');
   const DataUtils = require('./utils/DataUtils');
@@ -92,6 +94,7 @@ if(!global.isDebug){
         isDebug
       );
       // 输出json
+      if(!global.isWx)
       fs.writeFileSync('data.json', jsonFormat(publisher._data, {
         type: 'space',
         size: 2
@@ -115,7 +118,24 @@ if(!global.isDebug){
           console.log(`\nExecuted in ${executionTime} seconds\n`);
         }
         // exportFiles()
+       /* if(global.isWx){
+          setTimeout(()=>{
+            let libs = path.resolve(process.cwd(),global.meta.libsPath)
+            let sounds = path.resolve(process.cwd(),global.meta.soundsPath)
+            let html = path.resolve(process.cwd(),global.meta.stageName+'.html')
+            rm(libs,function (err) {
+              if(err){
+                alert(err)
+              }
+              quit()
+            })
+            rm.sync(sounds)
+            rm.sync(html)
+          },2000)
+          return
+        }*/
         quit();
+
       });
     }
   });
