@@ -1,6 +1,6 @@
 "use strict";
 global.isDebug = false
-global.isWx = true
+global.isWx = false
 const rm = require('rimraf')
 const fs = require('fs-extra')
 const jsonFormat = require('json-format')

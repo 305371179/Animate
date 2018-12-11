@@ -3,6 +3,8 @@ const {html, css, js_beautify} = require('js-beautify');
 const Handlebars = require('handlebars')
 const fs = require('fs-extra')
 const path = require('path')
+const jsonFormat = require('json-format')
+
 Handlebars.registerHelper('eachAttr', function(eachAttr,options) {
   let str = ''
   for(let k in eachAttr){
@@ -25,10 +27,44 @@ const convertStr = function (k,v) {
   }
   for(let item of pxK){
     if (item === k && (v+'').indexOf('%')===-1) {
-      return Math.round(v) + 'px'
+      // if(global.isWx){
+      //   return Math.round(v) + 'rpx'
+      // }else{
+        return Math.round(v) + 'px'
+      // }
+
     }
   }
+  if(k === 'node'){
+    v = '.'+global.meta.stageName + " " + v
+  }
   return v
+}
+const addToAppJson = (stageName)=>{
+  const appJsonPath = path.resolve(process.cwd(),'../app.json')
+  if(fs.existsSync(appJsonPath)){
+    const appJson = require(appJsonPath)
+    const pages = appJson.pages
+    if(pages){
+      let find=false
+      const url = `pages/${stageName}/${stageName}`
+      for (let i = 0; i < pages.length; i++) {
+        let item = pages[i]
+        if(item.indexOf(url)!==-1){
+          find = true
+          break
+        }
+      }
+      if(!find){
+        pages.splice(0,0,url)
+        fs.writeFileSync(appJsonPath,jsonFormat(appJson, {
+          type: 'space',
+          size: 2
+        }),'utf-8')
+      }
+    }
+  }
+
 }
 const resolve = p => {
   let dir = __dirname
@@ -57,12 +93,13 @@ module.exports = {
     // writeFile('index.js',jsText)
       setTimeout(()=>{
         writeFile(global.meta.stageName+'.js',jsText)
+        addToAppJson(global.meta.stageName)
         // alert(path.resolve(process.cwd(),global.meta.libsPath))
-      },4444)
+      })
 
   },
   exportCss(cssMap){
-    let text =cssTemplate({items:cssMap})
+    let text =cssTemplate({items:cssMap,stageName: global.meta.stageName})
     let cssText =css(text,{
       indent_size: 2
     })
@@ -70,7 +107,7 @@ module.exports = {
     // console.log(cssText)
     // writeFile('index.css',cssText)
     if(global.isWx){
-      writeFile(global.meta.stageName+'.wxss',cssText)
+      writeFile(global.meta.stageName+'.wxss',cssText.replace(/px/g,'rpx'))
     }else{
       writeFile(global.meta.stageName+'.css',cssText)
     }
@@ -114,11 +151,13 @@ const paseId2Class = (node,isStage)=>{
       node.tag = 'view'
     }else if(node.tag === 'img'){
       node.tag = 'image'
-      node.attr.src= node.attr.src.replace(global.meta.stageName+'/','')
+      node.attr.src= "{{baseUrl+'"+node.attr.src.replace('res/','')+"'}}"
     }
+    delete node.attr.range
+    delete node.attr.frames
+    delete node.attr.totalFrames
   }
   let child = node.child
-  console.log(node)
   if(child.length){
     child.forEach(c=>{
       paseId2Class(c)

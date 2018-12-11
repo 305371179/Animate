@@ -199,7 +199,7 @@
       // $outputFile.value = $stageName.value+'/'+$outputFile.value
       $htmlPath.value = $stageName.value+'.html'
       $libsPath.value = $stageName.value+'/'+'libs/'
-      $imagesPath.value = $stageName.value+'/'+'img/'
+      $imagesPath.value = 'res/'+$stageName.value+'/'
       $soundsPath.value = $stageName.value+'/'+'sounds/'
       $outputFile.value =  $stageName.value+'.js'
     }
